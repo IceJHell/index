@@ -40,6 +40,7 @@ body{font-family:'Nunito','Arial Rounded MT Bold',Arial,sans-serif;background:va
 .top-row{display:flex;justify-content:space-between;align-items:center}
 .top-lbl{font-size:14px;font-weight:800;color:var(--ink)}
 .top-score{background:linear-gradient(135deg,var(--yellow),var(--orange));border-radius:12px;padding:4px 14px;font-size:14px;font-weight:900;color:var(--ink)}
+.top-errors{background:linear-gradient(135deg,#FFCDD2,#EF5350);border-radius:12px;padding:4px 14px;font-size:14px;font-weight:900;color:#fff}
 .prog-track{width:100%;height:16px;background:#E8F5E9;border-radius:50px;overflow:hidden}
 .prog-fill{height:100%;background:linear-gradient(90deg,var(--green),var(--teal));border-radius:50px;transition:width .5s}
 .top-num{font-size:12px;font-weight:800;color:var(--mid)}
@@ -58,6 +59,9 @@ body{font-family:'Nunito','Arial Rounded MT Bold',Arial,sans-serif;background:va
 .opt-txt{font-size:13px;color:var(--mid);font-weight:700;text-align:center;line-height:1.2;margin-top:2px}
 .explain{background:#FFFDE7;border:3px solid var(--yellow);border-radius:18px;padding:12px 16px;font-size:14px;font-weight:700;color:#4E342E;width:100%;max-width:520px;display:none;line-height:1.5;text-align:center;box-shadow:0 4px 0 #FBC02D}
 .explain.show{display:block}
+.explain.wrong-exp{background:#FFEBEE;border-color:#EF5350;color:#B71C1C;box-shadow:0 4px 0 #FFCDD2}
+.btn-next{background:linear-gradient(135deg,var(--green),var(--teal));color:#fff;border:none;border-radius:50px;padding:16px 52px;font-size:22px;font-weight:900;font-family:inherit;cursor:pointer;box-shadow:0 6px 0 #388E3C;transition:all .12s;width:100%;max-width:520px;margin-top:4px}
+.btn-next:active{transform:translateY(5px);box-shadow:0 1px 0 #388E3C}
 
 /* FEEDBACK */
 #fb{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%) scale(0);font-size:90px;z-index:300;pointer-events:none}
@@ -103,7 +107,10 @@ body{font-family:'Nunito','Arial Rounded MT Bold',Arial,sans-serif;background:va
   <div class="top-bar">
     <div class="top-row">
       <div class="top-lbl" id="pl">Задание 1 из 40</div>
-      <div class="top-score" id="sb">⭐ 0</div>
+      <div style="display:flex;gap:6px">
+        <div class="top-score" id="sb">⭐ 0</div>
+        <div class="top-errors" id="er">❌ 0</div>
+      </div>
     </div>
     <div class="prog-track"><div class="prog-fill" id="pf" style="width:0%"></div></div>
     <div class="top-num" id="pn">Блок 1 из 8</div>
@@ -114,6 +121,7 @@ body{font-family:'Nunito','Arial Rounded MT Bold',Arial,sans-serif;background:va
   <div class="task-vis" id="tv"></div>
   <div class="opts" id="op"></div>
   <div class="explain" id="ex"></div>
+  <button class="btn-next" id="btn-next" style="display:none" onclick="nextTask()">Далее →</button>
 </div>
 
 <!-- FINISH -->
@@ -958,13 +966,18 @@ const TASKS=[
 ];
 
 /* ── ENGINE ── */
-let tasks=[],idx=0,score=0,answered=false;
+let tasks=[],idx=0,score=0,errors=0,answered=false;
 const shuffle=a=>[...a].sort(()=>Math.random()-.5);
 
 function startGame(){
   tasks=shuffle(TASKS);
-  idx=0;score=0;answered=false;
+  idx=0;score=0;errors=0;answered=false;
   show('task-screen');render();
+}
+function nextTask(){
+  idx++;
+  document.getElementById('btn-next').style.display='none';
+  render();
 }
 function restart(){const c=document.getElementById('cv').getContext('2d');c.clearRect(0,0,9999,9999);startGame();}
 function show(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active');}
@@ -973,10 +986,12 @@ function render(){
   if(idx>=tasks.length){finish();return;}
   answered=false;
   document.getElementById('ex').className='explain';
+  document.getElementById('btn-next').style.display='none';
   const t=tasks[idx],tot=tasks.length;
   document.getElementById('pf').style.width=(idx/tot*100)+'%';
   document.getElementById('pl').textContent=`Задание ${idx+1} из ${tot}`;
   document.getElementById('sb').textContent=`⭐ ${score}`;
+  document.getElementById('er').textContent=`❌ ${errors}`;
   document.getElementById('pn').textContent=`Блок ${Math.ceil((idx+1)/5)} из 8`;
   document.getElementById('cp').textContent=t.cat;
   document.getElementById('tq').textContent=t.q;
@@ -991,19 +1006,32 @@ function render(){
     const btn=document.createElement('button');
     btn.className='opt';
     btn.innerHTML=opt.v;
-    btn.onclick=()=>pick(btn,opt.ok,grid,t.explain);
+    btn.onclick=()=>pick(btn,opt.ok,grid,t.explain,t.wrongExplain);
     grid.appendChild(btn);
   });
 }
 
-function pick(btn,ok,grid,explain){
+function pick(btn,ok,grid,explain,wrongExplain){
   if(answered)return;
   answered=true;
   grid.querySelectorAll('.opt').forEach(b=>b.disabled=true);
-  if(ok){score++;fb('🎉');}
-  else{btn.classList.add('wrong');fb('😮');}
-  if(explain){const ex=document.getElementById('ex');ex.textContent='💡 '+explain;ex.className='explain show';}
-  setTimeout(()=>{idx++;render();},2600);
+  const ex=document.getElementById('ex');
+  const nextBtn=document.getElementById('btn-next');
+  if(ok){
+    score++;
+    document.getElementById('sb').textContent=`⭐ ${score}`;
+    fb('🎉');
+    ex.className='explain show';
+    ex.textContent='✅ Правильно! 💡 '+explain;
+  } else {
+    errors++;
+    document.getElementById('er').textContent=`❌ ${errors}`;
+    btn.classList.add('wrong');
+    fb('😮');
+    ex.className='explain show wrong-exp';
+    ex.textContent='❌ Не совсем верно. 💡 '+explain;
+  }
+  nextBtn.style.display='block';
 }
 
 function fb(e){
@@ -1020,7 +1048,7 @@ function finish(){
   else if(pct>=.65){fi.textContent='🌟';document.getElementById('ft').innerHTML='<span>Молодец!</span> Хороший результат!';}
   else if(pct>=.45){fi.textContent='🐱';document.getElementById('ft').innerHTML='Хорошо! <span>Продолжаем!</span>';}
   else{fi.textContent='🌿';document.getElementById('ft').innerHTML='<span>Тренируемся</span> дальше!';}
-  document.getElementById('fs').textContent=`Правильных ответов: ${score} из ${tot}`;
+  document.getElementById('fs').textContent=`✅ Правильных: ${score} из ${tot}  ·  ❌ Ошибок: ${errors}`;
   document.getElementById('fst').textContent=pct>=.85?'⭐⭐⭐⭐⭐':pct>=.65?'⭐⭐⭐⭐':pct>=.45?'⭐⭐⭐':'⭐⭐';
   if(pct>=.5)confetti();
 }
