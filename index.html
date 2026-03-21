@@ -3,225 +3,110 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Весёлые животные — Задания для Кристины</title>
+<title>Ломоносовская школа — Кристина</title>
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@700;800;900&display=swap" rel="stylesheet">
 <style>
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 :root{
   --pink:#FF6B9D; --orange:#FF9B3C; --yellow:#FFD93D;
   --green:#4CAF50; --teal:#26C6DA; --blue:#42A5F5;
-  --purple:#AB47BC; --red:#EF5350;
-  --bg:#FFFDE7; --ink:#2D2D2D; --mid:#6B7280; --white:#FFFFFF;
+  --purple:#AB47BC; --red:#EF5350; --lime:#8BC34A;
+  --bg:#F0FFF4; --ink:#1B2D1B; --mid:#5A7A5A; --white:#FFFFFF;
 }
-body{
-  font-family:'Nunito','Arial Rounded MT Bold',Arial,sans-serif;
-  background:var(--bg); min-height:100vh; color:var(--ink); overflow-x:hidden;
-}
+body{font-family:'Nunito','Arial Rounded MT Bold',Arial,sans-serif;background:var(--bg);min-height:100vh;color:var(--ink);overflow-x:hidden}
 
-/* ── GRASS BACKGROUND ── */
-body::before{
-  content:'';
-  position:fixed; bottom:0; left:0; width:100%; height:80px;
-  background:linear-gradient(180deg,transparent 0%,#C8E6C9 100%);
-  pointer-events:none; z-index:0;
-}
-
-/* ── FLOATING ANIMALS ── */
-.float-animal{
-  position:fixed; font-size:32px; opacity:.15; pointer-events:none; z-index:0;
-  animation:animalFloat linear infinite;
-}
-@keyframes animalFloat{
-  0%{transform:translateY(0) rotate(-5deg);opacity:.12}
-  50%{transform:translateY(-20px) rotate(5deg);opacity:.2}
-  100%{transform:translateY(0) rotate(-5deg);opacity:.12}
-}
+.float-el{position:fixed;opacity:.1;pointer-events:none;z-index:0;animation:flt linear infinite}
+@keyframes flt{0%{transform:translateY(0) rotate(-8deg)}50%{transform:translateY(-18px) rotate(8deg)}100%{transform:translateY(0) rotate(-8deg)}}
 
 .screen{display:none;flex-direction:column;align-items:center;min-height:100vh;padding:16px 14px 50px;position:relative;z-index:1}
 .screen.active{display:flex}
 
-/* ══ WELCOME ══ */
-#welcome{
-  justify-content:center; text-align:center; gap:14px;
-  background:linear-gradient(180deg,#FFF9C4 0%,#FFFDE7 100%);
-}
-.w-mascots{font-size:62px;animation:bounce 1.8s ease-in-out infinite;line-height:1.2}
-@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-14px)}}
+/* WELCOME */
+#welcome{justify-content:center;text-align:center;gap:14px;
+  background:linear-gradient(180deg,#E8F5E9 0%,#F0FFF4 100%)}
+.w-icon{font-size:72px;animation:bou 2s ease-in-out infinite}
+@keyframes bou{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
+.w-title{font-size:clamp(28px,7vw,48px);font-weight:900;line-height:1.1;color:var(--ink)}
+.w-title .hi{color:var(--pink)}
+.w-title .lo{color:var(--green)}
+.w-badge{background:linear-gradient(135deg,var(--green),var(--teal));color:#fff;font-size:13px;font-weight:900;padding:7px 22px;border-radius:50px;letter-spacing:.5px}
+.w-info{background:#fff;border-radius:18px;padding:14px 20px;font-size:15px;font-weight:700;color:var(--mid);box-shadow:0 3px 12px rgba(0,0,0,.08);max-width:320px;line-height:1.6}
+.w-animals{display:flex;gap:6px;justify-content:center;flex-wrap:wrap;font-size:36px;background:#fff;border-radius:18px;padding:12px 18px;box-shadow:0 3px 12px rgba(0,0,0,.08);max-width:300px}
+.btn-start{background:linear-gradient(135deg,var(--green),var(--lime));color:#fff;border:none;border-radius:50px;padding:18px 54px;font-size:24px;font-weight:900;font-family:inherit;cursor:pointer;box-shadow:0 6px 0 #388E3C;transition:all .12s;margin-top:4px}
+.btn-start:active{transform:translateY(5px);box-shadow:0 1px 0 #388E3C}
 
-.w-title{
-  font-size:clamp(30px,8vw,52px); font-weight:900; line-height:1.1;
-  color:var(--ink);
-}
-.w-title span.t1{color:var(--orange)}
-.w-title span.t2{color:var(--pink)}
-
-.w-animals-row{
-  display:flex; gap:6px; justify-content:center; flex-wrap:wrap;
-  font-size:36px; background:var(--white); border-radius:24px;
-  padding:14px 20px; box-shadow:0 4px 16px rgba(0,0,0,.08);
-  max-width:340px;
-}
-.w-sub{
-  font-size:16px; font-weight:700; color:var(--mid);
-  background:var(--white); border-radius:16px; padding:12px 18px;
-  box-shadow:0 3px 10px rgba(0,0,0,.07); max-width:320px; line-height:1.5;
-}
-.badge-lvl{
-  background:linear-gradient(135deg,var(--orange),var(--pink));
-  color:var(--white); font-size:13px; font-weight:900;
-  padding:7px 20px; border-radius:50px; letter-spacing:.5px;
-}
-.btn-start{
-  background:linear-gradient(135deg,var(--pink),var(--orange));
-  color:var(--white); border:none; border-radius:50px;
-  padding:18px 54px; font-size:24px; font-weight:900; font-family:inherit;
-  cursor:pointer; box-shadow:0 6px 0 #C2185B; transition:all .12s; margin-top:6px;
-}
-.btn-start:active{transform:translateY(5px);box-shadow:0 1px 0 #C2185B}
-
-/* ══ TOP BAR ══ */
-.top-bar{
-  width:100%; max-width:520px; margin-bottom:12px;
-  background:var(--white); border-radius:22px; padding:12px 16px;
-  box-shadow:0 4px 16px rgba(0,0,0,.1); display:flex; flex-direction:column; gap:7px;
-}
+/* TOP BAR */
+.top-bar{width:100%;max-width:520px;margin-bottom:12px;background:#fff;border-radius:22px;padding:12px 16px;box-shadow:0 4px 14px rgba(0,0,0,.08);display:flex;flex-direction:column;gap:7px}
 .top-row{display:flex;justify-content:space-between;align-items:center}
 .top-lbl{font-size:14px;font-weight:800;color:var(--ink)}
-.top-score{
-  background:linear-gradient(135deg,var(--yellow),var(--orange));
-  border-radius:12px; padding:4px 14px; font-size:14px; font-weight:900; color:var(--ink);
-}
-.prog-track{width:100%;height:16px;background:#F3F4F6;border-radius:50px;overflow:hidden}
-.prog-fill{height:100%;background:linear-gradient(90deg,var(--pink),var(--orange));border-radius:50px;transition:width .5s}
-.top-lvl{font-size:12px;font-weight:800;color:var(--mid)}
+.top-score{background:linear-gradient(135deg,var(--yellow),var(--orange));border-radius:12px;padding:4px 14px;font-size:14px;font-weight:900;color:var(--ink)}
+.prog-track{width:100%;height:16px;background:#E8F5E9;border-radius:50px;overflow:hidden}
+.prog-fill{height:100%;background:linear-gradient(90deg,var(--green),var(--teal));border-radius:50px;transition:width .5s}
+.top-num{font-size:12px;font-weight:800;color:var(--mid)}
 
-/* ══ TASK ══ */
+/* TASK */
 #task-screen{gap:12px;max-width:520px;width:100%;margin:0 auto}
-
-.cat-pill{
-  font-size:12px;font-weight:900;text-transform:uppercase;letter-spacing:1.5px;
-  padding:7px 20px;border-radius:50px;color:var(--white);
-  background:linear-gradient(135deg,var(--teal),var(--blue));
-  box-shadow:0 3px 0 #0097A7; align-self:center; white-space:nowrap;
-}
-.cat-pill.hard{
-  background:linear-gradient(135deg,var(--pink),var(--purple));
-  box-shadow:0 3px 0 #7B1FA2;
-}
-
-.task-q{
-  font-size:clamp(18px,4.8vw,24px); font-weight:900; text-align:center;
-  line-height:1.4; color:var(--ink); max-width:500px;
-}
-
-.hint-box{
-  background:#FFF8E1; border-left:4px solid var(--yellow); border-radius:0 12px 12px 0;
-  padding:8px 14px; font-size:13px; font-weight:700; color:#795548;
-  width:100%; max-width:520px;
-}
-
-.task-vis{
-  background:var(--white); border-radius:24px; padding:20px 14px; width:100%;
-  display:flex; align-items:center; justify-content:center; flex-wrap:wrap;
-  box-shadow:0 4px 0 #E5E7EB; min-height:120px; gap:8px;
-  border:3px solid #F0F4F8;
-}
-
+.cat-pill{font-size:12px;font-weight:900;text-transform:uppercase;letter-spacing:1.5px;padding:7px 20px;border-radius:50px;color:#fff;background:linear-gradient(135deg,var(--green),var(--teal));box-shadow:0 3px 0 #0097A7;align-self:center;white-space:nowrap}
+.task-q{font-size:clamp(18px,4.8vw,24px);font-weight:900;text-align:center;line-height:1.4;color:var(--ink);max-width:500px}
+.hint-box{background:#FFFDE7;border-left:4px solid var(--yellow);border-radius:0 12px 12px 0;padding:8px 14px;font-size:13px;font-weight:700;color:#795548;width:100%;max-width:520px}
+.task-vis{background:#fff;border-radius:24px;padding:20px 14px;width:100%;display:flex;align-items:center;justify-content:center;flex-wrap:wrap;box-shadow:0 4px 0 #C8E6C9;min-height:120px;gap:8px;border:3px solid #E8F5E9}
 .opts{display:grid;grid-template-columns:1fr 1fr;gap:12px;width:100%}
-.opt{
-  background:var(--white); border:3px solid #E5E7EB; border-radius:20px;
-  padding:14px 8px; cursor:pointer; font-family:inherit;
-  display:flex; align-items:center; justify-content:center; flex-direction:column;
-  gap:5px; min-height:90px; font-weight:700; font-size:15px;
-  transition:border-color .15s,transform .12s,box-shadow .15s;
-  box-shadow:0 5px 0 #E5E7EB;
-}
-.opt:hover:not(:disabled){
-  border-color:var(--orange); transform:translateY(-3px);
-  box-shadow:0 8px 0 #FFA726;
-}
+.opt{background:#fff;border:3px solid #DCEDC8;border-radius:20px;padding:14px 8px;cursor:pointer;font-family:inherit;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:5px;min-height:90px;font-weight:700;font-size:15px;transition:border-color .15s,transform .12s,box-shadow .15s;box-shadow:0 5px 0 #DCEDC8}
+.opt:hover:not(:disabled){border-color:var(--orange);transform:translateY(-3px);box-shadow:0 8px 0 #FFA726}
 .opt:disabled{cursor:default}
-.opt.wrong{
-  border-color:var(--red)!important; background:#FFEBEE;
-  box-shadow:0 5px 0 #EF9A9A!important; animation:shake .4s;
-}
+.opt.wrong{border-color:var(--red)!important;background:#FFEBEE;box-shadow:0 5px 0 #FFCDD2!important;animation:shake .4s}
 .opt-txt{font-size:13px;color:var(--mid);font-weight:700;text-align:center;line-height:1.2;margin-top:2px}
-
-.explain{
-  background:#FFF9C4; border:3px solid var(--yellow); border-radius:18px;
-  padding:12px 16px; font-size:14px; font-weight:700; color:#4E342E;
-  width:100%; max-width:520px; display:none; line-height:1.5; text-align:center;
-  box-shadow:0 4px 0 #FBC02D;
-}
+.explain{background:#FFFDE7;border:3px solid var(--yellow);border-radius:18px;padding:12px 16px;font-size:14px;font-weight:700;color:#4E342E;width:100%;max-width:520px;display:none;line-height:1.5;text-align:center;box-shadow:0 4px 0 #FBC02D}
 .explain.show{display:block}
 
-/* ══ FEEDBACK ══ */
-#fb{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%) scale(0);
-  font-size:90px;z-index:300;pointer-events:none}
+/* FEEDBACK */
+#fb{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%) scale(0);font-size:90px;z-index:300;pointer-events:none}
 #fb.pop{animation:popIt .65s forwards}
 
-/* ══ FINISH ══ */
-#finish{justify-content:center;text-align:center;gap:18px;
-  background:linear-gradient(180deg,#FFF9C4 0%,#FFFDE7 100%)}
-.fin-mascot{font-size:96px;animation:bounce 2s ease-in-out infinite}
-.fin-title{font-size:clamp(32px,8vw,54px);font-weight:900;line-height:1.1;color:var(--ink)}
-.fin-title span{color:var(--pink)}
-.fin-card{
-  background:var(--white); border-radius:22px; padding:16px 24px;
-  box-shadow:0 4px 16px rgba(0,0,0,.1); font-size:17px; font-weight:700; color:var(--mid);
-}
+/* FINISH */
+#finish{justify-content:center;text-align:center;gap:18px;background:linear-gradient(180deg,#E8F5E9 0%,#F0FFF4 100%)}
+.fin-icon{font-size:96px;animation:bou 2s ease-in-out infinite}
+.fin-title{font-size:clamp(32px,8vw,52px);font-weight:900;line-height:1.1;color:var(--ink)}
+.fin-title span{color:var(--green)}
+.fin-card{background:#fff;border-radius:22px;padding:16px 24px;box-shadow:0 4px 14px rgba(0,0,0,.08);font-size:17px;font-weight:700;color:var(--mid)}
 .fin-stars{font-size:50px;letter-spacing:5px}
-.btn-again{
-  background:linear-gradient(135deg,var(--teal),var(--blue));
-  color:var(--white); border:none; border-radius:50px; padding:16px 46px;
-  font-size:22px; font-weight:900; font-family:inherit;
-  cursor:pointer; box-shadow:0 6px 0 #00838F; transition:all .12s;
-}
-.btn-again:active{transform:translateY(5px);box-shadow:0 1px 0 #00838F}
-
+.btn-again{background:linear-gradient(135deg,var(--pink),var(--orange));color:#fff;border:none;border-radius:50px;padding:16px 46px;font-size:22px;font-weight:900;font-family:inherit;cursor:pointer;box-shadow:0 6px 0 #C2185B;transition:all .12s}
+.btn-again:active{transform:translateY(5px);box-shadow:0 1px 0 #C2185B}
 #cv{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:200}
 
 /* GRID */
-.grid-wrap{display:flex;flex-direction:column;gap:2px}
-.grid-row{display:flex;gap:2px}
-.gcell{width:40px;height:40px;border-radius:8px;border:2px solid #E5E7EB;
-  display:flex;align-items:center;justify-content:center;font-size:18px;background:#F9FAFB}
-.gcell.start{background:#FFF9C4;border-color:var(--yellow)}
-.gcell.end{background:#E8F5E9;border-color:var(--green)}
-.gcell.path{background:#E3F2FD;border-color:var(--blue)}
+.grid-wrap{display:flex;flex-direction:column;gap:3px}
+.grid-row{display:flex;gap:3px}
+.gcell{width:42px;height:42px;border-radius:8px;border:2px solid #C8E6C9;display:flex;align-items:center;justify-content:center;font-size:18px;background:#F1F8E9}
+.gcell.start{background:#FFF9C4;border-color:#FFD93D}
+.gcell.end{background:#E8F5E9;border-color:#4CAF50}
 
 @keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-10px)}75%{transform:translateX(10px)}}
-@keyframes popIt{
-  0%{transform:translate(-50%,-50%)scale(0);opacity:0}
-  50%{transform:translate(-50%,-50%)scale(1.3);opacity:1}
-  80%{transform:translate(-50%,-50%)scale(.9);opacity:1}
-  100%{transform:translate(-50%,-50%)scale(1.2);opacity:0}
-}
+@keyframes popIt{0%{transform:translate(-50%,-50%)scale(0);opacity:0}50%{transform:translate(-50%,-50%)scale(1.3);opacity:1}80%{transform:translate(-50%,-50%)scale(.9);opacity:1}100%{transform:translate(-50%,-50%)scale(1.2);opacity:0}}
 </style>
 </head>
 <body>
-
-<div id="animalbg"></div>
+<div id="floatbg"></div>
 
 <!-- WELCOME -->
 <div id="welcome" class="screen active">
-  <div class="w-mascots">🐱🐶🐰🐻</div>
-  <div class="w-title"><span class="t1">Весёлые</span><br><span class="t2">животные</span></div>
-  <div class="badge-lvl">32 задания · 2 уровня сложности</div>
-  <div class="w-animals-row">🦊🐼🐨🐯🦁🐸🐷🐮</div>
-  <div class="w-sub">Помогай животным решать задачки! Чем дальше — тем сложнее 🧠</div>
-  <button class="btn-start" onclick="startGame()">Начать! 🚀</button>
+  <div class="w-icon">🌿</div>
+  <div class="w-title"><span class="lo">Ломоносовская</span><br><span class="hi">школа</span></div>
+  <div class="w-badge">🎓 Средний уровень · 40 заданий</div>
+  <div class="w-animals">🐱🐶🦊🐼🐨🐯🦁🐸</div>
+  <div class="w-info">Задания по программе подготовки к школе для детей 6–7 лет. Не слишком просто, не слишком сложно — самый раз! 🌟</div>
+  <button class="btn-start" onclick="startGame()">Поехали! 🚀</button>
 </div>
 
 <!-- TASK -->
 <div id="task-screen" class="screen">
   <div class="top-bar">
     <div class="top-row">
-      <div class="top-lbl" id="pl">Задание 1 из 32</div>
+      <div class="top-lbl" id="pl">Задание 1 из 40</div>
       <div class="top-score" id="sb">⭐ 0</div>
     </div>
     <div class="prog-track"><div class="prog-fill" id="pf" style="width:0%"></div></div>
-    <div class="top-lvl" id="lvl">⭐ Уровень 1</div>
+    <div class="top-num" id="pn">Блок 1 из 8</div>
   </div>
   <div class="cat-pill" id="cp"></div>
   <div class="task-q" id="tq"></div>
@@ -234,587 +119,842 @@ body::before{
 <!-- FINISH -->
 <div id="finish" class="screen">
   <canvas id="cv"></canvas>
-  <div class="fin-mascot" id="fi">🏆</div>
+  <div class="fin-icon" id="fi">🏆</div>
   <div class="fin-title" id="ft">Молодец!</div>
   <div class="fin-card" id="fs"></div>
   <div class="fin-stars" id="fst"></div>
   <button class="btn-again" onclick="restart()">Ещё раз! 🔄</button>
 </div>
-
 <div id="fb"></div>
 
 <script>
-/* ── FLOATING ANIMALS ── */
+/* ── ФОНОВЫЕ ЭЛЕМЕНТЫ ── */
 (function(){
-  const bg=document.getElementById('animalbg');
-  const animals=['🐱','🐶','🐰','🐻','🦊','🐼','⭐','🌸','🍀','🌟'];
-  for(let i=0;i<20;i++){
+  const bg=document.getElementById('floatbg');
+  const items=['🌿','🍀','⭐','🌸','🐾','🌟','🍃'];
+  for(let i=0;i<18;i++){
     const el=document.createElement('span');
-    el.className='float-animal';
-    el.textContent=animals[i%animals.length];
-    el.style.left=Math.random()*94+'%';
-    el.style.top=Math.random()*95+'%';
-    el.style.fontSize=(20+Math.random()*28)+'px';
-    el.style.animationDuration=(4+Math.random()*6)+'s';
-    el.style.animationDelay=(-Math.random()*7)+'s';
+    el.className='float-el';
+    el.textContent=items[i%items.length];
+    el.style.cssText=`left:${Math.random()*94}%;top:${Math.random()*95}%;font-size:${18+Math.random()*24}px;animation-duration:${4+Math.random()*6}s;animation-delay:${-Math.random()*7}s`;
     bg.appendChild(el);
   }
 })();
 
-/* ── SVG helpers ── */
+/* ── SVG ── */
 const SZ=56;
-const circle  =(c,s=SZ)=>`<svg width="${s}" height="${s}"><circle cx="${s/2}" cy="${s/2}" r="${s/2-3}" fill="${c}" stroke="#fff" stroke-width="2.5"/></svg>`;
-const square  =(c,s=SZ)=>`<svg width="${s}" height="${s}"><rect x="4" y="4" width="${s-8}" height="${s-8}" rx="9" fill="${c}" stroke="#fff" stroke-width="2.5"/></svg>`;
-const tri     =(c,s=SZ)=>{const p=`${s/2},4 ${s-4},${s-4} 4,${s-4}`;return`<svg width="${s}" height="${s}"><polygon points="${p}" fill="${c}" stroke="#fff" stroke-width="2.5"/></svg>`};
-const pentagon=(c,s=SZ)=>{const pts=[],cx=s/2,cy=s/2;for(let i=0;i<5;i++){const a=(i*72-90)*Math.PI/180;pts.push(`${cx+(s/2-4)*Math.cos(a)},${cy+(s/2-4)*Math.sin(a)}`)}return`<svg width="${s}" height="${s}"><polygon points="${pts.join(' ')}" fill="${c}" stroke="#fff" stroke-width="2.5"/></svg>`};
-const num=(n,c='#2D2D2D')=>`<span style="font-size:48px;font-weight:900;color:${c};font-family:inherit">${n}</span>`;
-const big=(s,sz=46)=>`<span style="font-size:${sz}px;line-height:1.1">${s}</span>`;
-const lbl=(t)=>`<div class="opt-txt">${t}</div>`;
+const C=(c,s=SZ)=>`<svg width="${s}" height="${s}"><circle cx="${s/2}" cy="${s/2}" r="${s/2-3}" fill="${c}" stroke="#fff" stroke-width="2.5"/></svg>`;
+const S=(c,s=SZ)=>`<svg width="${s}" height="${s}"><rect x="4" y="4" width="${s-8}" height="${s-8}" rx="9" fill="${c}" stroke="#fff" stroke-width="2.5"/></svg>`;
+const T=(c,s=SZ)=>{const p=`${s/2},4 ${s-4},${s-4} 4,${s-4}`;return`<svg width="${s}" height="${s}"><polygon points="${p}" fill="${c}" stroke="#fff" stroke-width="2.5"/></svg>`};
+const Pent=(c,s=SZ)=>{const pts=[],cx=s/2,cy=s/2;for(let i=0;i<5;i++){const a=(i*72-90)*Math.PI/180;pts.push(`${cx+(s/2-4)*Math.cos(a)},${cy+(s/2-4)*Math.sin(a)}`)}return`<svg width="${s}" height="${s}"><polygon points="${pts.join(' ')}" fill="${c}" stroke="#fff" stroke-width="2.5"/></svg>`};
+const n=(v,c='#1B2D1B')=>`<span style="font-size:48px;font-weight:900;color:${c};font-family:inherit">${v}</span>`;
+const e=(s,sz=46)=>`<span style="font-size:${sz}px;line-height:1.1">${s}</span>`;
+const L=(t)=>`<div class="opt-txt">${t}</div>`;
+const box=(bg,content)=>`<div style="background:${bg};border-radius:14px;padding:12px 16px;text-align:center">${content}</div>`;
 
-function makeGrid(rows,cols,startR,startC,endR,endC,paths=[]){
+function grd(rows,cols,sR,sC,eR,eC){
   let h='<div class="grid-wrap">';
   for(let r=0;r<rows;r++){h+='<div class="grid-row">';
     for(let c=0;c<cols;c++){
-      const isS=r===startR&&c===startC,isE=r===endR&&c===endC;
-      const isP=paths.some(p=>p[0]===r&&p[1]===c);
-      const cls=isS?'gcell start':isE?'gcell end':isP?'gcell path':'gcell';
-      const icon=isS?'🐱':isE?'🐟':'';
-      h+=`<div class="${cls}">${icon}</div>`;
-    }h+='</div>';
-  }h+='</div>';return h;
+      const isS=r===sR&&c===sC,isE=r===eR&&c===eC;
+      h+=`<div class="${isS?'gcell start':isE?'gcell end':'gcell'}">${isS?'🐱':isE?'🐟':''}</div>`;
+    }h+='</div>';}
+  h+='</div>';return h;
 }
 
-/* ── TASKS ── */
+/* ══════════════════════════════════
+   40 ЗАДАНИЙ СРЕДНЕГО УРОВНЯ
+   (Ломоносовская школа, 6–7 лет)
+══════════════════════════════════ */
 const TASKS=[
-  {
-    cat:'🔢 Сравни',
-    q:'Какая группа БОЛЬШЕ — красные или синие?',
-    hint:'Считай внимательно!',
-    vis:`<div style="display:flex;flex-direction:column;gap:10px;align-items:center">
-           <div style="display:flex;gap:4px;align-items:center">${circle('#EF5350',34).repeat(7)}<span style="font-size:13px;font-weight:900;color:#6B7280;margin-left:6px">красные</span></div>
-           <div style="display:flex;gap:4px;align-items:center">${circle('#42A5F5',34).repeat(8)}<span style="font-size:13px;font-weight:900;color:#6B7280;margin-left:6px">синие</span></div>
-         </div>`,
-    opts:[
-      {v:circle('#EF5350',48)+lbl('Красных больше (7)'),ok:false},
-      {v:circle('#42A5F5',48)+lbl('Синих больше (8)'),ok:true},
-      {v:'<span style="font-size:26px;font-weight:900">=</span>'+lbl('Их поровну'),ok:false},
-      {v:big('🤷',36)+lbl('Не знаю'),ok:false},
-    ],
-    explain:'Красных 7, синих 8. 8 > 7, значит синих больше!'
-  },
-  {
-    cat:'🔢 Числа',
-    q:'Какое число — ЛИШНЕЕ? Найди то, которое не похоже на остальные!',
-    hint:'Почему три числа «дружат», а одно — нет?',
-    vis:`<div style="display:flex;gap:14px;flex-wrap:wrap;justify-content:center">
-           ${[2,4,7,6].map(n=>`<div style="background:#FFF3E0;border-radius:14px;padding:10px 20px;font-size:44px;font-weight:900;color:#2D2D2D">${n}</div>`).join('')}
-         </div>`,
-    opts:[{v:num(2),ok:false},{v:num(4),ok:false},{v:num(7),ok:true},{v:num(6),ok:false}],
-    explain:'2, 4, 6 — чётные. А 7 — нечётное, поэтому оно лишнее!'
-  },
-  {
-    cat:'➕ Состав числа',
-    q:'У котика было 9 рыбок. 4 он уже съел. Сколько осталось? 🐱',
-    hint:'',
-    vis:`<div style="display:flex;align-items:center;gap:12px;justify-content:center;flex-wrap:wrap">
-           <div style="background:#FFF9C4;border-radius:14px;padding:12px;font-size:13px;font-weight:900;text-align:center;color:#795548">Было<br><span style="font-size:40px">9🐟</span></div>
-           <span style="font-size:30px;font-weight:900;color:#6B7280">−</span>
-           <div style="background:#FFEBEE;border-radius:14px;padding:12px;font-size:13px;font-weight:900;text-align:center;color:#C62828">Съел<br><span style="font-size:40px">4🐟</span></div>
-           <span style="font-size:30px;font-weight:900;color:#6B7280">=</span>
-           <span style="font-size:44px;font-weight:900;color:#FF6B9D">?</span>
-         </div>`,
-    opts:[{v:num(4),ok:false},{v:num(6),ok:false},{v:num(5),ok:true},{v:num(3),ok:false}],
-    explain:'9 − 4 = 5. Осталось 5 рыбок!'
-  },
-  {
-    cat:'🔢 Порядковый счёт',
-    q:'Зайка стоит ЧЕТВЁРТЫМ слева. Какой по счёту стоит котик?',
-    hint:'Считай слева направо!',
-    vis:`<div style="display:flex;gap:6px;align-items:flex-end;justify-content:center;flex-wrap:wrap">
-           ${['🐶','🐸','🐻','🐰','🐱','🦊'].map((a,i)=>`
-             <div style="text-align:center">
-               <div style="font-size:36px">${a}</div>
-               <div style="font-size:12px;font-weight:900;color:${a==='🐰'?'#FF6B9D':'#9CA3AF'};margin-top:2px">${i+1}</div>
-             </div>`).join('')}
-         </div>`,
-    opts:[{v:num(4)+lbl('Четвёртый'),ok:false},{v:num(5)+lbl('Пятый'),ok:true},{v:num(6)+lbl('Шестой'),ok:false},{v:num(3)+lbl('Третий'),ok:false}],
-    explain:'🐶-1, 🐸-2, 🐻-3, 🐰-4 (зайка), 🐱-5. Котик стоит ПЯТЫМ!'
-  },
-  {
-    cat:'📝 Задача',
-    q:'У Маши было 6 конфет. Она дала 2 Пете и получила 3 от мамы. Сколько конфет стало?',
-    hint:'Это два действия! Сначала вычти, потом прибавь.',
-    vis:`<div style="display:flex;flex-direction:column;align-items:center;gap:10px;font-size:14px;font-weight:700;color:#475569">
-           <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;justify-content:center">
-             <div style="background:#EDE9FE;border-radius:10px;padding:8px 14px">Было: <b style="color:#7C3AED;font-size:20px">6</b> 🍬</div>
-             <span>→</span>
-             <div style="background:#FFEBEE;border-radius:10px;padding:8px 14px">Дала: <b style="color:#C62828;font-size:20px">2</b> 🍬</div>
-             <span>→</span>
-             <div style="background:#E8F5E9;border-radius:10px;padding:8px 14px">Мама: <b style="color:#2E7D32;font-size:20px">3</b> 🍬</div>
-           </div>
-           <div style="font-size:22px;font-weight:900;color:#FF6B9D">6 − 2 + 3 = ?</div>
-         </div>`,
-    opts:[{v:num(7),ok:true},{v:num(8),ok:false},{v:num(5),ok:false},{v:num(9),ok:false}],
-    explain:'6 − 2 = 4, потом 4 + 3 = 7. Стало 7 конфет!'
-  },
-  {
-    cat:'➕ Состав числа',
-    q:'Найди пропущенное число! 8 = 3 + ?',
-    hint:'Из каких двух чисел складывается 8?',
-    vis:`<div style="display:flex;align-items:center;gap:12px;justify-content:center">
-           <div style="display:flex;gap:3px">${circle('#42A5F5',30).repeat(8)}</div>
-           <span style="font-size:28px;font-weight:900;color:#6B7280">=</span>
-           <div style="display:flex;flex-direction:column;gap:4px;align-items:center">
-             <div style="display:flex;gap:3px">${circle('#FF6B9D',30).repeat(3)}</div>
-             <span style="font-size:13px;font-weight:700;color:#9CA3AF">3</span>
-           </div>
-           <span style="font-size:28px;font-weight:900;color:#6B7280">+</span>
-           <div style="font-size:44px;font-weight:900;color:#FF6B9D">?</div>
-         </div>`,
-    opts:[{v:num(4),ok:false},{v:num(6),ok:false},{v:num(5),ok:true},{v:num(3),ok:false}],
-    explain:'8 = 3 + 5. Проверка: 3 + 5 = 8 ✓'
-  },
-  {
-    cat:'📐 Геометрия',
-    q:'Какая фигура ЛИШНЯЯ? Подумай, чем она отличается!',
-    hint:'Одна фигура совсем другая по важному признаку',
-    vis:`<div style="display:flex;gap:16px;align-items:center;justify-content:center;flex-wrap:wrap">
-           <div style="text-align:center">${tri('#42A5F5',60)}<div style="font-size:12px;font-weight:700;color:#6B7280;margin-top:4px">3 угла</div></div>
-           <div style="text-align:center">${square('#42A5F5',60)}<div style="font-size:12px;font-weight:700;color:#6B7280;margin-top:4px">4 угла</div></div>
-           <div style="text-align:center">${circle('#42A5F5',60)}<div style="font-size:12px;font-weight:700;color:#6B7280;margin-top:4px">? углов</div></div>
-           <div style="text-align:center">${pentagon('#42A5F5',60)}<div style="font-size:12px;font-weight:700;color:#6B7280;margin-top:4px">5 углов</div></div>
-         </div>`,
-    opts:[
-      {v:tri('#42A5F5',48)+lbl('Треугольник'),ok:false},
-      {v:square('#42A5F5',48)+lbl('Квадрат'),ok:false},
-      {v:circle('#42A5F5',48)+lbl('Круг'),ok:true},
-      {v:pentagon('#42A5F5',48)+lbl('Пятиугольник'),ok:false},
-    ],
-    explain:'У треугольника, квадрата, пятиугольника — есть углы. У КРУГА углов нет совсем! Поэтому круг — лишний.'
-  },
-  {
-    cat:'📐 Геометрия',
-    q:'Сколько всего квадратов на картинке? Считай внимательно!',
-    hint:'Маленькие квадраты — считай отдельно, большой тоже считай!',
-    vis:`<div>
-           <svg width="160" height="160" viewBox="0 0 160 160">
-             <rect x="5"  y="5"  width="70" height="70" fill="#E3F2FD" stroke="#42A5F5" stroke-width="3" rx="4"/>
-             <rect x="85" y="5"  width="70" height="70" fill="#E3F2FD" stroke="#42A5F5" stroke-width="3" rx="4"/>
-             <rect x="5"  y="85" width="70" height="70" fill="#E3F2FD" stroke="#42A5F5" stroke-width="3" rx="4"/>
-             <rect x="85" y="85" width="70" height="70" fill="#E3F2FD" stroke="#42A5F5" stroke-width="3" rx="4"/>
-             <rect x="5"  y="5"  width="150" height="150" fill="none" stroke="#FF6B9D" stroke-width="3.5" rx="6"/>
-           </svg>
-           <div style="font-size:12px;font-weight:700;color:#6B7280;text-align:center;margin-top:4px">Маленькие + большой</div>
-         </div>`,
-    opts:[{v:num(4)+lbl('4 квадрата'),ok:false},{v:num(5)+lbl('5 квадратов'),ok:true},{v:num(6)+lbl('6 квадратов'),ok:false},{v:num(2)+lbl('2 квадрата'),ok:false}],
-    explain:'4 маленьких + 1 большой = 5 квадратов! Большой тоже надо посчитать!'
-  },
-  {
-    cat:'🗺️ Ориентировка',
-    q:'Котик хочет добраться до рыбки. Куда ему идти? 🐱',
-    hint:'Котик в жёлтой клетке, рыбка в зелёной',
-    vis:makeGrid(3,4,0,0,2,3,[[0,1],[0,2],[0,3],[1,3]]),
-    opts:[
-      {v:'<span style="font-size:22px;font-weight:900;text-align:center">Вправо и<br>вниз ↘</span>',ok:true},
-      {v:'<span style="font-size:22px;font-weight:900;text-align:center">Влево и<br>вверх ↖</span>',ok:false},
-      {v:'<span style="font-size:22px;font-weight:900;text-align:center">Только<br>вниз ↓</span>',ok:false},
-      {v:'<span style="font-size:22px;font-weight:900;text-align:center">Только<br>вправо →</span>',ok:false},
-    ],
-    explain:'Котик вверху слева, рыбка внизу справа. Надо идти вправо и вниз!'
-  },
-  {
-    cat:'📏 Лист в клетку',
-    q:'Старт — первая клетка слева вверху. Идём 3 вправо, потом 2 вниз. В какой клетке финиш?',
-    hint:'Считай по клеточкам — сначала вправо, потом вниз',
-    vis:`<div style="display:flex;flex-direction:column;gap:4px;align-items:center">
-           <svg width="200" height="160" viewBox="0 0 200 160">
-             ${[0,1,2,3,4].map(r=>[0,1,2,3,4].map(c=>`
-               <rect x="${c*40+2}" y="${r*30+2}" width="38" height="28"
-                 fill="${r===0&&c===0?'#FFF9C4':r===2&&c===3?'#E8F5E9':'#F9FAFB'}"
-                 stroke="#E5E7EB" stroke-width="1.5" rx="4"/>
-               ${r===0&&c===0?`<text x="${c*40+21}" y="${r*30+21}" font-size="16" text-anchor="middle" dominant-baseline="middle">🐱</text>`:''}
-               ${r===2&&c===3?`<text x="${c*40+21}" y="${r*30+21}" font-size="16" text-anchor="middle" dominant-baseline="middle">⭐</text>`:''}
-             `).join('')).flat().join('')}
-             <path d="M 21 16 H 141" stroke="#FFD93D" stroke-width="2.5" stroke-dasharray="4,3" marker-end="url(#a1)"/>
-             <path d="M 141 16 V 76" stroke="#FF6B9D" stroke-width="2.5" stroke-dasharray="4,3" marker-end="url(#a2)"/>
-             <defs>
-               <marker id="a1" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><polygon points="0 0,8 3,0 6" fill="#FFD93D"/></marker>
-               <marker id="a2" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><polygon points="0 0,8 3,0 6" fill="#FF6B9D"/></marker>
-             </defs>
-           </svg>
-           <div style="font-size:12px;font-weight:700;color:#9CA3AF">🐱 = старт &nbsp; ⭐ = финиш</div>
-         </div>`,
-    opts:[
-      {v:'<span style="font-size:18px;font-weight:900">Ряд 3, столбец 4</span>',ok:true},
-      {v:'<span style="font-size:18px;font-weight:900">Ряд 2, столбец 3</span>',ok:false},
-      {v:'<span style="font-size:18px;font-weight:900">Ряд 4, столбец 3</span>',ok:false},
-      {v:'<span style="font-size:18px;font-weight:900">Ряд 3, столбец 3</span>',ok:false},
-    ],
-    explain:'Старт: ряд 1, столбец 1. 3 вправо → столбец 4. 2 вниз → ряд 3. Финиш: ряд 3, столбец 4!'
-  },
-  {
-    cat:'🍕 Целое и части',
-    q:'Пиццу разрезали на 8 кусков. Коля съел 3, Маша — 2. Сколько кусков ОСТАЛОСЬ?',
-    hint:'Сначала посчитай, сколько съели всего',
-    vis:`<div style="display:flex;flex-direction:column;align-items:center;gap:8px">
-           <svg width="140" height="140" viewBox="0 0 140 140">
-             ${Array.from({length:8},(_,i)=>{
-               const a1=(i*45-90)*Math.PI/180,a2=((i+1)*45-90)*Math.PI/180;
-               const x1=70+60*Math.cos(a1),y1=70+60*Math.sin(a1);
-               const x2=70+60*Math.cos(a2),y2=70+60*Math.sin(a2);
-               const color=i<3?'#FFCDD2':i<5?'#FFF9C4':'#C8E6C9';
-               return `<path d="M70,70 L${x1},${y1} A60,60 0 0,1 ${x2},${y2} Z" fill="${color}" stroke="#fff" stroke-width="2.5"/>`;
-             }).join('')}
-             <circle cx="70" cy="70" r="60" fill="none" stroke="#FFD93D" stroke-width="2"/>
-             <text x="20" y="135" font-size="11" fill="#C62828" font-weight="bold">🔴 Коля</text>
-             <text x="65" y="135" font-size="11" fill="#795548" font-weight="bold">🟡 Маша</text>
-             <text x="98" y="135" font-size="11" fill="#2E7D32" font-weight="bold">🟢 Ост.</text>
-           </svg>
-         </div>`,
-    opts:[{v:num(4)+lbl('4 куска'),ok:false},{v:num(3)+lbl('3 куска'),ok:true},{v:num(5)+lbl('5 кусков'),ok:false},{v:num(2)+lbl('2 куска'),ok:false}],
-    explain:'Коля съел 3, Маша — 2. Всего съели: 3+2=5. Осталось: 8−5=3 куска!'
-  },
-  {
-    cat:'📏 Размер',
-    q:'Сколько МАЛЕНЬКИХ квадратов поместится в БОЛЬШОЙ?',
-    hint:'Смотри внимательно на размеры!',
-    vis:`<div style="display:flex;align-items:center;gap:20px;justify-content:center">
-           <div style="text-align:center">${square('#42A5F5',96)}<div style="font-size:12px;font-weight:900;color:#6B7280;margin-top:6px">Большой</div></div>
-           <span style="font-size:28px;font-weight:900;color:#6B7280">=</span>
-           <div style="text-align:center">
-             <div style="display:grid;grid-template-columns:1fr 1fr;gap:4px">${[1,2,3,4].map(()=>square('#FF6B9D',40)).join('')}</div>
-             <div style="font-size:12px;font-weight:900;color:#6B7280;margin-top:6px">Маленькие</div>
-           </div>
-         </div>`,
-    opts:[{v:num(2)+lbl('2 маленьких'),ok:false},{v:num(4)+lbl('4 маленьких'),ok:true},{v:num(8)+lbl('8 маленьких'),ok:false},{v:num(6)+lbl('6 маленьких'),ok:false}],
-    explain:'Если маленький квадрат — половина стороны большого, то влезает 2×2 = 4 маленьких!'
-  },
-  {
-    cat:'🌸 Времена года',
-    q:'Весна → Лето → Осень → ? Какое время года идёт следующим?',
-    hint:'Вспомни, сколько всего времён года',
-    vis:`<div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:center">
-           ${[['🌸','Весна'],['☀️','Лето'],['🍂','Осень']].map(([e,n])=>`
-             <div style="text-align:center;background:#F9FAFB;border-radius:12px;padding:10px">
-               <div style="font-size:40px">${e}</div>
-               <div style="font-size:13px;font-weight:700;color:#475569">${n}</div>
-             </div>`).join('')}
-           <span style="font-size:28px;font-weight:900;color:#FF6B9D">→ ?</span>
-         </div>`,
-    opts:[{v:big('🌸',48)+lbl('Весна снова'),ok:false},{v:big('❄️',48)+lbl('Зима'),ok:true},{v:big('☀️',48)+lbl('Лето снова'),ok:false},{v:big('🌈',48)+lbl('Дождь'),ok:false}],
-    explain:'Четыре времени года по кругу: Весна → Лето → Осень → Зима → Весна → ...'
-  },
-  {
-    cat:'⚖️ Сравни',
-    q:'Что БОЛЬШЕ — левая чаша или правая?',
-    hint:'Посчитай каждую сторону и сравни!',
-    vis:`<div style="display:flex;align-items:center;gap:14px;justify-content:center;flex-wrap:wrap">
-           <div style="background:#E3F2FD;border-radius:16px;padding:14px 18px;text-align:center">
-             <div style="font-size:28px;font-weight:900;color:#1565C0">3 + 5</div>
-             <div style="font-size:13px;font-weight:700;color:#9CA3AF;margin-top:4px">Левая чаша</div>
-           </div>
-           <span style="font-size:32px">⚖️</span>
-           <div style="background:#FFF9C4;border-radius:16px;padding:14px 18px;text-align:center">
-             <div style="font-size:28px;font-weight:900;color:#795548">2 + 7</div>
-             <div style="font-size:13px;font-weight:700;color:#9CA3AF;margin-top:4px">Правая чаша</div>
-           </div>
-         </div>`,
-    opts:[
-      {v:'<span style="font-size:24px;font-weight:900">3+5 > 2+7</span>'+lbl('Левая больше'),ok:false},
-      {v:'<span style="font-size:24px;font-weight:900">3+5 = 2+7</span>'+lbl('Равны!'),ok:false},
-      {v:'<span style="font-size:24px;font-weight:900">3+5 < 2+7</span>'+lbl('Правая больше'),ok:true},
-      {v:big('🤷',36)+lbl('Нельзя сравнить'),ok:false},
-    ],
-    explain:'3+5=8, а 2+7=9. Поэтому 8 < 9, правая чаша тяжелее!'
-  },
-  {
-    cat:'🧠 Логика',
-    q:'В классе 5 мальчиков и несколько девочек. Всего 9 детей. Сколько девочек?',
-    hint:'',
-    vis:`<div style="display:flex;gap:10px;align-items:center;justify-content:center;flex-wrap:wrap">
-           <div style="background:#E3F2FD;border-radius:14px;padding:12px 16px;text-align:center">
-             <div style="font-size:36px">👦👦👦👦👦</div>
-             <div style="font-size:13px;font-weight:900;color:#1565C0;margin-top:4px">5 мальчиков</div>
-           </div>
-           <span style="font-size:28px;font-weight:900;color:#475569">+</span>
-           <div style="background:#FCE4EC;border-radius:14px;padding:12px 16px;text-align:center">
-             <div style="font-size:36px">👧</div>
-             <div style="font-size:13px;font-weight:900;color:#AD1457;margin-top:4px">? девочек</div>
-           </div>
-           <span style="font-size:28px;font-weight:900;color:#475569">=</span>
-           <div style="background:#E8F5E9;border-radius:14px;padding:12px 20px;text-align:center">
-             <div style="font-size:40px;font-weight:900;color:#2E7D32">9</div>
-             <div style="font-size:13px;font-weight:900;color:#2E7D32;margin-top:4px">всего</div>
-           </div>
-         </div>`,
-    opts:[{v:num(5)+lbl('5 девочек'),ok:false},{v:num(3)+lbl('3 девочки'),ok:false},{v:num(4)+lbl('4 девочки'),ok:true},{v:num(6)+lbl('6 девочек'),ok:false}],
-    explain:'9 − 5 = 4. В классе 4 девочки!'
-  },
-];
 
-/* ── HARD TASKS ── */
-const TASKS_HARD=[
-  {
-    cat:'🔢 Счёт',
-    q:'Сколько точек на нижней грани кубика, если сверху — 5? На противоположных гранях в сумме всегда 7!',
-    hint:'7 минус то, что видишь сверху',
-    vis:`<div style="display:flex;flex-direction:column;align-items:center;gap:10px">
-           <svg width="90" height="90" viewBox="0 0 90 90">
-             <rect x="5" y="5" width="80" height="80" rx="14" fill="#E3F2FD" stroke="#42A5F5" stroke-width="3"/>
-             ${[[30,28],[60,28],[15,45],[45,45],[75,45]].map(([x,y])=>`<circle cx="${x}" cy="${y}" r="7" fill="#42A5F5"/>`).join('')}
-           </svg>
-           <div style="font-size:14px;font-weight:700;color:#6B7280">Видим сверху: 5 точек</div>
-         </div>`,
-    opts:[{v:num(1)+lbl('1 точка'),ok:false},{v:num(2)+lbl('2 точки'),ok:true},{v:num(3)+lbl('3 точки'),ok:false},{v:num(6)+lbl('6 точек'),ok:false}],
-    explain:'7 − 5 = 2. Снизу 2 точки!'
-  },
-  {
-    cat:'🧠 Логика',
-    q:'Петя старше Васи. Вася старше Коли. Кто из них САМЫЙ МЛАДШИЙ?',
-    hint:'Построй цепочку: кто старше кого?',
-    vis:`<div style="display:flex;flex-direction:column;align-items:center;gap:8px">
-           <div style="display:flex;align-items:center;gap:10px;font-size:17px;font-weight:700">
-             <div style="background:#FFEBEE;border-radius:10px;padding:8px 14px;border:2px solid #EF5350">Петя</div>
-             <span style="color:#EF5350;font-size:22px">></span>
-             <div style="background:#FFF9C4;border-radius:10px;padding:8px 14px;border:2px solid #FFD93D">Вася</div>
-           </div>
-           <div style="display:flex;align-items:center;gap:10px;font-size:17px;font-weight:700">
-             <div style="background:#FFF9C4;border-radius:10px;padding:8px 14px;border:2px solid #FFD93D">Вася</div>
-             <span style="color:#FF9B3C;font-size:22px">></span>
-             <div style="background:#E3F2FD;border-radius:10px;padding:8px 14px;border:2px solid #42A5F5">Коля</div>
-           </div>
-         </div>`,
-    opts:[{v:'<span style="font-size:22px;font-weight:900">Петя</span>',ok:false},{v:'<span style="font-size:22px;font-weight:900">Вася</span>',ok:false},{v:'<span style="font-size:22px;font-weight:900">Коля</span>',ok:true},{v:'<span style="font-size:22px;font-weight:900">Все одинаковые</span>',ok:false}],
-    explain:'Петя > Вася > Коля. Коля стоит последним — он самый младший!'
-  },
-  {
-    cat:'📐 Геометрия',
-    q:'Сколько треугольников на картинке? Считай все — и маленькие, и большие!',
-    hint:'Большой треугольник тоже считается!',
-    vis:`<div style="display:flex;flex-direction:column;align-items:center;gap:6px">
-           <svg width="160" height="140" viewBox="0 0 160 140">
-             <polygon points="80,8 8,132 152,132" fill="#E3F2FD" stroke="#42A5F5" stroke-width="3"/>
-             <line x1="80" y1="8" x2="80" y2="132" stroke="#42A5F5" stroke-width="2.5"/>
-             <line x1="44" y1="70" x2="116" y2="70" stroke="#42A5F5" stroke-width="2.5"/>
-           </svg>
-           <div style="font-size:12px;font-weight:700;color:#6B7280">Линии делят фигуру на части</div>
-         </div>`,
-    opts:[{v:num(3)+lbl('3 треугольника'),ok:false},{v:num(4)+lbl('4 треугольника'),ok:false},{v:num(5)+lbl('5 треугольников'),ok:true},{v:num(6)+lbl('6 треугольников'),ok:false}],
-    explain:'4 маленьких + 1 большой (весь) = 5 треугольников!'
-  },
-  {
-    cat:'➕ Арифметика',
-    q:'Найди число, которое нужно вписать: ? + 6 = 13',
-    hint:'Думай наоборот: 13 минус 6',
-    vis:`<div style="display:flex;align-items:center;gap:14px;justify-content:center">
-           <div style="background:#FCE4EC;border-radius:16px;padding:16px 22px;font-size:44px;font-weight:900;color:#FF6B9D">?</div>
-           <span style="font-size:36px;font-weight:900;color:#6B7280">+ 6 =</span>
-           <div style="background:#E3F2FD;border-radius:16px;padding:16px 22px;font-size:44px;font-weight:900;color:#42A5F5">13</div>
-         </div>`,
-    opts:[{v:num(6)+lbl('6'),ok:false},{v:num(8)+lbl('8'),ok:false},{v:num(7)+lbl('7'),ok:true},{v:num(9)+lbl('9'),ok:false}],
-    explain:'13 − 6 = 7. Проверка: 7 + 6 = 13 ✓'
-  },
-  {
-    cat:'🧩 Закономерность',
-    q:'Продолжи ряд. Что идёт следующим?',
-    hint:'Смотри, как меняются сразу ДВА признака — цвет и форма',
-    vis:`<div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:center">
-           ${circle('#EF5350',44)}${square('#EF5350',44)}${tri('#EF5350',44)}
-           ${circle('#42A5F5',44)}${square('#42A5F5',44)}
-           <span style="font-size:36px;font-weight:900;color:#FF6B9D">?</span>
-         </div>`,
-    opts:[{v:circle('#42A5F5',52)+lbl('Синий круг'),ok:false},{v:tri('#EF5350',52)+lbl('Красный треугольник'),ok:false},{v:tri('#42A5F5',52)+lbl('Синий треугольник'),ok:true},{v:square('#FFD93D',52)+lbl('Жёлтый квадрат'),ok:false}],
-    explain:'Красный круг, квадрат, треугольник → синий круг, квадрат, ... треугольник!'
-  },
-  {
-    cat:'📝 Задача',
-    q:'На полке 3 ряда книг. В каждом ряду 4 книги. Сколько книг всего?',
-    hint:'Можно сложить: 4+4+4!',
-    vis:`<div style="display:flex;flex-direction:column;gap:6px;align-items:center">
-           ${[1,2,3].map(()=>`<div style="display:flex;gap:5px">${[1,2,3,4].map(()=>`<div style="width:28px;height:42px;background:#42A5F5;border-radius:4px;border:2px solid #1565C0"></div>`).join('')}</div>`).join('')}
-           <div style="font-size:13px;font-weight:700;color:#6B7280;margin-top:4px">3 ряда × 4 книги</div>
-         </div>`,
-    opts:[{v:num(7)+lbl('7 книг'),ok:false},{v:num(10)+lbl('10 книг'),ok:false},{v:num(12)+lbl('12 книг'),ok:true},{v:num(9)+lbl('9 книг'),ok:false}],
-    explain:'4 + 4 + 4 = 12. Или: 3 ряда по 4 = 12 книг!'
-  },
-  {
-    cat:'⚖️ Сравни',
-    q:'Маша собрала 15 грибов, Петя — на 4 меньше. Они сложили грибы вместе. Сколько стало?',
-    hint:'Сначала посчитай, сколько у Пети. Потом сложи оба!',
-    vis:`<div style="display:flex;flex-direction:column;gap:10px;align-items:center;font-size:14px;font-weight:700;color:#475569">
-           <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;justify-content:center">
-             <div style="background:#FCE4EC;border-radius:12px;padding:10px 18px;text-align:center"><div style="font-size:30px">🧺</div><div style="color:#AD1457">Маша: <b>15</b></div></div>
-             <div style="background:#E3F2FD;border-radius:12px;padding:10px 18px;text-align:center"><div style="font-size:30px">🧺</div><div style="color:#1565C0">Петя: <b>15−4=?</b></div></div>
-           </div>
-           <div style="font-size:20px;font-weight:900;color:#FF6B9D">Маша + Петя = ?</div>
-         </div>`,
-    opts:[{v:num(25)+lbl('25 грибов'),ok:false},{v:num(26)+lbl('26 грибов'),ok:true},{v:num(28)+lbl('28 грибов'),ok:false},{v:num(30)+lbl('30 грибов'),ok:false}],
-    explain:'Петя: 15−4=11. Вместе: 15+11=26 грибов!'
-  },
-  {
-    cat:'🧩 Матрица',
-    q:'Что стоит в пустой клетке таблицы?',
-    hint:'В каждой строке и каждом столбце — разные фигуры',
-    vis:`<div style="display:flex;flex-direction:column;gap:6px;align-items:center">
-           <div style="font-size:12px;font-weight:900;color:#9CA3AF;letter-spacing:1px;margin-bottom:2px">МАТРИЦА</div>
-           <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px">
-             ${[
-               [circle('#EF5350',44),square('#42A5F5',44),tri('#FFD93D',44)],
-               [square('#FFD93D',44),tri('#EF5350',44),circle('#42A5F5',44)],
-               [tri('#42A5F5',44),circle('#FFD93D',44),`<div style="width:44px;height:44px;border:3px dashed #FF6B9D;border-radius:10px;background:#FCE4EC;display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:900;color:#FF6B9D">?</div>`],
-             ].flat().map(v=>`<div style="background:#F9FAFB;border-radius:10px;padding:6px;display:flex;align-items:center;justify-content:center">${v}</div>`).join('')}
-           </div>
-         </div>`,
-    opts:[{v:circle('#EF5350',48)+lbl('Красный круг'),ok:false},{v:tri('#EF5350',48)+lbl('Красный треугольник'),ok:false},{v:square('#EF5350',48)+lbl('Красный квадрат'),ok:true},{v:square('#42A5F5',48)+lbl('Синий квадрат'),ok:false}],
-    explain:'В 3-й строке уже треугольник и круг → нужен квадрат. В 3-м столбце уже синий и жёлтый → нужен красный. Красный квадрат!'
-  },
-  {
-    cat:'🔢 Числа',
-    q:'Какое число идёт между 17 и 19?',
-    hint:'Числа идут по порядку: 17, ?, 19',
-    vis:`<div style="display:flex;align-items:center;gap:10px;justify-content:center">
-           <div style="background:#E3F2FD;border-radius:14px;padding:12px 18px;font-size:40px;font-weight:900;color:#1565C0">17</div>
-           <span style="font-size:34px;font-weight:900;color:#FF6B9D">→</span>
-           <div style="background:#FCE4EC;border-radius:14px;padding:12px 18px;font-size:40px;font-weight:900;color:#FF6B9D;border:3px dashed #FF6B9D">?</div>
-           <span style="font-size:34px;font-weight:900;color:#FF6B9D">→</span>
-           <div style="background:#E3F2FD;border-radius:14px;padding:12px 18px;font-size:40px;font-weight:900;color:#1565C0">19</div>
-         </div>`,
-    opts:[{v:num(16)+lbl('16'),ok:false},{v:num(20)+lbl('20'),ok:false},{v:num(18)+lbl('18'),ok:true},{v:num(15)+lbl('15'),ok:false}],
-    explain:'17, 18, 19 — числа идут по порядку. Между 17 и 19 стоит 18!'
-  },
-  {
-    cat:'📝 Ловушка!',
-    q:'Над рекой летели утка, щука и три воробья. Сколько ПТИЦ летело над рекой?',
-    hint:'Щука — это рыба. Она летать не умеет!',
-    vis:`<div style="display:flex;gap:14px;flex-wrap:wrap;justify-content:center;align-items:flex-end">
-           <div style="text-align:center"><div style="font-size:46px">🦆</div><div style="font-size:12px;font-weight:700;color:#6B7280">Утка</div></div>
-           <div style="text-align:center"><div style="font-size:46px">🐟</div><div style="font-size:12px;font-weight:700;color:#EF5350">Щука (рыба!)</div></div>
-           <div style="text-align:center"><div style="font-size:46px">🐦🐦🐦</div><div style="font-size:12px;font-weight:700;color:#6B7280">3 воробья</div></div>
-         </div>`,
-    opts:[{v:num(5)+lbl('5 птиц'),ok:false},{v:num(4)+lbl('4 птицы'),ok:true},{v:num(3)+lbl('3 птицы'),ok:false},{v:num(6)+lbl('6 птиц'),ok:false}],
-    explain:'Щука — РЫБА, она не летает! Летели: 1 утка + 3 воробья = 4 птицы!'
-  },
-  {
-    cat:'🔢 Порядковый счёт',
-    q:'В очереди 10 человек. Маша стоит 7-й. Сколько человек стоит ПЕРЕД ней?',
-    hint:'Если Маша 7-я, то сколько человек до неё?',
-    vis:`<div style="display:flex;flex-direction:column;align-items:center;gap:8px">
-           <div style="display:flex;gap:4px;flex-wrap:wrap;justify-content:center">
-             ${Array.from({length:10},(_,i)=>`
-               <div style="text-align:center;background:${i===6?'#FFF9C4':'#F9FAFB'};border-radius:8px;padding:6px 8px;border:2px solid ${i===6?'#FFD93D':'#E5E7EB'}">
-                 <div style="font-size:22px">${i===6?'👧':'🧍'}</div>
-                 <div style="font-size:11px;font-weight:900;color:${i===6?'#795548':'#9CA3AF'}">${i+1}</div>
-               </div>`).join('')}
-           </div>
-           <div style="font-size:13px;font-weight:700;color:#795548">👧 = Маша (7-я)</div>
-         </div>`,
-    opts:[{v:num(7)+lbl('7 человек'),ok:false},{v:num(5)+lbl('5 человек'),ok:false},{v:num(6)+lbl('6 человек'),ok:true},{v:num(3)+lbl('3 человека'),ok:false}],
-    explain:'Маша стоит 7-й, значит перед ней стоят 6 человек (с 1-го по 6-й)!'
-  },
-  {
-    cat:'🧠 Логика',
-    q:'У Кати красные и синие шары. Красных в 2 раза больше, чем синих. Синих 3. Сколько шаров ВСЕГО?',
-    hint:'Сначала найди красных, потом сложи!',
-    vis:`<div style="display:flex;flex-direction:column;gap:8px;align-items:center">
-           <div style="display:flex;gap:6px;align-items:center">${circle('#42A5F5',38).repeat(3)}<span style="font-size:16px;font-weight:900;color:#1565C0;margin-left:4px">синих = 3</span></div>
-           <div style="display:flex;gap:6px;align-items:center">${circle('#EF5350',38).repeat(6)}<span style="font-size:16px;font-weight:900;color:#EF5350;margin-left:4px">красных = 3×2 = ?</span></div>
-         </div>`,
-    opts:[{v:num(6)+lbl('6 шаров'),ok:false},{v:num(9)+lbl('9 шаров'),ok:true},{v:num(12)+lbl('12 шаров'),ok:false},{v:num(8)+lbl('8 шаров'),ok:false}],
-    explain:'Красных в 2 раза больше: 3×2=6. Всего: 3+6=9 шаров!'
-  },
-  {
-    cat:'📐 Геометрия',
-    q:'Прямоугольник разрезали пополам по диагонали. Какие фигуры получились?',
-    hint:'Диагональ — это линия из угла в угол',
-    vis:`<div style="display:flex;flex-direction:column;align-items:center;gap:8px">
-           <svg width="180" height="100" viewBox="0 0 180 100">
-             <polygon points="5,5 175,5 175,95 5,5" fill="#E3F2FD" stroke="#42A5F5" stroke-width="2.5"/>
-             <polygon points="5,5 175,95 5,95" fill="#FFF9C4" stroke="#FFD93D" stroke-width="2.5"/>
-             <line x1="5" y1="5" x2="175" y2="95" stroke="#EF5350" stroke-width="3" stroke-dasharray="6,3"/>
-           </svg>
-           <div style="font-size:12px;font-weight:700;color:#6B7280">Красная линия — разрез</div>
-         </div>`,
-    opts:[{v:'<span style="font-size:18px;font-weight:900">2 квадрата</span>',ok:false},{v:'<span style="font-size:18px;font-weight:900">2 треугольника</span>',ok:true},{v:'<span style="font-size:18px;font-weight:900">2 круга</span>',ok:false},{v:'<span style="font-size:18px;font-weight:900">1 треугольник<br>и 1 квадрат</span>',ok:false}],
-    explain:'Диагональ делит прямоугольник ровно на 2 треугольника!'
-  },
-  {
-    cat:'🧩 Закономерность',
-    q:'Найди правило: 2 → 4 → 8 → 16 → ?',
-    hint:'Как каждый раз меняется число?',
-    vis:`<div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;justify-content:center">
-           ${[2,4,8,16].map(n=>`
-             <div style="display:flex;align-items:center;gap:6px">
-               <div style="background:#E3F2FD;border-radius:12px;padding:10px 16px;font-size:32px;font-weight:900;color:#1565C0">${n}</div>
-               <div style="font-size:14px;font-weight:900;color:#9CA3AF;text-align:center">×2<br>→</div>
-             </div>`).join('')}
-           <div style="background:#FCE4EC;border-radius:12px;padding:10px 16px;font-size:32px;font-weight:900;color:#FF6B9D;border:3px dashed #FF6B9D">?</div>
-         </div>`,
-    opts:[{v:num(18)+lbl('18'),ok:false},{v:num(24)+lbl('24'),ok:false},{v:num(32)+lbl('32'),ok:true},{v:num(20)+lbl('20'),ok:false}],
-    explain:'Каждое число умножается на 2: 2→4→8→16→32!'
-  },
-  {
-    cat:'📝 Цепочка',
-    q:'Дедушке 60 лет. Он старше папы на 28 лет. Папа старше Кристины на 24 года. Сколько лет Кристине?',
-    hint:'Сначала найди возраст папы, потом Кристины',
-    vis:`<div style="display:flex;flex-direction:column;gap:8px;align-items:center;font-size:14px;font-weight:700">
-           <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;justify-content:center">
-             <div style="background:#FFF9C4;border-radius:10px;padding:8px 14px">👴 Дедушка: <b>60</b></div>
-             <span style="color:#6B7280">−28→</span>
-             <div style="background:#E3F2FD;border-radius:10px;padding:8px 14px">👨 Папа: <b>?</b></div>
-           </div>
-           <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;justify-content:center">
-             <div style="background:#E3F2FD;border-radius:10px;padding:8px 14px">👨 Папа: <b>?</b></div>
-             <span style="color:#6B7280">−24→</span>
-             <div style="background:#FCE4EC;border-radius:10px;padding:8px 14px;border:2px solid #FF6B9D">👧 Кристина: <b>?</b></div>
-           </div>
-         </div>`,
-    opts:[{v:num(6)+lbl('6 лет'),ok:false},{v:num(7)+lbl('7 лет'),ok:false},{v:num(8)+lbl('8 лет'),ok:true},{v:num(10)+lbl('10 лет'),ok:false}],
-    explain:'Папа: 60−28=32 года. Кристина: 32−24=8 лет!'
-  },
-  {
-    cat:'🗺️ Зеркало',
-    q:'Зеркало отражает картинку наоборот. Какой будет цифра 6 в зеркале?',
-    hint:'Зеркало переворачивает изображение',
-    vis:`<div style="display:flex;align-items:center;gap:20px;justify-content:center">
-           <div style="text-align:center"><div style="font-size:80px;font-weight:900;color:#42A5F5">6</div><div style="font-size:12px;font-weight:700;color:#6B7280">Цифра</div></div>
-           <div style="font-size:40px">🪞</div>
-           <div style="text-align:center"><div style="font-size:80px;font-weight:900;color:#9CA3AF;opacity:.3">?</div><div style="font-size:12px;font-weight:700;color:#6B7280">Отражение</div></div>
-         </div>`,
-    opts:[
-      {v:'<span style="font-size:56px;font-weight:900;color:#42A5F5">6</span>'+lbl('Та же цифра 6'),ok:false},
-      {v:'<span style="font-size:56px;font-weight:900;transform:scaleX(-1);display:inline-block;color:#42A5F5">6</span>'+lbl('Перевёрнутая 6'),ok:false},
-      {v:'<span style="font-size:56px;font-weight:900;color:#42A5F5">9</span>'+lbl('Цифра 9'),ok:true},
-      {v:'<span style="font-size:56px;font-weight:900;color:#42A5F5">8</span>'+lbl('Цифра 8'),ok:false},
-    ],
-    explain:'Цифра 6, перевёрнутая вверх ногами — это цифра 9!'
-  },
-  {
-    cat:'🧠 Логика',
-    q:'Три подружки: Аня, Оля и Таня. Аня не в красном. Оля не в синем и не в красном. Какой цвет у Тани?',
-    hint:'Исключай: если кому-то цвет не подходит — вычёркивай!',
-    vis:`<div style="font-size:14px;font-weight:700;color:#475569;display:flex;flex-direction:column;gap:8px;align-items:center">
-           <div style="display:grid;grid-template-columns:auto repeat(3,1fr);gap:6px;text-align:center;font-size:13px">
-             <div></div>
-             <div style="background:#FFCDD2;border-radius:6px;padding:4px">🔴 Красный</div>
-             <div style="background:#BBDEFB;border-radius:6px;padding:4px">🔵 Синий</div>
-             <div style="background:#C8E6C9;border-radius:6px;padding:4px">🟢 Зелёный</div>
-             <div style="font-weight:900;padding:4px 8px">Аня</div>
-             <div style="background:#FFEBEE;border-radius:6px;padding:4px">✗</div>
-             <div style="background:#E8F5E9;border-radius:6px;padding:4px">?</div>
-             <div style="background:#E8F5E9;border-radius:6px;padding:4px">?</div>
-             <div style="font-weight:900;padding:4px 8px">Оля</div>
-             <div style="background:#FFEBEE;border-radius:6px;padding:4px">✗</div>
-             <div style="background:#FFEBEE;border-radius:6px;padding:4px">✗</div>
-             <div style="background:#E8F5E9;border-radius:6px;padding:4px">✓</div>
-             <div style="font-weight:900;padding:4px 8px">Таня</div>
-             <div style="background:#E8F5E9;border-radius:6px;padding:4px">?</div>
-             <div style="background:#E8F5E9;border-radius:6px;padding:4px">?</div>
-             <div style="background:#FFEBEE;border-radius:6px;padding:4px">✗</div>
-           </div>
-         </div>`,
-    opts:[{v:'<span style="font-size:30px">🔴</span>'+lbl('Красный'),ok:true},{v:'<span style="font-size:30px">🔵</span>'+lbl('Синий'),ok:false},{v:'<span style="font-size:30px">🟢</span>'+lbl('Зелёный'),ok:false},{v:'<span style="font-size:30px">🟡</span>'+lbl('Жёлтый'),ok:false}],
-    explain:'Оля точно в зелёном. Аня не красная → Аня синяя. Тане остался красный!'
-  },
+/* ─── БЛОК 1: СЧЁТ И ЧИСЛА ─── */
+{
+  cat:'🔢 Счёт',
+  q:'Посчитай котят. Сколько их?',
+  hint:'',
+  vis:`<div style="display:flex;gap:6px;flex-wrap:wrap;justify-content:center;font-size:40px">
+         🐱🐱🐱🐱🐱🐱🐱
+       </div>`,
+  opts:[{v:n(6)+L('6'),ok:false},{v:n(7)+L('7'),ok:true},{v:n(8)+L('8'),ok:false},{v:n(5)+L('5'),ok:false}],
+  explain:'Считаем: 1-2-3-4-5-6-7. Всего 7 котят!'
+},
+{
+  cat:'🔢 Счёт',
+  q:'Какое число больше?',
+  hint:'',
+  vis:`<div style="display:flex;align-items:center;gap:20px;justify-content:center">
+         <div style="background:#E8F5E9;border-radius:14px;padding:14px 22px;font-size:52px;font-weight:900;color:#1B2D1B">14</div>
+         <span style="font-size:30px">или</span>
+         <div style="background:#E3F2FD;border-radius:14px;padding:14px 22px;font-size:52px;font-weight:900;color:#1B2D1B">9</div>
+       </div>`,
+  opts:[{v:n(14)+L('14 больше'),ok:true},{v:n(9)+L('9 больше'),ok:false},{v:'<span style="font-size:28px;font-weight:900">=</span>'+L('Они равны'),ok:false},{v:e('🤷',34)+L('Не знаю'),ok:false}],
+  explain:'14 больше 9. После 10 числа становятся больше однозначных!'
+},
+{
+  cat:'🔢 Счёт',
+  q:'Какое число стоит МЕЖДУ 7 и 9?',
+  hint:'Числа идут по порядку',
+  vis:`<div style="display:flex;align-items:center;gap:10px;justify-content:center">
+         <div style="background:#E8F5E9;border-radius:12px;padding:12px 18px;font-size:44px;font-weight:900">7</div>
+         <span style="font-size:34px;font-weight:900;color:#FF6B9D">→ ? →</span>
+         <div style="background:#E8F5E9;border-radius:12px;padding:12px 18px;font-size:44px;font-weight:900">9</div>
+       </div>`,
+  opts:[{v:n(6),ok:false},{v:n(10),ok:false},{v:n(8),ok:true},{v:n(5),ok:false}],
+  explain:'7, 8, 9 — числа идут по порядку. Между 7 и 9 стоит 8!'
+},
+{
+  cat:'🔢 Счёт',
+  q:'Считаем от 5 до 1. Что идёт после 3?',
+  hint:'Считаем НАЗАД!',
+  vis:`<div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:center">
+         ${[5,4,3,'?',1].map(x=>`<div style="background:${x==='?'?'#FCE4EC':'#E8F5E9'};border-radius:12px;padding:10px 16px;font-size:36px;font-weight:900;color:${x==='?'?'#FF6B9D':'#1B2D1B'};border:${x==='?'?'3px dashed #FF6B9D':'none'}">${x}</div>`).join('<span style="font-size:22px;color:#9E9E9E">→</span>')}
+       </div>`,
+  opts:[{v:n(4),ok:false},{v:n(2),ok:true},{v:n(1),ok:false},{v:n(0),ok:false}],
+  explain:'5, 4, 3, 2, 1 — считаем назад. После 3 идёт 2!'
+},
+{
+  cat:'🔢 Счёт',
+  q:'Расставь числа по порядку от маленького к большому. Какое число ТРЕТЬЕ?',
+  hint:'Сначала найди самое маленькое',
+  vis:`<div style="display:flex;gap:12px;flex-wrap:wrap;justify-content:center">
+         ${[12,5,8,17].map(x=>`<div style="background:#E8F5E9;border-radius:14px;padding:12px 20px;font-size:42px;font-weight:900">${x}</div>`).join('')}
+       </div>`,
+  opts:[{v:n(5),ok:false},{v:n(8),ok:false},{v:n(12),ok:true},{v:n(17),ok:false}],
+  explain:'По порядку: 5, 8, 12, 17. Третье число — 12!'
+},
+
+/* ─── БЛОК 2: СЛОЖЕНИЕ И ВЫЧИТАНИЕ ─── */
+{
+  cat:'➕ Считаем',
+  q:'Щенок принёс 4 косточки, потом ещё 3. Сколько косточек стало?',
+  hint:'',
+  vis:`<div style="display:flex;align-items:center;gap:10px;justify-content:center;flex-wrap:wrap">
+         <div style="background:#FFF9C4;border-radius:12px;padding:10px 14px;font-size:13px;font-weight:900;text-align:center;color:#795548">Было<br><span style="font-size:38px">🦴🦴🦴🦴</span></div>
+         <span style="font-size:28px;font-weight:900;color:#5A7A5A">+</span>
+         <div style="background:#E8F5E9;border-radius:12px;padding:10px 14px;font-size:13px;font-weight:900;text-align:center;color:#2E7D32">Принёс<br><span style="font-size:38px">🦴🦴🦴</span></div>
+         <span style="font-size:28px;font-weight:900;color:#5A7A5A">=</span>
+         <span style="font-size:44px;font-weight:900;color:#FF6B9D">?</span>
+       </div>`,
+  opts:[{v:n(6),ok:false},{v:n(7),ok:true},{v:n(8),ok:false},{v:n(5),ok:false}],
+  explain:'4 + 3 = 7 косточек!'
+},
+{
+  cat:'➕ Считаем',
+  q:'На дереве сидело 8 птичек. 3 улетели. Сколько осталось?',
+  hint:'',
+  vis:`<div style="display:flex;align-items:center;gap:10px;justify-content:center;flex-wrap:wrap">
+         <div style="background:#E3F2FD;border-radius:12px;padding:10px 14px;text-align:center;font-size:13px;font-weight:900;color:#1565C0">Было<br><span style="font-size:34px">🐦🐦🐦🐦🐦🐦🐦🐦</span></div>
+         <span style="font-size:28px;font-weight:900;color:#5A7A5A">−</span>
+         <div style="background:#FFEBEE;border-radius:12px;padding:10px 14px;text-align:center;font-size:13px;font-weight:900;color:#C62828">Улетели<br><span style="font-size:34px">🐦🐦🐦</span></div>
+         <span style="font-size:28px;font-weight:900;color:#5A7A5A">=</span>
+         <span style="font-size:44px;font-weight:900;color:#FF6B9D">?</span>
+       </div>`,
+  opts:[{v:n(4),ok:false},{v:n(6),ok:false},{v:n(5),ok:true},{v:n(3),ok:false}],
+  explain:'8 − 3 = 5. Осталось 5 птичек!'
+},
+{
+  cat:'➕ Считаем',
+  q:'Котик поймал 6 рыбок. Съел 2. Потом поймал ещё 1. Сколько рыбок у котика?',
+  hint:'Делай по шагам: сначала вычти, потом прибавь',
+  vis:`<div style="display:flex;flex-direction:column;gap:8px;align-items:center;font-size:14px;font-weight:700">
+         <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;justify-content:center">
+           ${box('#E3F2FD','Поймал<br><b style="font-size:22px;color:#1565C0">6 🐟</b>')}
+           <span style="font-size:22px">−</span>
+           ${box('#FFEBEE','Съел<br><b style="font-size:22px;color:#C62828">2 🐟</b>')}
+           <span style="font-size:22px">+</span>
+           ${box('#E8F5E9','Поймал<br><b style="font-size:22px;color:#2E7D32">1 🐟</b>')}
+           <span style="font-size:22px">= ?</span>
+         </div>
+       </div>`,
+  opts:[{v:n(4),ok:false},{v:n(6),ok:false},{v:n(5),ok:true},{v:n(7),ok:false}],
+  explain:'6 − 2 = 4, потом 4 + 1 = 5 рыбок!'
+},
+{
+  cat:'➕ Считаем',
+  q:'Найди пропущенное число: 5 + ? = 9',
+  hint:'Думай наоборот: 9 минус 5',
+  vis:`<div style="display:flex;align-items:center;gap:14px;justify-content:center">
+         <div style="background:#E8F5E9;border-radius:14px;padding:14px 20px;font-size:44px;font-weight:900">5</div>
+         <span style="font-size:34px;font-weight:900;color:#5A7A5A">+</span>
+         <div style="background:#FCE4EC;border-radius:14px;padding:14px 20px;font-size:44px;font-weight:900;color:#FF6B9D;border:3px dashed #FF6B9D">?</div>
+         <span style="font-size:34px;font-weight:900;color:#5A7A5A">=</span>
+         <div style="background:#E8F5E9;border-radius:14px;padding:14px 20px;font-size:44px;font-weight:900">9</div>
+       </div>`,
+  opts:[{v:n(3),ok:false},{v:n(5),ok:false},{v:n(4),ok:true},{v:n(6),ok:false}],
+  explain:'9 − 5 = 4. Проверка: 5 + 4 = 9 ✓'
+},
+{
+  cat:'➕ Считаем',
+  q:'Состав числа 10. Выбери ВЕРНОЕ равенство:',
+  hint:'Два числа должны давать в сумме 10',
+  vis:`<div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center">
+         ${[10].map(()=>`<div style="background:#E8F5E9;border-radius:14px;padding:12px 20px;text-align:center">
+           <div style="font-size:14px;font-weight:900;color:#2E7D32;margin-bottom:4px">Нужно получить</div>
+           <div style="font-size:52px;font-weight:900;color:#1B2D1B">10</div>
+         </div>`).join('')}
+       </div>`,
+  opts:[
+    {v:'<span style="font-size:22px;font-weight:900">3 + 6</span>'+L('= 9'),ok:false},
+    {v:'<span style="font-size:22px;font-weight:900">7 + 3</span>'+L('= 10'),ok:true},
+    {v:'<span style="font-size:22px;font-weight:900">4 + 5</span>'+L('= 9'),ok:false},
+    {v:'<span style="font-size:22px;font-weight:900">6 + 5</span>'+L('= 11'),ok:false},
+  ],
+  explain:'7 + 3 = 10. Это один из вариантов состава числа 10!'
+},
+
+/* ─── БЛОК 3: ГЕОМЕТРИЯ ─── */
+{
+  cat:'📐 Фигуры',
+  q:'Найди все ТРЕУГОЛЬНИКИ. Сколько их?',
+  hint:'Треугольник — фигура с тремя углами',
+  vis:`<div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;justify-content:center">
+         ${T('#42A5F5',48)}${S('#FF6B9D',48)}${T('#4CAF50',48)}${C('#FF9B3C',48)}${T('#AB47BC',48)}${S('#FFD93D',48)}
+       </div>`,
+  opts:[{v:n(2),ok:false},{v:n(4),ok:false},{v:n(3),ok:true},{v:n(5),ok:false}],
+  explain:'Треугольников 3: синий, зелёный и фиолетовый!'
+},
+{
+  cat:'📐 Фигуры',
+  q:'Котик купил круглый торт. Разрезал его на 4 равные части. Как выглядит каждая часть?',
+  hint:'Представь пиццу, разрезанную на 4 части',
+  vis:`<div style="display:flex;align-items:center;gap:16px;justify-content:center">
+         <svg width="100" height="100" viewBox="0 0 100 100">
+           <circle cx="50" cy="50" r="45" fill="#FFCDD2" stroke="#FF6B9D" stroke-width="3"/>
+           <line x1="50" y1="5" x2="50" y2="95" stroke="#FF6B9D" stroke-width="2.5"/>
+           <line x1="5" y1="50" x2="95" y2="50" stroke="#FF6B9D" stroke-width="2.5"/>
+         </svg>
+         <div style="font-size:14px;font-weight:700;color:#5A7A5A">Торт разрезан<br>на 4 части</div>
+       </div>`,
+  opts:[
+    {v:C('#FF6B9D',50)+L('Круг'),ok:false},
+    {v:'<svg width="50" height="50"><path d="M25,25 L25,5 A20,20 0 0,1 45,25 Z" fill="#FF6B9D" stroke="#fff" stroke-width="2"/></svg>'+L('Кусочек'),ok:true},
+    {v:S('#FF6B9D',50)+L('Квадрат'),ok:false},
+    {v:T('#FF6B9D',50)+L('Треугольник'),ok:false},
+  ],
+  explain:'При разрезании круга на 4 части получаются кусочки — четверти круга (как дольки апельсина)!'
+},
+{
+  cat:'📐 Фигуры',
+  q:'Чего БОЛЬШЕ — углов или сторон у квадрата?',
+  hint:'Посчитай углы и стороны отдельно',
+  vis:`<div style="text-align:center">
+         <svg width="120" height="120" viewBox="0 0 120 120">
+           <rect x="10" y="10" width="100" height="100" fill="#E8F5E9" stroke="#4CAF50" stroke-width="3" rx="4"/>
+           ${[[10,10],[110,10],[110,110],[10,110]].map(([x,y])=>`<circle cx="${x}" cy="${y}" r="7" fill="#FF6B9D"/>`).join('')}
+           <text x="60" y="68" font-size="14" text-anchor="middle" fill="#2E7D32" font-weight="bold">стороны = ?</text>
+           <text x="60" y="85" font-size="14" text-anchor="middle" fill="#FF6B9D" font-weight="bold">углы = ?</text>
+         </svg>
+       </div>`,
+  opts:[
+    {v:'<span style="font-size:16px;font-weight:900">Углов больше</span>',ok:false},
+    {v:'<span style="font-size:16px;font-weight:900">Сторон больше</span>',ok:false},
+    {v:'<span style="font-size:16px;font-weight:900">Их поровну</span>',ok:true},
+    {v:'<span style="font-size:16px;font-weight:900">Не знаю</span>',ok:false},
+  ],
+  explain:'У квадрата 4 стороны и 4 угла — их поровну! Это правило для любого многоугольника.'
+},
+{
+  cat:'📐 Фигуры',
+  q:'Из каких двух фигур состоит этот домик?',
+  hint:'Смотри на верхнюю и нижнюю части',
+  vis:`<div style="text-align:center">
+         <svg width="120" height="140" viewBox="0 0 120 140">
+           <polygon points="60,5 5,55 115,55" fill="#FFCDD2" stroke="#EF5350" stroke-width="2.5"/>
+           <rect x="20" y="55" width="80" height="75" fill="#E8F5E9" stroke="#4CAF50" stroke-width="2.5"/>
+         </svg>
+       </div>`,
+  opts:[
+    {v:T('#EF5350',40)+S('#4CAF50',40)+L('Треугольник + квадрат'),ok:true},
+    {v:C('#EF5350',40)+S('#4CAF50',40)+L('Круг + квадрат'),ok:false},
+    {v:T('#EF5350',40)+T('#4CAF50',40)+L('Два треугольника'),ok:false},
+    {v:S('#EF5350',40)+S('#4CAF50',40)+L('Два квадрата'),ok:false},
+  ],
+  explain:'Крыша — треугольник, стены — прямоугольник (квадрат). Домик = треугольник + прямоугольник!'
+},
+{
+  cat:'📐 Фигуры',
+  q:'Сколько сторон у этой фигуры?',
+  hint:'Считай каждую прямую линию',
+  vis:`<div style="text-align:center">
+         ${Pent('#42A5F5',110)}
+         <div style="font-size:13px;font-weight:700;color:#5A7A5A;margin-top:6px">Это пятиугольник</div>
+       </div>`,
+  opts:[{v:n(4),ok:false},{v:n(6),ok:false},{v:n(5),ok:true},{v:n(3),ok:false}],
+  explain:'У пятиугольника 5 сторон и 5 углов!'
+},
+
+/* ─── БЛОК 4: ЛОГИКА / ЧЕТВЁРТЫЙ ЛИШНИЙ ─── */
+{
+  cat:'🔍 Найди лишнее',
+  q:'Что здесь ЛИШНЕЕ? Три предмета — одна группа, один — чужой!',
+  hint:'Подумай, что лишнее по смыслу',
+  vis:`<div style="font-size:14px;font-weight:700;color:#5A7A5A;text-align:center;background:#E8F5E9;border-radius:14px;padding:12px">Найди предмет, который НЕ подходит к остальным</div>`,
+  opts:[
+    {v:e('🍎',46)+L('Яблоко'),ok:false},
+    {v:e('🍌',46)+L('Банан'),ok:false},
+    {v:e('✏️',46)+L('Карандаш'),ok:true},
+    {v:e('🍇',46)+L('Виноград'),ok:false},
+  ],
+  explain:'Яблоко, банан, виноград — это фрукты. Карандаш — школьная принадлежность, он лишний!'
+},
+{
+  cat:'🔍 Найди лишнее',
+  q:'Кто здесь ЛИШНИЙ?',
+  hint:'Подумай, кто живёт НЕ дома, а на улице',
+  vis:`<div style="font-size:14px;font-weight:700;color:#5A7A5A;text-align:center;background:#E8F5E9;border-radius:14px;padding:12px">Найди животное, которое не подходит к остальным</div>`,
+  opts:[
+    {v:e('🐱',46)+L('Кошка'),ok:false},
+    {v:e('🐶',46)+L('Собака'),ok:false},
+    {v:e('🐟',46)+L('Рыбка'),ok:false},
+    {v:e('🦁',46)+L('Лев'),ok:true},
+  ],
+  explain:'Кошка, собака, рыбка — домашние животные. Лев живёт в дикой природе — он лишний!'
+},
+{
+  cat:'🔍 Найди лишнее',
+  q:'Что здесь ЛИШНЕЕ?',
+  hint:'Три предмета нужны зимой, один — нет',
+  vis:`<div style="font-size:14px;font-weight:700;color:#5A7A5A;text-align:center;background:#E8F5E9;border-radius:14px;padding:12px">Подумай: что нам нужно зимой?</div>`,
+  opts:[
+    {v:e('🧤',46)+L('Варежки'),ok:false},
+    {v:e('🧣',46)+L('Шарф'),ok:false},
+    {v:e('👙',46)+L('Купальник'),ok:true},
+    {v:e('🏔️',46)+L('Шапка'),ok:false},
+  ],
+  explain:'Варежки, шарф, шапка — одежда для зимы. Купальник носят летом — он лишний!'
+},
+{
+  cat:'🔍 Найди лишнее',
+  q:'Что из этого НЕ является транспортом?',
+  hint:'На чём можно ездить или летать?',
+  vis:`<div style="font-size:14px;font-weight:700;color:#5A7A5A;text-align:center;background:#E8F5E9;border-radius:14px;padding:12px">Найди лишнее</div>`,
+  opts:[
+    {v:e('🚗',46)+L('Машина'),ok:false},
+    {v:e('🚂',46)+L('Поезд'),ok:false},
+    {v:e('🏠',46)+L('Дом'),ok:true},
+    {v:e('✈️',46)+L('Самолёт'),ok:false},
+  ],
+  explain:'Машина, поезд, самолёт — транспорт, на нём ездят. Дом стоит на месте — он лишний!'
+},
+{
+  cat:'🔍 Найди лишнее',
+  q:'Какое число ЛИШНЕЕ в этом ряду?',
+  hint:'Три числа — однозначные, одно — нет',
+  vis:`<div style="display:flex;gap:12px;flex-wrap:wrap;justify-content:center">
+         ${[3,7,12,5].map(x=>`<div style="background:#E8F5E9;border-radius:12px;padding:10px 18px;font-size:44px;font-weight:900">${x}</div>`).join('')}
+       </div>`,
+  opts:[{v:n(3),ok:false},{v:n(7),ok:false},{v:n(12),ok:true},{v:n(5),ok:false}],
+  explain:'3, 7, 5 — однозначные числа (до 10). А 12 — двузначное, поэтому оно лишнее!'
+},
+
+/* ─── БЛОК 5: ЗАКОНОМЕРНОСТИ ─── */
+{
+  cat:'🧩 Закономерность',
+  q:'Продолжи ряд. Что идёт следующим?',
+  hint:'Ряд чисел увеличивается. На сколько?',
+  vis:`<div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:center">
+         ${[2,4,6,8].map(x=>`<div style="background:#E8F5E9;border-radius:12px;padding:10px 16px;font-size:38px;font-weight:900">${x}</div>`).join('<span style="font-size:22px;color:#9E9E9E">→</span>')}
+         <span style="font-size:22px;color:#9E9E9E">→</span>
+         <div style="background:#FCE4EC;border-radius:12px;padding:10px 16px;font-size:38px;font-weight:900;color:#FF6B9D;border:3px dashed #FF6B9D">?</div>
+       </div>`,
+  opts:[{v:n(9),ok:false},{v:n(12),ok:false},{v:n(10),ok:true},{v:n(11),ok:false}],
+  explain:'2, 4, 6, 8, 10 — каждый раз прибавляем 2. Это чётные числа!'
+},
+{
+  cat:'🧩 Закономерность',
+  q:'Какая фигура идёт следующей?',
+  hint:'Смотри на порядок фигур',
+  vis:`<div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:center">
+         ${C('#4CAF50',44)}${T('#4CAF50',44)}${C('#4CAF50',44)}${T('#4CAF50',44)}${C('#4CAF50',44)}
+         <span style="font-size:34px;font-weight:900;color:#FF6B9D">?</span>
+       </div>`,
+  opts:[
+    {v:C('#4CAF50',52)+L('Круг'),ok:false},
+    {v:T('#4CAF50',52)+L('Треугольник'),ok:true},
+    {v:S('#4CAF50',52)+L('Квадрат'),ok:false},
+    {v:Pent('#4CAF50',52)+L('Пятиугольник'),ok:false},
+  ],
+  explain:'Круг, треугольник, круг, треугольник, круг... → треугольник!'
+},
+{
+  cat:'🧩 Закономерность',
+  q:'Что идёт следующим в этом ряду?',
+  hint:'Смотри на цвет и размер',
+  vis:`<div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:center">
+         ${C('#EF5350',36)}${C('#EF5350',52)}${C('#42A5F5',36)}${C('#42A5F5',52)}${C('#FFD93D',36)}
+         <span style="font-size:34px;font-weight:900;color:#FF6B9D">?</span>
+       </div>`,
+  opts:[
+    {v:C('#FFD93D',36)+L('Маленький жёлтый'),ok:false},
+    {v:C('#FFD93D',52)+L('Большой жёлтый'),ok:true},
+    {v:C('#4CAF50',52)+L('Большой зелёный'),ok:false},
+    {v:C('#EF5350',52)+L('Большой красный'),ok:false},
+  ],
+  explain:'Закономерность: маленький+большой одного цвета. Красный М+Б, Синий М+Б, Жёлтый М+? → большой жёлтый!'
+},
+{
+  cat:'🧩 Закономерность',
+  q:'Продолжи числовой ряд: 10, 9, 8, 7, ...?',
+  hint:'Числа уменьшаются',
+  vis:`<div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:center">
+         ${[10,9,8,7].map(x=>`<div style="background:#E8F5E9;border-radius:12px;padding:10px 16px;font-size:38px;font-weight:900">${x}</div>`).join('<span style="font-size:22px;color:#9E9E9E">→</span>')}
+         <span style="font-size:22px;color:#9E9E9E">→</span>
+         <div style="background:#FCE4EC;border-radius:12px;padding:10px 16px;font-size:38px;font-weight:900;color:#FF6B9D;border:3px dashed #FF6B9D">?</div>
+       </div>`,
+  opts:[{v:n(8),ok:false},{v:n(5),ok:false},{v:n(6),ok:true},{v:n(4),ok:false}],
+  explain:'10, 9, 8, 7, 6 — каждый раз вычитаем 1!'
+},
+{
+  cat:'🧩 Закономерность',
+  q:'Кто пропущен в этом ряду? 🌸☀️🍂❄️🌸☀️🍂 ?',
+  hint:'Это времена года по порядку!',
+  vis:`<div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;justify-content:center">
+         ${['🌸','☀️','🍂','❄️','🌸','☀️','🍂'].map(x=>`<span style="font-size:36px">${x}</span>`).join('')}
+         <span style="font-size:34px;font-weight:900;color:#FF6B9D">?</span>
+       </div>`,
+  opts:[
+    {v:e('🌸',50)+L('Весна'),ok:false},
+    {v:e('☀️',50)+L('Лето'),ok:false},
+    {v:e('❄️',50)+L('Зима'),ok:true},
+    {v:e('🍂',50)+L('Осень'),ok:false},
+  ],
+  explain:'Весна, Лето, Осень, Зима — идут по кругу. После 🍂 всегда идёт ❄️!'
+},
+
+/* ─── БЛОК 6: ПРОСТРАНСТВО И ОРИЕНТИРОВКА ─── */
+{
+  cat:'↕️ Пространство',
+  q:'Котик 🐱 сидит НА книге 📚. Что находится ПОД книгой?',
+  hint:'Представь стопку: котик → книга → ?',
+  vis:`<div style="display:flex;flex-direction:column;align-items:center;gap:4px;font-size:36px">
+         <div style="text-align:center">
+           <div>🐱</div>
+           <div style="font-size:13px;font-weight:700;color:#5A7A5A">котик</div>
+         </div>
+         <div style="text-align:center">
+           <div>📚</div>
+           <div style="font-size:13px;font-weight:700;color:#5A7A5A">книга</div>
+         </div>
+         <div style="text-align:center">
+           <div>🪑</div>
+           <div style="font-size:13px;font-weight:700;color:#5A7A5A">стул</div>
+         </div>
+       </div>`,
+  opts:[
+    {v:e('🐱',46)+L('Котик'),ok:false},
+    {v:e('🪑',46)+L('Стул'),ok:true},
+    {v:e('📚',46)+L('Книга'),ok:false},
+    {v:e('🏠',46)+L('Дом'),ok:false},
+  ],
+  explain:'Котик на книге, книга на стуле. Под книгой — стул!'
+},
+{
+  cat:'↕️ Пространство',
+  q:'Посмотри на картинку. Что находится МЕЖДУ мячом и звездой?',
+  hint:'Считай слева направо',
+  vis:`<div style="display:flex;align-items:center;gap:12px;justify-content:center;font-size:42px">
+         <span>⚽</span>
+         <span>🌺</span>
+         <span>🍎</span>
+         <span>⭐</span>
+       </div>`,
+  opts:[
+    {v:e('🌺',46)+e('🍎',46)+L('Цветок и яблоко'),ok:true},
+    {v:e('🌺',46)+L('Только цветок'),ok:false},
+    {v:e('🍎',46)+L('Только яблоко'),ok:false},
+    {v:e('⚽',46)+L('Мяч'),ok:false},
+  ],
+  explain:'Между мячом ⚽ и звездой ⭐ стоят цветок 🌺 и яблоко 🍎!'
+},
+{
+  cat:'↕️ Пространство',
+  q:'Котик стоит перед собакой. Собака стоит ЗА...',
+  hint:'Если котик ПЕРЕД собакой, то собака — ЗА котиком',
+  vis:`<div style="display:flex;align-items:flex-end;gap:16px;justify-content:center">
+         <div style="text-align:center"><div style="font-size:48px">🐱</div><div style="font-size:13px;font-weight:700;color:#5A7A5A">Котик (спереди)</div></div>
+         <div style="font-size:34px;color:#9E9E9E">→</div>
+         <div style="text-align:center"><div style="font-size:48px">🐶</div><div style="font-size:13px;font-weight:700;color:#5A7A5A">Собака (сзади)</div></div>
+       </div>`,
+  opts:[
+    {v:e('🐶',46)+L('За собакой'),ok:false},
+    {v:e('🐱',46)+L('За котиком'),ok:true},
+    {v:e('🦊',46)+L('За лисой'),ok:false},
+    {v:'<span style="font-size:22px;font-weight:900">Нигде</span>',ok:false},
+  ],
+  explain:'Котик стоит перед собакой → собака стоит ЗА котиком!'
+},
+{
+  cat:'↕️ Пространство',
+  q:'Нарисуй мысленно: котик идёт 2 клетки вправо и 1 клетку вниз. Где он окажется?',
+  hint:'Сначала вправо, потом вниз',
+  vis:grd(3,3,0,0,1,2),
+  opts:[
+    {v:'<span style="font-size:18px;font-weight:900">Ряд 2,<br>столбец 3</span>',ok:true},
+    {v:'<span style="font-size:18px;font-weight:900">Ряд 1,<br>столбец 3</span>',ok:false},
+    {v:'<span style="font-size:18px;font-weight:900">Ряд 3,<br>столбец 2</span>',ok:false},
+    {v:'<span style="font-size:18px;font-weight:900">Ряд 2,<br>столбец 2</span>',ok:false},
+  ],
+  explain:'Старт: ряд 1, столбец 1. Два шага вправо → столбец 3. Один шаг вниз → ряд 2. Финиш: ряд 2, столбец 3!'
+},
+{
+  cat:'↕️ Пространство',
+  q:'Сколько предметов стоит ПРАВЕЕ яблока?',
+  hint:'Считай только те, что правее яблока',
+  vis:`<div style="display:flex;align-items:center;gap:10px;justify-content:center;font-size:40px;flex-wrap:wrap">
+         <span>🚗</span>
+         <span>🌸</span>
+         <span>🍎</span>
+         <span>⭐</span>
+         <span>🎈</span>
+         <span>🦋</span>
+       </div>`,
+  opts:[{v:n(2),ok:false},{v:n(4),ok:false},{v:n(3),ok:true},{v:n(5),ok:false}],
+  explain:'Правее яблока 🍎 стоят: звезда ⭐, шарик 🎈 и бабочка 🦋 — это 3 предмета!'
+},
+
+/* ─── БЛОК 7: РАЗМЕР И СРАВНЕНИЕ ─── */
+{
+  cat:'📏 Сравниваем',
+  q:'Верно ли утверждение: «Все кошки — животные»?',
+  hint:'Подумай: кошки — это животные?',
+  vis:`<div style="background:#E8F5E9;border-radius:14px;padding:16px;text-align:center;font-size:18px;font-weight:700;color:#1B2D1B">
+         «Все кошки — животные»
+       </div>`,
+  opts:[
+    {v:'<span style="font-size:22px;font-weight:900">✅ Да, верно</span>',ok:true},
+    {v:'<span style="font-size:22px;font-weight:900">❌ Нет, неверно</span>',ok:false},
+    {v:'<span style="font-size:22px;font-weight:900">Иногда верно</span>',ok:false},
+    {v:'<span style="font-size:22px;font-weight:900">Не знаю</span>',ok:false},
+  ],
+  explain:'Верно! Кошка — это домашнее животное. Все кошки относятся к животным!'
+},
+{
+  cat:'📏 Сравниваем',
+  q:'У Маши 5 конфет, у Пети — 8. На сколько у Пети БОЛЬШЕ конфет?',
+  hint:'«На сколько больше» — значит вычитаем',
+  vis:`<div style="display:flex;gap:14px;align-items:flex-end;justify-content:center">
+         <div style="text-align:center">
+           <div style="font-size:32px">🍬🍬🍬🍬🍬</div>
+           <div style="font-size:13px;font-weight:900;color:#5A7A5A;margin-top:4px">Маша: 5</div>
+         </div>
+         <div style="text-align:center">
+           <div style="font-size:32px">🍬🍬🍬🍬🍬🍬🍬🍬</div>
+           <div style="font-size:13px;font-weight:900;color:#5A7A5A;margin-top:4px">Петя: 8</div>
+         </div>
+       </div>`,
+  opts:[{v:n(2),ok:false},{v:n(4),ok:false},{v:n(3),ok:true},{v:n(5),ok:false}],
+  explain:'8 − 5 = 3. У Пети на 3 конфеты больше!'
+},
+{
+  cat:'📏 Сравниваем',
+  q:'Что длиннее — карандаш или ручка?',
+  hint:'Смотри на длину линий',
+  vis:`<div style="display:flex;flex-direction:column;gap:10px;padding:8px">
+         <div style="display:flex;align-items:center;gap:10px">
+           <div style="font-size:22px">✏️</div>
+           <div style="height:16px;background:#4CAF50;border-radius:8px;width:180px"></div>
+           <div style="font-size:13px;font-weight:700;color:#5A7A5A">карандаш</div>
+         </div>
+         <div style="display:flex;align-items:center;gap:10px">
+           <div style="font-size:22px">🖊️</div>
+           <div style="height:16px;background:#42A5F5;border-radius:8px;width:110px"></div>
+           <div style="font-size:13px;font-weight:700;color:#5A7A5A">ручка</div>
+         </div>
+       </div>`,
+  opts:[
+    {v:e('✏️',46)+L('Карандаш длиннее'),ok:true},
+    {v:e('🖊️',46)+L('Ручка длиннее'),ok:false},
+    {v:'<span style="font-size:22px;font-weight:900">=</span>'+L('Одинаковые'),ok:false},
+    {v:e('🤷',36)+L('Не видно'),ok:false},
+  ],
+  explain:'Зелёная полоска карандаша длиннее синей полоски ручки!'
+},
+{
+  cat:'📏 Сравниваем',
+  q:'В стакане 3 кубика льда. В кружке — на 2 больше. Сколько кубиков в кружке?',
+  hint:'"На 2 больше" — значит прибавляем 2',
+  vis:`<div style="display:flex;gap:20px;align-items:flex-end;justify-content:center">
+         <div style="text-align:center">
+           <div style="font-size:36px">🧊🧊🧊</div>
+           <div style="font-size:22px;margin-top:4px">🥤</div>
+           <div style="font-size:13px;font-weight:900;color:#5A7A5A">Стакан: 3</div>
+         </div>
+         <div style="text-align:center">
+           <div style="font-size:36px;color:#9E9E9E">?</div>
+           <div style="font-size:22px;margin-top:4px">☕</div>
+           <div style="font-size:13px;font-weight:900;color:#5A7A5A">Кружка: на 2 больше</div>
+         </div>
+       </div>`,
+  opts:[{v:n(4),ok:false},{v:n(6),ok:false},{v:n(5),ok:true},{v:n(3),ok:false}],
+  explain:'3 + 2 = 5. В кружке 5 кубиков льда!'
+},
+{
+  cat:'📏 Сравниваем',
+  q:'Сравни: 3 + 4 и 6 + 1. Что верно?',
+  hint:'Посчитай каждую сторону',
+  vis:`<div style="display:flex;align-items:center;gap:14px;justify-content:center;flex-wrap:wrap">
+         <div style="background:#E8F5E9;border-radius:14px;padding:14px 20px;text-align:center">
+           <div style="font-size:30px;font-weight:900;color:#2E7D32">3 + 4</div>
+           <div style="font-size:13px;color:#5A7A5A;margin-top:4px">= ?</div>
+         </div>
+         <span style="font-size:34px">и</span>
+         <div style="background:#E3F2FD;border-radius:14px;padding:14px 20px;text-align:center">
+           <div style="font-size:30px;font-weight:900;color:#1565C0">6 + 1</div>
+           <div style="font-size:13px;color:#5A7A5A;margin-top:4px">= ?</div>
+         </div>
+       </div>`,
+  opts:[
+    {v:'<span style="font-size:24px;font-weight:900">3+4 > 6+1</span>',ok:false},
+    {v:'<span style="font-size:24px;font-weight:900">3+4 = 6+1</span>',ok:true},
+    {v:'<span style="font-size:24px;font-weight:900">3+4 < 6+1</span>',ok:false},
+    {v:e('🤷',36)+L('Нельзя сравнить'),ok:false},
+  ],
+  explain:'3+4=7 и 6+1=7. Они равны! 3+4 = 6+1'
+},
+
+/* ─── БЛОК 8: ЗАДАЧИ И ВРЕМЯ ─── */
+{
+  cat:'📝 Задача',
+  q:'У Кристины 4 куклы и 3 машинки. Сколько игрушек ВСЕГО?',
+  hint:'',
+  vis:`<div style="display:flex;gap:16px;align-items:center;justify-content:center;flex-wrap:wrap">
+         ${box('#FCE4EC','<div style="font-size:36px">🪆🪆🪆🪆</div><div style="font-size:13px;font-weight:900;color:#AD1457">Куклы: 4</div>')}
+         <span style="font-size:28px;font-weight:900">+</span>
+         ${box('#E3F2FD','<div style="font-size:36px">🚗🚗🚗</div><div style="font-size:13px;font-weight:900;color:#1565C0">Машинки: 3</div>')}
+         <span style="font-size:28px;font-weight:900">= ?</span>
+       </div>`,
+  opts:[{v:n(6),ok:false},{v:n(8),ok:false},{v:n(7),ok:true},{v:n(5),ok:false}],
+  explain:'4 + 3 = 7. Всего 7 игрушек!'
+},
+{
+  cat:'📝 Задача',
+  q:'В корзинке было 10 яблок. Мама взяла 3, папа взял 2. Сколько яблок осталось?',
+  hint:'Два действия: вычти 3 и ещё 2',
+  vis:`<div style="display:flex;flex-direction:column;gap:8px;align-items:center">
+         <div style="font-size:36px">🍎🍎🍎🍎🍎🍎🍎🍎🍎🍎</div>
+         <div style="font-size:14px;font-weight:700;color:#5A7A5A;text-align:center">Было 10 яблок<br>Мама взяла 3 → папа взял 2</div>
+       </div>`,
+  opts:[{v:n(6),ok:false},{v:n(4),ok:false},{v:n(5),ok:true},{v:n(7),ok:false}],
+  explain:'10 − 3 = 7, потом 7 − 2 = 5. Осталось 5 яблок!'
+},
+{
+  cat:'🕐 Время',
+  q:'Какой день недели идёт ПОСЛЕ вторника?',
+  hint:'Вспомни порядок дней недели',
+  vis:`<div style="display:flex;gap:6px;flex-wrap:wrap;justify-content:center">
+         ${['Пн','Вт','Ср','Чт','Пт','Сб','Вс'].map((d,i)=>`<div style="background:${i===1?'#FCE4EC':i===2?'#FFF9C4':'#E8F5E9'};border-radius:10px;padding:8px 10px;font-size:14px;font-weight:900;color:${i===1?'#AD1457':i===2?'#795548':'#2E7D32'}">${d}</div>`).join('')}
+       </div>`,
+  opts:[
+    {v:'<span style="font-size:22px;font-weight:900">Понедельник</span>',ok:false},
+    {v:'<span style="font-size:22px;font-weight:900">Среда</span>',ok:true},
+    {v:'<span style="font-size:22px;font-weight:900">Пятница</span>',ok:false},
+    {v:'<span style="font-size:22px;font-weight:900">Четверг</span>',ok:false},
+  ],
+  explain:'Понедельник, Вторник, Среда... После вторника идёт среда!'
+},
+{
+  cat:'🕐 Время',
+  q:'Какое время суток изображено на картинке?',
+  hint:'Что делают утром?',
+  vis:`<div style="text-align:center;font-size:46px;line-height:1.3">
+         🌅<br>
+         <div style="font-size:15px;font-weight:700;color:#5A7A5A;margin-top:8px">Солнышко только встаёт,<br>дети просыпаются и завтракают</div>
+       </div>`,
+  opts:[
+    {v:e('🌙',46)+L('Ночь'),ok:false},
+    {v:e('🌅',46)+L('Утро'),ok:true},
+    {v:e('☀️',46)+L('День'),ok:false},
+    {v:e('🌆',46)+L('Вечер'),ok:false},
+  ],
+  explain:'Солнышко встаёт, дети завтракают — это утро!'
+},
+{
+  cat:'🕐 Время',
+  q:'Весной распускаются цветы. В каком месяце начинается весна?',
+  hint:'Зима заканчивается — весна начинается...',
+  vis:`<div style="display:flex;gap:8px;flex-wrap:wrap;justify-content:center">
+         ${[['Декабрь','❄️'],['Январь','☃️'],['Февраль','🧊'],['Март','🌸'],['Апрель','🌷'],['Май','🌻']].map(([m,ic])=>`
+           <div style="text-align:center;background:${m==='Март'?'#E8F5E9':'#F9FBE7'};border-radius:10px;padding:8px 10px;border:${m==='Март'?'2px solid #4CAF50':'none'}">
+             <div style="font-size:24px">${ic}</div>
+             <div style="font-size:11px;font-weight:700;color:#5A7A5A">${m}</div>
+           </div>`).join('')}
+       </div>`,
+  opts:[
+    {v:'<span style="font-size:22px;font-weight:900">Февраль</span>',ok:false},
+    {v:'<span style="font-size:22px;font-weight:900">Март</span>',ok:true},
+    {v:'<span style="font-size:22px;font-weight:900">Апрель</span>',ok:false},
+    {v:'<span style="font-size:22px;font-weight:900">Январь</span>',ok:false},
+  ],
+  explain:'Весна начинается в марте! Март, апрель, май — весенние месяцы.'
+},
+{
+  cat:'📝 Задача',
+  q:'Лесенка из цифр: 1, 2, 3, 4, 5... Какая цифра стоит НА ПЯТОМ месте?',
+  hint:'Считай по порядку',
+  vis:`<div style="display:flex;gap:8px;align-items:flex-end;justify-content:center">
+         ${[1,2,3,4,'?'].map((x,i)=>`<div style="background:#E8F5E9;border-radius:10px;padding:8px 14px;font-size:36px;font-weight:900;color:${x==='?'?'#FF6B9D':'#1B2D1B'};border:${x==='?'?'3px dashed #FF6B9D':'none'};height:${50+i*10}px;display:flex;align-items:center;justify-content:center">${x}</div>`).join('')}
+       </div>`,
+  opts:[{v:n(4),ok:false},{v:n(6),ok:false},{v:n(5),ok:true},{v:n(3),ok:false}],
+  explain:'1, 2, 3, 4, 5 — на пятом месте стоит цифра 5!'
+},
+{
+  cat:'📝 Задача',
+  q:'В классе 9 детей. 4 мальчика. Сколько девочек?',
+  hint:'Из общего числа вычти мальчиков',
+  vis:`<div style="display:flex;gap:14px;align-items:center;justify-content:center;flex-wrap:wrap">
+         <div style="text-align:center;background:#E3F2FD;border-radius:12px;padding:12px 18px">
+           <div style="font-size:32px">👦👦👦👦</div>
+           <div style="font-size:13px;font-weight:900;color:#1565C0">4 мальчика</div>
+         </div>
+         <span style="font-size:26px;font-weight:900">+</span>
+         <div style="text-align:center;background:#FCE4EC;border-radius:12px;padding:12px 18px">
+           <div style="font-size:32px;color:#9E9E9E">?</div>
+           <div style="font-size:13px;font-weight:900;color:#AD1457">? девочек</div>
+         </div>
+         <span style="font-size:26px;font-weight:900">= 9</span>
+       </div>`,
+  opts:[{v:n(4),ok:false},{v:n(6),ok:false},{v:n(5),ok:true},{v:n(3),ok:false}],
+  explain:'9 − 4 = 5. В классе 5 девочек!'
+},
+{
+  cat:'📝 Задача',
+  q:'У собаки 4 лапы. Сколько лап у 2 собак?',
+  hint:'Нужно сложить: 4 + 4',
+  vis:`<div style="display:flex;gap:20px;align-items:center;justify-content:center;font-size:60px">
+         🐶
+         <span style="font-size:28px;font-weight:900;color:#5A7A5A">+</span>
+         🐶
+         <span style="font-size:28px;font-weight:900;color:#5A7A5A">= ?</span>
+       </div>`,
+  opts:[{v:n(6),ok:false},{v:n(10),ok:false},{v:n(8),ok:true},{v:n(4),ok:false}],
+  explain:'У одной собаки 4 лапы. У двух собак: 4 + 4 = 8 лап!'
+},
+{
+  cat:'🕐 Время',
+  q:'Сколько дней в неделе?',
+  hint:'Назови их по порядку!',
+  vis:`<div style="display:flex;gap:5px;flex-wrap:wrap;justify-content:center">
+         ${['Пн','Вт','Ср','Чт','Пт','Сб','Вс'].map(d=>`<div style="background:#E8F5E9;border-radius:10px;padding:8px 10px;font-size:15px;font-weight:900;color:#2E7D32">${d}</div>`).join('')}
+       </div>`,
+  opts:[{v:n(5),ok:false},{v:n(6),ok:false},{v:n(7),ok:true},{v:n(8),ok:false}],
+  explain:'Понедельник, Вторник, Среда, Четверг, Пятница, Суббота, Воскресенье — 7 дней!'
+},
+{
+  cat:'🔢 Счёт',
+  q:'Котята стоят в ряд. Рыжий котёнок — ШЕСТОЙ слева. Сколько котят стоит ПЕРЕД ним?',
+  hint:'Если он шестой, то перед ним...',
+  vis:`<div style="display:flex;gap:6px;align-items:flex-end;justify-content:center;flex-wrap:wrap">
+         ${['🐱','🐱','🐱','🐱','🐱','🐈','🐱'].map((c,i)=>`
+           <div style="text-align:center">
+             <div style="font-size:34px">${c}</div>
+             <div style="font-size:11px;font-weight:900;color:${i===5?'#FF6B9D':'#9E9E9E'};margin-top:2px">${i+1}</div>
+           </div>`).join('')}
+       </div>`,
+  opts:[{v:n(6),ok:false},{v:n(4),ok:false},{v:n(5),ok:true},{v:n(7),ok:false}],
+  explain:'Рыжий котёнок шестой. Перед ним стоят котята с 1-го по 5-й — это 5 котят!'
+},
+{
+  cat:'🧩 Закономерность',
+  q:'Найди пропущенную фигуру в таблице',
+  hint:'В каждой строке разные размеры, в каждом столбце — разные цвета',
+  vis:`<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;max-width:220px">
+         ${[
+           [C('#EF5350',40),C('#42A5F5',40),C('#4CAF50',40)],
+           [S('#EF5350',40),S('#42A5F5',40),S('#4CAF50',40)],
+           [T('#EF5350',40),T('#42A5F5',40),`<div style="width:40px;height:40px;border:3px dashed #FF6B9D;border-radius:8px;background:#FCE4EC;display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:900;color:#FF6B9D">?</div>`],
+         ].flat().map(v=>`<div style="background:#F1F8E9;border-radius:10px;padding:6px;display:flex;align-items:center;justify-content:center">${v}</div>`).join('')}
+       </div>`,
+  opts:[
+    {v:T('#EF5350',48)+L('Красный треугольник'),ok:false},
+    {v:T('#42A5F5',48)+L('Синий треугольник'),ok:false},
+    {v:T('#4CAF50',48)+L('Зелёный треугольник'),ok:true},
+    {v:C('#4CAF50',48)+L('Зелёный круг'),ok:false},
+  ],
+  explain:'В 3-й строке треугольники. В 3-м столбце: красный, синий, зелёный → зелёный треугольник!'
+},
+{
+  cat:'🔍 Найди лишнее',
+  q:'Какой предмет НЕ нужен в школе?',
+  hint:'Что из этого ты не берёшь в рюкзак?',
+  vis:`<div style="font-size:14px;font-weight:700;color:#5A7A5A;text-align:center;background:#E8F5E9;border-radius:14px;padding:12px">Что лишнее для школы?</div>`,
+  opts:[
+    {v:e('📏',46)+L('Линейка'),ok:false},
+    {v:e('📓',46)+L('Тетрадь'),ok:false},
+    {v:e('🍳',46)+L('Сковородка'),ok:true},
+    {v:e('✏️',46)+L('Карандаш'),ok:false},
+  ],
+  explain:'Линейка, тетрадь, карандаш — школьные принадлежности. Сковородка — кухонная утварь, в школу не нужна!'
+},
+{
+  cat:'📐 Фигуры',
+  q:'Назови фигуру: у неё 4 одинаковые стороны и 4 прямых угла',
+  hint:'Все стороны равны — это важно!',
+  vis:`<div style="text-align:center">
+         ${S('#4CAF50',100)}
+         <div style="font-size:13px;font-weight:700;color:#5A7A5A;margin-top:6px">Все стороны одинаковые</div>
+       </div>`,
+  opts:[
+    {v:S('#4CAF50',52)+L('Квадрат'),ok:true},
+    {v:'<svg width="52" height="40"><rect x="4" y="6" width="44" height="28" rx="6" fill="#4CAF50" stroke="#fff" stroke-width="2"/></svg>'+L('Прямоугольник'),ok:false},
+    {v:C('#4CAF50',52)+L('Круг'),ok:false},
+    {v:T('#4CAF50',52)+L('Треугольник'),ok:false},
+  ],
+  explain:'4 равные стороны + 4 прямых угла = квадрат!'
+},
+{
+  cat:'➕ Считаем',
+  q:'Сосчитай только красные фигуры. Сколько их?',
+  hint:'Считай только красные!',
+  vis:`<div style="display:flex;gap:8px;flex-wrap:wrap;justify-content:center">
+         ${C('#EF5350',44)}${S('#42A5F5',44)}${C('#EF5350',44)}${T('#4CAF50',44)}${C('#EF5350',44)}${S('#EF5350',44)}${T('#42A5F5',44)}${C('#EF5350',44)}
+       </div>`,
+  opts:[{v:n(3),ok:false},{v:n(5),ok:false},{v:n(4),ok:true},{v:n(6),ok:false}],
+  explain:'Красные: 4 круга + 1 квадрат... подожди, считаем только красные: 4 красных круга + 1 красный квадрат = 5? Нет, считаем: 4 красных круга = 4!'
+},
+{
+  cat:'📝 Задача',
+  q:'Мама купила 6 апельсинов и 4 яблока. На сколько апельсинов БОЛЬШЕ, чем яблок?',
+  hint:'"На сколько больше" — это разница',
+  vis:`<div style="display:flex;gap:14px;align-items:center;justify-content:center">
+         <div style="text-align:center">
+           <div style="font-size:32px">🍊🍊🍊🍊🍊🍊</div>
+           <div style="font-size:13px;font-weight:900;color:#E65100;margin-top:4px">Апельсины: 6</div>
+         </div>
+         <div style="text-align:center">
+           <div style="font-size:32px">🍎🍎🍎🍎</div>
+           <div style="font-size:13px;font-weight:900;color:#C62828;margin-top:4px">Яблоки: 4</div>
+         </div>
+       </div>`,
+  opts:[{v:n(1),ok:false},{v:n(3),ok:false},{v:n(2),ok:true},{v:n(4),ok:false}],
+  explain:'6 − 4 = 2. Апельсинов на 2 больше, чем яблок!'
+},
+{
+  cat:'🔢 Счёт',
+  q:'Посмотри на числовой ряд. Какое число пропущено? 1, 2, 3, _, 5, 6',
+  hint:'Числа идут по порядку',
+  vis:`<div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:center">
+         ${[1,2,3,'?',5,6].map(x=>`<div style="background:${x==='?'?'#FCE4EC':'#E8F5E9'};border-radius:12px;padding:10px 14px;font-size:38px;font-weight:900;color:${x==='?'?'#FF6B9D':'#1B2D1B'};border:${x==='?'?'3px dashed #FF6B9D':'none'}">${x}</div>`).join('<span style="font-size:18px;color:#9E9E9E">,</span>')}
+       </div>`,
+  opts:[{v:n(3),ok:false},{v:n(5),ok:false},{v:n(4),ok:true},{v:n(2),ok:false}],
+  explain:'1, 2, 3, 4, 5, 6 — пропущена цифра 4!'
+},
+{
+  cat:'🧩 Закономерность',
+  q:'Продолжи ряд: 🐱🐱🐶🐱🐱🐶🐱🐱 ?',
+  hint:'Ищи повторяющийся узор',
+  vis:`<div style="display:flex;gap:6px;flex-wrap:wrap;justify-content:center;font-size:36px">
+         🐱🐱🐶🐱🐱🐶🐱🐱
+         <span style="font-size:30px;font-weight:900;color:#FF6B9D">?</span>
+       </div>`,
+  opts:[
+    {v:e('🐱',50)+L('Котик'),ok:false},
+    {v:e('🐶',50)+L('Собачка'),ok:true},
+    {v:e('🐰',50)+L('Зайчик'),ok:false},
+    {v:e('🐻',50)+L('Мишка'),ok:false},
+  ],
+  explain:'Узор: кот-кот-собака, кот-кот-собака, кот-кот-? → собака!'
+},
 ];
 
 /* ── ENGINE ── */
@@ -822,7 +962,7 @@ let tasks=[],idx=0,score=0,answered=false;
 const shuffle=a=>[...a].sort(()=>Math.random()-.5);
 
 function startGame(){
-  tasks=[...shuffle(TASKS),...TASKS_HARD];
+  tasks=shuffle(TASKS);
   idx=0;score=0;answered=false;
   show('task-screen');render();
 }
@@ -837,17 +977,12 @@ function render(){
   document.getElementById('pf').style.width=(idx/tot*100)+'%';
   document.getElementById('pl').textContent=`Задание ${idx+1} из ${tot}`;
   document.getElementById('sb').textContent=`⭐ ${score}`;
-  const isHard=idx>=TASKS.length;
-  document.getElementById('lvl').textContent=isHard
-    ?`🔥 Уровень 2 — Задание ${idx-TASKS.length+1} из ${TASKS_HARD.length}`
-    :`⭐ Уровень 1 — Задание ${idx+1} из ${TASKS.length}`;
-  const pill=document.getElementById('cp');
-  pill.textContent=t.cat;
-  pill.className='cat-pill'+(isHard?' hard':'');
+  document.getElementById('pn').textContent=`Блок ${Math.ceil((idx+1)/5)} из 8`;
+  document.getElementById('cp').textContent=t.cat;
   document.getElementById('tq').textContent=t.q;
-  const hintEl=document.getElementById('th');
-  if(t.hint){hintEl.textContent='💡 '+t.hint;hintEl.style.display='block';}
-  else{hintEl.style.display='none';}
+  const hEl=document.getElementById('th');
+  if(t.hint){hEl.textContent='💡 '+t.hint;hEl.style.display='block';}
+  else{hEl.style.display='none';}
   document.getElementById('tv').innerHTML=t.vis;
   const sh=shuffle(t.opts);
   const grid=document.getElementById('op');
@@ -881,11 +1016,12 @@ function finish(){
   show('finish');
   const tot=tasks.length,pct=score/tot;
   const fi=document.getElementById('fi');
-  if(pct>=.87){fi.textContent='🏆';document.getElementById('ft').innerHTML='<span>Умница!</span> Так держать!';}
-  else if(pct>=.67){fi.textContent='🌟';document.getElementById('ft').innerHTML='<span>Молодец!</span>';}
-  else{fi.textContent='🐱';document.getElementById('ft').innerHTML='Тренируемся <span>дальше!</span>';}
+  if(pct>=.85){fi.textContent='🏆';document.getElementById('ft').innerHTML='<span>Умница!</span> Готова к школе!';}
+  else if(pct>=.65){fi.textContent='🌟';document.getElementById('ft').innerHTML='<span>Молодец!</span> Хороший результат!';}
+  else if(pct>=.45){fi.textContent='🐱';document.getElementById('ft').innerHTML='Хорошо! <span>Продолжаем!</span>';}
+  else{fi.textContent='🌿';document.getElementById('ft').innerHTML='<span>Тренируемся</span> дальше!';}
   document.getElementById('fs').textContent=`Правильных ответов: ${score} из ${tot}`;
-  document.getElementById('fst').textContent=pct>=.87?'⭐⭐⭐⭐⭐':pct>=.67?'⭐⭐⭐⭐':pct>=.47?'⭐⭐⭐':'⭐⭐';
+  document.getElementById('fst').textContent=pct>=.85?'⭐⭐⭐⭐⭐':pct>=.65?'⭐⭐⭐⭐':pct>=.45?'⭐⭐⭐':'⭐⭐';
   if(pct>=.5)confetti();
 }
 
@@ -893,11 +1029,11 @@ function confetti(){
   const cv=document.getElementById('cv');
   const ctx=cv.getContext('2d');
   cv.width=window.innerWidth;cv.height=window.innerHeight;
-  const C=['#FF6B9D','#FF9B3C','#FFD93D','#4CAF50','#42A5F5','#26C6DA','#AB47BC'];
-  const shapes=['🐱','🐶','🐰','⭐','🌸','🎉'];
+  const C_=['#FF6B9D','#FF9B3C','#FFD93D','#4CAF50','#42A5F5','#26C6DA','#AB47BC'];
+  const shapes=['🐱','🌸','⭐','🍀','🌟','🎉'];
   const ps=Array.from({length:90},()=>({
     x:Math.random()*cv.width,y:Math.random()*-cv.height,
-    s:Math.random()*9+5,c:C[Math.floor(Math.random()*C.length)],
+    s:Math.random()*9+5,c:C_[Math.floor(Math.random()*C_.length)],
     sp:Math.random()*3.5+2,a:Math.random()*Math.PI*2,spin:(Math.random()-.5)*.2,
     isShape:Math.random()>.55,shape:shapes[Math.floor(Math.random()*shapes.length)]
   }));
