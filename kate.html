@@ -1,0 +1,998 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Тайны Чароводья — Викторина</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #070511;
+    --bg2: #0d0920;
+    --amethyst: #c49fde;
+    --amethyst-glow: rgba(196,159,222,0.25);
+    --teal: #5de8d8;
+    --teal-glow: rgba(93,232,216,0.2);
+    --gold: #f0c060;
+    --gold-glow: rgba(240,192,96,0.25);
+    --rose: #e87a9a;
+    --card-bg: rgba(18,12,38,0.85);
+    --border: rgba(196,159,222,0.22);
+    --text: #e8dff5;
+    --text-dim: rgba(232,223,245,0.55);
+    --correct: #5de8a0;
+    --correct-bg: rgba(93,232,160,0.12);
+    --wrong: #e8607a;
+    --wrong-bg: rgba(232,96,122,0.12);
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+
+  body {
+    background: var(--bg);
+    font-family: 'EB Garamond', Georgia, serif;
+    color: var(--text);
+    min-height: 100vh;
+    overflow-x: hidden;
+    position: relative;
+  }
+
+  /* ── Starfield ── */
+  #stars-canvas {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ── Ambient orbs ── */
+  .orb {
+    position: fixed;
+    border-radius: 50%;
+    filter: blur(80px);
+    pointer-events: none;
+    z-index: 0;
+    animation: orbFloat 12s ease-in-out infinite;
+  }
+  .orb1 { width:400px;height:400px;background:rgba(120,60,200,0.18);top:-80px;left:-100px;animation-delay:0s; }
+  .orb2 { width:300px;height:300px;background:rgba(60,180,200,0.12);bottom:100px;right:-80px;animation-delay:-5s; }
+  .orb3 { width:250px;height:250px;background:rgba(200,120,60,0.08);top:50%;left:60%;animation-delay:-9s; }
+  @keyframes orbFloat {
+    0%,100% { transform: translate(0,0) scale(1); }
+    33% { transform: translate(30px,-20px) scale(1.08); }
+    66% { transform: translate(-20px,15px) scale(0.95); }
+  }
+
+  /* ── Layout ── */
+  #app {
+    position: relative;
+    z-index: 1;
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 24px 20px 60px;
+  }
+
+  /* ── Header ── */
+  .site-header {
+    text-align: center;
+    padding: 32px 0 28px;
+  }
+  .gem-icon {
+    display: inline-block;
+    font-size: 2.8rem;
+    margin-bottom: 10px;
+    filter: drop-shadow(0 0 16px var(--amethyst));
+    animation: gemPulse 3s ease-in-out infinite;
+  }
+  @keyframes gemPulse {
+    0%,100% { filter: drop-shadow(0 0 12px var(--amethyst)); transform: scale(1); }
+    50% { filter: drop-shadow(0 0 28px var(--amethyst)) drop-shadow(0 0 50px rgba(196,159,222,0.4)); transform: scale(1.05); }
+  }
+  .site-header h1 {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(1.5rem, 4vw, 2.3rem);
+    font-weight: 900;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    background: linear-gradient(135deg, #e8c8ff 0%, var(--teal) 50%, var(--gold) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    line-height: 1.2;
+  }
+  .site-header p {
+    margin-top: 8px;
+    font-style: italic;
+    color: var(--text-dim);
+    font-size: 1.05rem;
+    letter-spacing: 0.03em;
+  }
+  .divider {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 20px auto;
+    max-width: 320px;
+  }
+  .divider-line { flex:1; height:1px; background: linear-gradient(90deg, transparent, var(--border), transparent); }
+  .divider-gem { color: var(--amethyst); font-size: 1rem; }
+
+  /* ── Progress ── */
+  #progress-bar-wrap {
+    display: none;
+    margin-bottom: 20px;
+    position: relative;
+  }
+  #progress-label {
+    font-family: 'Cinzel', serif;
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+    color: var(--text-dim);
+    text-align: right;
+    margin-bottom: 6px;
+  }
+  #progress-track {
+    height: 6px;
+    background: rgba(255,255,255,0.07);
+    border-radius: 99px;
+    overflow: hidden;
+  }
+  #progress-fill {
+    height: 100%;
+    border-radius: 99px;
+    background: linear-gradient(90deg, var(--amethyst), var(--teal));
+    transition: width 0.5s cubic-bezier(.4,0,.2,1);
+    box-shadow: 0 0 12px var(--amethyst-glow);
+    width: 0%;
+  }
+
+  /* ── Cards ── */
+  .card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 32px 36px;
+    backdrop-filter: blur(16px);
+    box-shadow: 0 8px 40px rgba(0,0,0,0.5), 0 0 0 0.5px rgba(196,159,222,0.1) inset;
+    position: relative;
+    overflow: hidden;
+  }
+  .card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(196,159,222,0.5), var(--teal-glow), transparent);
+  }
+
+  /* ── Start screen ── */
+  #start-screen { text-align: center; }
+  #start-screen h2 {
+    font-family: 'Cinzel', serif;
+    font-size: 1.4rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    color: var(--amethyst);
+    margin-bottom: 16px;
+  }
+  #start-screen p {
+    font-size: 1.05rem;
+    line-height: 1.7;
+    color: var(--text-dim);
+    margin-bottom: 12px;
+  }
+  .stats-row {
+    display: flex;
+    justify-content: center;
+    gap: 24px;
+    margin: 24px 0 28px;
+    flex-wrap: wrap;
+  }
+  .stat-badge {
+    background: rgba(196,159,222,0.08);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 12px 20px;
+    text-align: center;
+    min-width: 110px;
+  }
+  .stat-badge .num {
+    font-family: 'Cinzel', serif;
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--gold);
+    display: block;
+  }
+  .stat-badge .lbl {
+    font-size: 0.8rem;
+    color: var(--text-dim);
+    letter-spacing: 0.05em;
+  }
+
+  /* ── Buttons ── */
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: linear-gradient(135deg, rgba(196,159,222,0.18), rgba(93,232,216,0.12));
+    border: 1px solid rgba(196,159,222,0.5);
+    color: var(--text);
+    font-family: 'Cinzel', serif;
+    font-size: 0.95rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 14px 36px;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 0 20px rgba(196,159,222,0.15);
+  }
+  .btn-primary:hover {
+    background: linear-gradient(135deg, rgba(196,159,222,0.3), rgba(93,232,216,0.2));
+    border-color: var(--amethyst);
+    box-shadow: 0 0 30px rgba(196,159,222,0.35);
+    transform: translateY(-2px);
+  }
+  .btn-primary:active { transform: translateY(0); }
+
+  /* ── Question screen ── */
+  #quiz-screen { display: none; }
+  .question-meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 22px;
+  }
+  .q-counter {
+    font-family: 'Cinzel', serif;
+    font-size: 0.8rem;
+    letter-spacing: 0.12em;
+    color: var(--amethyst);
+    text-transform: uppercase;
+  }
+  .q-score-live {
+    font-family: 'Cinzel', serif;
+    font-size: 0.8rem;
+    color: var(--gold);
+    letter-spacing: 0.08em;
+  }
+  #question-text {
+    font-size: 1.2rem;
+    line-height: 1.65;
+    font-weight: 500;
+    color: var(--text);
+    margin-bottom: 28px;
+  }
+  .options-grid {
+    display: grid;
+    gap: 11px;
+  }
+  .option-btn {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(196,159,222,0.18);
+    border-radius: 14px;
+    padding: 14px 18px;
+    cursor: pointer;
+    text-align: left;
+    font-family: 'EB Garamond', Georgia, serif;
+    font-size: 1rem;
+    color: var(--text);
+    transition: all 0.2s ease;
+    position: relative;
+    overflow: hidden;
+  }
+  .option-btn::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, var(--amethyst-glow), transparent);
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+  .option-btn:hover:not(:disabled)::before { opacity: 1; }
+  .option-btn:hover:not(:disabled) {
+    border-color: rgba(196,159,222,0.5);
+    transform: translateX(3px);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+  }
+  .option-btn:disabled { cursor: default; transform: none !important; }
+  .option-letter {
+    font-family: 'Cinzel', serif;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    color: var(--amethyst);
+    background: rgba(196,159,222,0.1);
+    border: 1px solid rgba(196,159,222,0.3);
+    width: 28px;
+    height: 28px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-top: 2px;
+    transition: all 0.2s;
+  }
+  .option-btn span.option-text {
+    padding-top: 4px;
+    line-height: 1.4;
+  }
+  /* Correct */
+  .option-btn.correct {
+    background: var(--correct-bg);
+    border-color: var(--correct);
+    box-shadow: 0 0 20px rgba(93,232,160,0.2);
+    animation: correctPop 0.4s ease;
+  }
+  .option-btn.correct .option-letter {
+    background: rgba(93,232,160,0.2);
+    border-color: var(--correct);
+    color: var(--correct);
+  }
+  @keyframes correctPop {
+    0% { transform: scale(1); }
+    40% { transform: scale(1.025); }
+    100% { transform: scale(1); }
+  }
+  /* Wrong */
+  .option-btn.wrong {
+    background: var(--wrong-bg);
+    border-color: var(--wrong);
+    box-shadow: 0 0 16px rgba(232,96,122,0.15);
+    animation: wrongShake 0.35s ease;
+  }
+  .option-btn.wrong .option-letter {
+    background: rgba(232,96,122,0.2);
+    border-color: var(--wrong);
+    color: var(--wrong);
+  }
+  @keyframes wrongShake {
+    0%,100% { transform: translateX(0); }
+    20% { transform: translateX(-5px); }
+    60% { transform: translateX(5px); }
+    80% { transform: translateX(-3px); }
+  }
+
+  /* ── Feedback banner ── */
+  #feedback-banner {
+    display: none;
+    margin-top: 18px;
+    padding: 12px 18px;
+    border-radius: 12px;
+    font-size: 0.95rem;
+    line-height: 1.5;
+    animation: fadeSlideUp 0.3s ease;
+  }
+  @keyframes fadeSlideUp {
+    from { opacity: 0; transform: translateY(8px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  #feedback-banner.correct {
+    background: var(--correct-bg);
+    border: 1px solid rgba(93,232,160,0.35);
+    color: var(--correct);
+  }
+  #feedback-banner.wrong {
+    background: var(--wrong-bg);
+    border: 1px solid rgba(232,96,122,0.35);
+    color: #f0a0b0;
+  }
+  #feedback-banner strong { display: block; margin-bottom: 3px; }
+
+  #next-btn {
+    display: none;
+    margin-top: 22px;
+    width: 100%;
+    justify-content: center;
+  }
+
+  /* ── Results ── */
+  #result-screen { display: none; text-align: center; }
+  .result-gem {
+    font-size: 4rem;
+    display: block;
+    margin-bottom: 10px;
+    animation: resultBounce 0.8s cubic-bezier(.36,.07,.19,.97);
+  }
+  @keyframes resultBounce {
+    0% { transform: scale(0) rotate(-15deg); opacity: 0; }
+    60% { transform: scale(1.15) rotate(5deg); }
+    80% { transform: scale(0.95) rotate(-2deg); }
+    100% { transform: scale(1) rotate(0deg); opacity: 1; }
+  }
+  .result-title {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(1.3rem, 3vw, 1.8rem);
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    margin-bottom: 8px;
+  }
+  .score-big {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(2.5rem, 8vw, 4rem);
+    font-weight: 900;
+    background: linear-gradient(135deg, var(--gold), var(--amethyst));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    line-height: 1;
+    margin: 16px 0 6px;
+    display: block;
+  }
+  .score-label {
+    font-size: 1rem;
+    color: var(--text-dim);
+    font-style: italic;
+    margin-bottom: 20px;
+  }
+  .rank-badge {
+    display: inline-block;
+    background: linear-gradient(135deg, rgba(196,159,222,0.15), rgba(93,232,216,0.1));
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 16px 28px;
+    margin-bottom: 24px;
+  }
+  .rank-badge .rank-label {
+    font-family: 'Cinzel', serif;
+    font-size: 0.7rem;
+    letter-spacing: 0.15em;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 4px;
+  }
+  .rank-badge .rank-name {
+    font-family: 'Cinzel', serif;
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--amethyst);
+  }
+  .result-msg {
+    font-size: 1.05rem;
+    line-height: 1.7;
+    color: var(--text-dim);
+    font-style: italic;
+    margin-bottom: 28px;
+    max-width: 520px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .result-stats {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin-bottom: 28px;
+  }
+  .r-stat {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 10px 20px;
+    min-width: 90px;
+  }
+  .r-stat .r-num { font-family: 'Cinzel', serif; font-size: 1.4rem; font-weight: 700; display: block; }
+  .r-stat .r-lbl { font-size: 0.75rem; color: var(--text-dim); }
+  .r-stat.green .r-num { color: var(--correct); }
+  .r-stat.red   .r-num { color: var(--wrong); }
+
+  /* ── Sparkles ── */
+  .sparkle {
+    position: fixed;
+    pointer-events: none;
+    z-index: 999;
+    font-size: 1.2rem;
+    animation: sparkleFly 0.9s ease forwards;
+  }
+  @keyframes sparkleFly {
+    0%   { opacity: 1; transform: translate(0,0) scale(1); }
+    100% { opacity: 0; transform: translate(var(--dx), var(--dy)) scale(0.3); }
+  }
+
+  /* ── Responsive ── */
+  @media (max-width: 520px) {
+    .card { padding: 24px 20px; }
+    .stats-row { gap: 12px; }
+    .site-header h1 { font-size: 1.35rem; }
+  }
+</style>
+</head>
+<body>
+
+<canvas id="stars-canvas"></canvas>
+<div class="orb orb1"></div>
+<div class="orb orb2"></div>
+<div class="orb orb3"></div>
+
+<div id="app">
+
+  <!-- HEADER -->
+  <div class="site-header">
+    <div class="gem-icon">💎</div>
+    <h1>Тайны Чароводья</h1>
+    <div class="divider">
+      <div class="divider-line"></div>
+      <div class="divider-gem">✦</div>
+      <div class="divider-line"></div>
+    </div>
+    <p>Добро пожаловать на Острова, знаток чаронитов!</p>
+  </div>
+
+  <!-- PROGRESS -->
+  <div id="progress-bar-wrap">
+    <div id="progress-label">Вопрос 1 из 30</div>
+    <div id="progress-track"><div id="progress-fill"></div></div>
+  </div>
+
+  <!-- START SCREEN -->
+  <div class="card" id="start-screen">
+    <h2>✦ Проверь своё знание мира Чароводья ✦</h2>
+    <p>Тебя ждут 30 вопросов о мире Семи островов, магических камнях, чарах, героях и приключениях Эльды. Лишь настоящий знаток пройдёт испытание достойно!</p>
+    <p>На каждый вопрос — 4 варианта ответа. Думай внимательно — исправить нельзя.</p>
+    <div class="stats-row">
+      <div class="stat-badge"><span class="num">30</span><span class="lbl">Вопросов</span></div>
+      <div class="stat-badge"><span class="num">4</span><span class="lbl">Ответа</span></div>
+      <div class="stat-badge"><span class="num">💎</span><span class="lbl">Чарониты</span></div>
+    </div>
+    <button class="btn-primary" onclick="startQuiz()">
+      <span>✦</span> Начать испытание <span>✦</span>
+    </button>
+  </div>
+
+  <!-- QUIZ SCREEN -->
+  <div class="card" id="quiz-screen">
+    <div class="question-meta">
+      <div class="q-counter" id="q-counter">Вопрос 1 / 30</div>
+      <div class="q-score-live" id="q-score-live">💎 0</div>
+    </div>
+    <div id="question-text"></div>
+    <div class="options-grid" id="options-grid"></div>
+    <div id="feedback-banner"></div>
+    <button class="btn-primary" id="next-btn" onclick="nextQuestion()" style="display:none;">
+      Следующий вопрос →
+    </button>
+  </div>
+
+  <!-- RESULT SCREEN -->
+  <div class="card" id="result-screen">
+    <span class="result-gem" id="result-gem">💎</span>
+    <div class="result-title" id="result-title"></div>
+    <span class="score-big" id="score-big"></span>
+    <div class="score-label" id="score-label"></div>
+    <div class="rank-badge">
+      <span class="rank-label">Твой ранг</span>
+      <span class="rank-name" id="rank-name"></span>
+    </div>
+    <p class="result-msg" id="result-msg"></p>
+    <div class="result-stats">
+      <div class="r-stat green"><span class="r-num" id="res-correct">0</span><span class="r-lbl">Верно</span></div>
+      <div class="r-stat red">  <span class="r-num" id="res-wrong">0</span>  <span class="r-lbl">Ошибок</span></div>
+      <div class="r-stat">     <span class="r-num" id="res-pct">0%</span>  <span class="r-lbl">Точность</span></div>
+    </div>
+    <button class="btn-primary" onclick="restartQuiz()">
+      <span>↺</span> Пройти заново
+    </button>
+  </div>
+
+</div>
+
+<script>
+/* ────── STARFIELD ────── */
+(function() {
+  const c = document.getElementById('stars-canvas');
+  const ctx = c.getContext('2d');
+  let W, H, stars = [];
+  function resize() {
+    W = c.width = window.innerWidth;
+    H = c.height = window.innerHeight;
+  }
+  function init() {
+    stars = Array.from({length: 160}, () => ({
+      x: Math.random()*W, y: Math.random()*H,
+      r: Math.random()*1.4+0.2,
+      a: Math.random(), da: (Math.random()-0.5)*0.008,
+      drift: Math.random()*0.15+0.05
+    }));
+  }
+  function draw() {
+    ctx.clearRect(0,0,W,H);
+    for (const s of stars) {
+      s.a = Math.max(0.05, Math.min(0.9, s.a + s.da));
+      if (s.a<=0.05||s.a>=0.9) s.da *= -1;
+      s.y -= s.drift*0.05;
+      if (s.y < -2) s.y = H+2;
+      ctx.beginPath();
+      ctx.arc(s.x, s.y, s.r, 0, 2*Math.PI);
+      ctx.fillStyle = `rgba(220,200,255,${s.a})`;
+      ctx.fill();
+    }
+    requestAnimationFrame(draw);
+  }
+  window.addEventListener('resize', () => { resize(); init(); });
+  resize(); init(); draw();
+})();
+
+/* ────── QUIZ DATA ────── */
+const ALL_QUESTIONS = [
+  {
+    q: "Как зовут главную героиню серии «Тайны Чароводья»?",
+    opts: ["Арина","Эльда","Лекса","Вера"],
+    ans: 1,
+    exp: "Главную героиню зовут Эльда — чарита, которая живёт в уединённом замке и отправляется учиться в Высшую школу."
+  },
+  {
+    q: "В какой город отправляется Эльда, чтобы поступить в Высшую школу?",
+    opts: ["Чародворье","Семиград","Камнесад","Каменный мыс"],
+    ans: 2,
+    exp: "Эльда держит путь в Камнесад, где находится Высшая школа чарит."
+  },
+  {
+    q: "Как называются живые магические камни, дарующие волшебную силу в мире Чароводья?",
+    opts: ["Светониты","Магониты","Чарокамни","Чарониты"],
+    ans: 3,
+    exp: "Чарониты — живые камни, которые пронизывают весь мир Чароводья. Ими управляют чары, драгонщики и другие обитатели Семи островов."
+  },
+  {
+    q: "Сколько островов насчитывает мир Чароводья?",
+    opts: ["Пять","Шесть","Семь","Девять"],
+    ans: 2,
+    exp: "Мир Чароводья состоит из Семи островов, каждый из которых таит свои тайны."
+  },
+  {
+    q: "Кто является автором цикла «Тайны Чароводья»?",
+    opts: ["Анна Сергеева","Мария Павлова","Юлия Иванова","Елена Смирнова"],
+    ans: 2,
+    exp: "Серию написала Юлия Иванова — петербургская писательница."
+  },
+  {
+    q: "Какое издательство выпускает книги серии «Тайны Чароводья»?",
+    opts: ["Эксмо","Азбука","Абрикобукс","Росмэн"],
+    ans: 2,
+    exp: "Книги выходят в издательстве «Абрикобукс»."
+  },
+  {
+    q: "Как называется книжная серия издательства, в которую входят «Тайны Чароводья»?",
+    opts: ["Магический путь","Волшебный ключ","Тайная дверь","Хрустальный мир"],
+    ans: 2,
+    exp: "Серия называется «Тайная дверь» — именно под этим лейблом выходят книги о Чароводье."
+  },
+  {
+    q: "Сколько основных книг в цикле «Тайны Чароводья»?",
+    opts: ["Три","Четыре","Пять","Семь"],
+    ans: 2,
+    exp: "Основной цикл состоит из пяти книг, плюс существует спин-офф «Сказки Чароводья»."
+  },
+  {
+    q: "Как называется спин-офф серии, рассказывающий о мире Семи островов?",
+    opts: ["Легенды Чароводья","Сказки Чароводья","Мифы Чароводья","Хроники Чароводья"],
+    ans: 1,
+    exp: "Юлия Иванова написала спин-офф «Сказки Чароводья» — дополнительную историю о полюбившемся мире."
+  },
+  {
+    q: "Какую российскую фантастическую премию получила Юлия Иванова за «Тайны Чароводья» в 2020 году?",
+    opts: ["Букер","НОС","РосКон","Ясная Поляна"],
+    ans: 2,
+    exp: "В 2020 году Юлия Иванова стала лауреатом премии «РосКон» за первую книгу цикла."
+  },
+  {
+    q: "Кто создал иллюстрации к книгам «Тайны Чароводья»?",
+    opts: ["Анна Котова","Мария Петрова","Татьяна Петровска","Ольга Иванова"],
+    ans: 2,
+    exp: "Иллюстрации создала Татьяна Петровска — художник-мультипликатор."
+  },
+  {
+    q: "Какова профессия иллюстратора книги Татьяны Петровска?",
+    opts: ["Архитектор","Художник-мультипликатор","Скульптор","Графический дизайнер"],
+    ans: 1,
+    exp: "Татьяна Петровска — художник-мультипликатор, создавшая визуальный облик мира Чароводья."
+  },
+  {
+    q: "Где жила Эльда до того, как отправиться учиться?",
+    opts: ["В маленьком городке","В лесном доме","В уединённом замке","В рыбацкой деревне"],
+    ans: 2,
+    exp: "Эльда долгое время жила в уединённом замке вдалеке от городов, не подозревая о тайнах окружающего мира."
+  },
+  {
+    q: "Что Эльда получила в наследство от матери?",
+    opts: ["Волшебную книгу","Меч","Призрачный камень с тремя живыми искрами","Амулет защиты"],
+    ans: 2,
+    exp: "От матери Эльде достался призрачный камень с тремя живыми искрами внутри — именно его тайна станет центром всей истории."
+  },
+  {
+    q: "Что нужно сделать Эльде, чтобы поступить в Высшую школу?",
+    opts: ["Выиграть магический турнир","Пройти испытания","Получить рекомендательное письмо","Сдать письменные экзамены"],
+    ans: 1,
+    exp: "Чтобы учиться в Высшей школе, необходимо успешно пройти все испытания и доказать, что ты сможешь стать настоящей чарой."
+  },
+  {
+    q: "Как называются наездники на крылатых существах в мире Чароводья?",
+    opts: ["Всадники","Верховые","Чарники","Драгонщики"],
+    ans: 3,
+    exp: "Драгонщики — отважные защитники, патрулирующие небо верхом на крылатых драгончих."
+  },
+  {
+    q: "Как называются крылатые существа, на которых летают защитники Чароводья?",
+    opts: ["Вергончи","Крылачи","Драгончи","Летончи"],
+    ans: 2,
+    exp: "Крылатые драгончи — мистические существа, чарониты которых встроены прямо в череп."
+  },
+  {
+    q: "Как зовут загадочного говорящего крыса, которого Эльда привозит с собой в Камнесад?",
+    opts: ["Рик","Тик","Дик","Ник"],
+    ans: 2,
+    exp: "Дик — загадочный крыс с чаронитом в черепе. Именно благодаря особому камню он умеет говорить."
+  },
+  {
+    q: "Как называется 2-я книга цикла?",
+    opts: ["Тайна острова","Начало пути","Друг или враг","Изгнанники"],
+    ans: 2,
+    exp: "Вторая книга называется «Друг или враг» — её сюжет строится вокруг тайны исчезновения родителей Эльды."
+  },
+  {
+    q: "Как называется 3-я книга цикла?",
+    opts: ["Невидимый остров","Выбор сильнейшего","Последний орден","Логово изгнанных"],
+    ans: 3,
+    exp: "Третья книга называется «Логово изгнанных»."
+  },
+  {
+    q: "Как называется 4-я книга цикла?",
+    opts: ["Логово изгнанных","Остров теней","Невидимый остров","Выбор сильнейшего"],
+    ans: 2,
+    exp: "Четвёртая книга называется «Невидимый остров»."
+  },
+  {
+    q: "Как называется 5-я, заключительная книга цикла?",
+    opts: ["Финальная битва","Последняя чара","Тайна раскрыта","Выбор сильнейшего"],
+    ans: 3,
+    exp: "Пятая книга называется «Выбор сильнейшего» — финал истории Эльды и мира Семи островов."
+  },
+  {
+    q: "На чём строится главная тайна второй книги «Друг или враг»?",
+    opts: ["Поиск пропавшего друга","Тайна исчезновения родителей Эльды","Война орденов","Открытие нового острова"],
+    ans: 1,
+    exp: "Сюжет второй книги строится на загадке исчезновения Эльдиных родителей — она вместе с друзьями распутывает этот клубок тайн."
+  },
+  {
+    q: "Как зовут драгонщика — одного из ключевых персонажей второй книги?",
+    opts: ["Антон","Сержен (Серж)","Дар","Ромка"],
+    ans: 1,
+    exp: "Сержен — драгонщик, между которым и Эльдой есть особое силовое притяжение. Ведь он помог ей закрыть разрыв в пространстве — хотя драгонщики этого обычно не умеют."
+  },
+  {
+    q: "Что открывает Эльда в ходе своих приключений в первой книге?",
+    opts: ["Тайное оружие","Потайную карту","Окно в другую реальность","Секретный ход в замке"],
+    ans: 2,
+    exp: "Одно из главных событий первой книги — Эльда открывает окно в другую реальность."
+  },
+  {
+    q: "Кем Эльда должна стать после обучения в Высшей школе?",
+    opts: ["Стражем острова","Настоящей чарой","Верховой драгонщицей","Хранительницей чаронитов"],
+    ans: 1,
+    exp: "Цель обучения — доказать, что ты сможешь стать настоящей чарой."
+  },
+  {
+    q: "Как называются крылатые почтальоны мира Чароводья?",
+    opts: ["Шнырки","Вестники","Порхунцы","Крылатки"],
+    ans: 0,
+    exp: "Шнырки — крылатые создания, которые доставляют почту по всему Чароводью."
+  },
+  {
+    q: "Кем является Чароводье с точки зрения жанра?",
+    opts: ["Детектив","Исторический роман","Подростковое фэнтези","Научная фантастика"],
+    ans: 2,
+    exp: "«Тайны Чароводья» — подростковое фэнтези с магической системой, орденами, дружбой и взрослением."
+  },
+  {
+    q: "С кем Эльда живёт в замке до начала своего путешествия?",
+    opts: ["Одна","Со своими родителями","С тётей, дядей и двоюродной сестрой","С магическим наставником"],
+    ans: 2,
+    exp: "До отъезда в Камнесад Эльда живёт в замке вместе с тётей, дядей и двоюродной сестрой."
+  },
+  {
+    q: "Для какого возраста написана серия «Тайны Чароводья»?",
+    opts: ["5–8 лет","12–16 лет и старше","Только для взрослых","18+"],
+    ans: 1,
+    exp: "Серия рассчитана на читателей 12–16 лет, но полюбилась и взрослым — «от 10 лет и до бесконечности», как говорит сам издатель."
+  }
+];
+
+/* ────── STATE ────── */
+let questions = [], current = 0, score = 0, wrong = 0, answered = false;
+
+/* ────── FUNCTIONS ────── */
+function shuffle(arr) {
+  const a = [...arr];
+  for (let i = a.length-1; i > 0; i--) {
+    const j = Math.floor(Math.random()*(i+1));
+    [a[i],a[j]] = [a[j],a[i]];
+  }
+  return a;
+}
+
+function startQuiz() {
+  questions = shuffle(ALL_QUESTIONS);
+  current = 0; score = 0; wrong = 0;
+  document.getElementById('start-screen').style.display = 'none';
+  document.getElementById('result-screen').style.display = 'none';
+  document.getElementById('quiz-screen').style.display = 'block';
+  document.getElementById('progress-bar-wrap').style.display = 'block';
+  renderQuestion();
+}
+
+function renderQuestion() {
+  const q = questions[current];
+  answered = false;
+
+  // Counter & progress
+  document.getElementById('q-counter').textContent = `Вопрос ${current+1} / ${questions.length}`;
+  document.getElementById('q-score-live').textContent = `💎 ${score}`;
+  document.getElementById('progress-label').textContent = `Вопрос ${current+1} из ${questions.length}`;
+  document.getElementById('progress-fill').style.width = `${(current/questions.length)*100}%`;
+
+  document.getElementById('question-text').textContent = q.q;
+
+  const letters = ['А','Б','В','Г'];
+  const grid = document.getElementById('options-grid');
+  grid.innerHTML = '';
+  q.opts.forEach((opt, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'option-btn';
+    btn.innerHTML = `<span class="option-letter">${letters[i]}</span><span class="option-text">${opt}</span>`;
+    btn.onclick = () => selectAnswer(i, q.ans, q.exp);
+    grid.appendChild(btn);
+  });
+
+  const fb = document.getElementById('feedback-banner');
+  fb.style.display = 'none';
+  fb.className = '';
+  document.getElementById('next-btn').style.display = 'none';
+}
+
+function selectAnswer(chosen, correct, explanation) {
+  if (answered) return;
+  answered = true;
+
+  const btns = document.querySelectorAll('.option-btn');
+  btns.forEach(b => b.disabled = true);
+
+  const fb = document.getElementById('feedback-banner');
+  const nextBtn = document.getElementById('next-btn');
+
+  if (chosen === correct) {
+    score++;
+    btns[chosen].classList.add('correct');
+    fb.className = 'correct';
+    fb.innerHTML = `<strong>✓ Верно!</strong>${explanation}`;
+    spawnSparkles(btns[chosen]);
+  } else {
+    wrong++;
+    btns[chosen].classList.add('wrong');
+    btns[correct].classList.add('correct');
+    fb.className = 'wrong';
+    fb.innerHTML = `<strong>✗ Неверно.</strong>${explanation}`;
+  }
+
+  fb.style.display = 'block';
+  document.getElementById('q-score-live').textContent = `💎 ${score}`;
+
+  const isLast = current === questions.length - 1;
+  nextBtn.innerHTML = isLast
+    ? '<span>✦</span> Посмотреть результат <span>✦</span>'
+    : 'Следующий вопрос →';
+  nextBtn.style.display = 'inline-flex';
+}
+
+function nextQuestion() {
+  current++;
+  if (current >= questions.length) {
+    showResult();
+  } else {
+    renderQuestion();
+  }
+}
+
+function showResult() {
+  document.getElementById('quiz-screen').style.display = 'none';
+  document.getElementById('progress-bar-wrap').style.display = 'none';
+  const rs = document.getElementById('result-screen');
+  rs.style.display = 'block';
+
+  const total = questions.length;
+  const pct = Math.round(score/total*100);
+
+  document.getElementById('score-big').textContent = `${score} / ${total}`;
+  document.getElementById('score-label').textContent = `${pct}% правильных ответов`;
+  document.getElementById('res-correct').textContent = score;
+  document.getElementById('res-wrong').textContent = wrong;
+  document.getElementById('res-pct').textContent = pct+'%';
+
+  let gem, title, rank, msg;
+  if (pct >= 93) {
+    gem='💎'; title='Блестяще, Высшая чара!';
+    rank='Хранитель Чаронитов';
+    msg='Твои знания о мире Чароводья безупречны. Эльда была бы рада видеть тебя в Ордене!';
+  } else if (pct >= 80) {
+    gem='🔮'; title='Великолепно!';
+    rank='Опытная чарита';
+    msg='Ты отлично знаешь Семь островов. Самое время перечитать любимые главы и добраться до вершины!';
+  } else if (pct >= 65) {
+    gem='✨'; title='Хорошая работа!';
+    rank='Ученица Высшей школы';
+    msg='Ты уже много знаешь о Чароводье, но тайны Семи островов ещё не раскрыты до конца. Продолжай!';
+  } else if (pct >= 45) {
+    gem='🌙'; title='Неплохое начало';
+    rank='Новичок в Камнесаде';
+    msg='Ты только начинаешь своё путешествие по миру Чароводья. Возможно, стоит заглянуть в книги снова?';
+  } else {
+    gem='🪨'; title='Испытание пройдено';
+    rank='Случайный путник';
+    msg='Мир Чароводья хранит ещё много тайн — читай книги, и ты обязательно станешь настоящей чарой!';
+  }
+
+  document.getElementById('result-gem').textContent = gem;
+  document.getElementById('result-title').textContent = title;
+  document.getElementById('rank-name').textContent = rank;
+  document.getElementById('result-msg').textContent = msg;
+
+  if (pct >= 80) {
+    setTimeout(() => {
+      for (let i=0; i<15; i++) {
+        setTimeout(() => spawnRandomSparkle(), i*60);
+      }
+    }, 400);
+  }
+}
+
+function restartQuiz() {
+  document.getElementById('result-screen').style.display = 'none';
+  startQuiz();
+}
+
+/* ── Sparkles ── */
+function spawnSparkles(el) {
+  const rect = el.getBoundingClientRect();
+  const cx = rect.left + rect.width/2;
+  const cy = rect.top + rect.height/2;
+  const emojis = ['✨','💫','⭐','🌟','💎'];
+  for (let i = 0; i < 8; i++) {
+    const sp = document.createElement('div');
+    sp.className = 'sparkle';
+    sp.textContent = emojis[Math.floor(Math.random()*emojis.length)];
+    const angle = (Math.random()*360) * Math.PI/180;
+    const dist = 60 + Math.random()*80;
+    sp.style.setProperty('--dx', `${Math.cos(angle)*dist}px`);
+    sp.style.setProperty('--dy', `${Math.sin(angle)*dist - 40}px`);
+    sp.style.left = (cx + Math.cos(angle)*20) + 'px';
+    sp.style.top  = (cy + Math.sin(angle)*20) + 'px';
+    document.body.appendChild(sp);
+    setTimeout(() => sp.remove(), 900);
+  }
+}
+
+function spawnRandomSparkle() {
+  const sp = document.createElement('div');
+  sp.className = 'sparkle';
+  const emojis = ['✨','💫','⭐','🌟','💎','🔮'];
+  sp.textContent = emojis[Math.floor(Math.random()*emojis.length)];
+  const x = Math.random()*window.innerWidth;
+  const y = 100 + Math.random()*(window.innerHeight-200);
+  const dx = (Math.random()-0.5)*120;
+  const dy = -60 - Math.random()*80;
+  sp.style.setProperty('--dx', dx+'px');
+  sp.style.setProperty('--dy', dy+'px');
+  sp.style.left = x+'px';
+  sp.style.top  = y+'px';
+  sp.style.fontSize = (1.2+Math.random())+'rem';
+  document.body.appendChild(sp);
+  setTimeout(() => sp.remove(), 900);
+}
+</script>
+</body>
+</html>
