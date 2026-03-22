@@ -1,0 +1,853 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Тайны Чароводья — Викторина</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Nunito:ital,wght@0,400;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:         #EDF4FF;
+  --blue:       #1D4ED8;
+  --blue-mid:   #3B82F6;
+  --blue-lt:    #DBEAFE;
+  --blue-xlt:   #EFF6FF;
+  --gold:       #B45309;
+  --gold-mid:   #F59E0B;
+  --gold-lt:    #FDE68A;
+  --gold-xlt:   #FFFBEB;
+  --violet:     #6D28D9;
+  --violet-lt:  #EDE9FE;
+  --teal:       #0F766E;
+  --teal-lt:    #CCFBF1;
+  --text:       #1E3A5F;
+  --text-mid:   #475569;
+  --text-dim:   #94A3B8;
+  --white:      #FFFFFF;
+  --border:     #BFDBFE;
+  --ok:         #059669;
+  --ok-bg:      #D1FAE5;
+  --ok-border:  #6EE7B7;
+  --no:         #DC2626;
+  --no-bg:      #FEE2E2;
+  --no-border:  #FCA5A5;
+  --shadow:     0 4px 24px rgba(29,78,216,.09), 0 1px 4px rgba(0,0,0,.04);
+  --shadow-lg:  0 8px 40px rgba(29,78,216,.15);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{
+  background: linear-gradient(160deg,#deeeff 0%,#fff8e1 55%,#e8f0ff 100%);
+  background-attachment:fixed;
+  font-family:'Nunito',sans-serif;
+  color:var(--text);
+  min-height:100vh;
+  overflow-x:hidden;
+}
+/* subtle dot-grid */
+body::after{
+  content:'';position:fixed;inset:0;
+  background-image:radial-gradient(circle,rgba(59,130,246,.12) 1px,transparent 1px);
+  background-size:32px 32px;
+  pointer-events:none;z-index:0;
+}
+/* ambient orbs */
+.orb{position:fixed;border-radius:50%;filter:blur(70px);pointer-events:none;z-index:0;animation:orbf 14s ease-in-out infinite;}
+.o1{width:380px;height:380px;background:rgba(59,130,246,.13);top:-60px;left:-80px;animation-delay:0s;}
+.o2{width:280px;height:280px;background:rgba(245,158,11,.1);bottom:60px;right:-60px;animation-delay:-6s;}
+.o3{width:220px;height:220px;background:rgba(124,58,237,.08);top:40%;left:65%;animation-delay:-10s;}
+@keyframes orbf{0%,100%{transform:translate(0,0) scale(1);}40%{transform:translate(20px,-15px) scale(1.07);}70%{transform:translate(-12px,10px) scale(.96);}}
+
+#app{position:relative;z-index:1;max-width:740px;margin:0 auto;padding:18px 18px 60px;}
+
+/* ── HEADER ── */
+.hdr{text-align:center;padding:20px 0 16px;}
+.hdr-scene{margin:0 auto 12px;max-width:340px;filter:drop-shadow(0 4px 20px rgba(29,78,216,.18));}
+.hdr h1{
+  font-family:'Cinzel',serif;
+  font-size:clamp(1.4rem,4vw,2.3rem);
+  font-weight:900;letter-spacing:.1em;
+  background:linear-gradient(130deg,var(--blue) 0%,#7C3AED 45%,var(--gold) 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  line-height:1.2;margin-bottom:5px;
+}
+.hdr p{font-size:.98rem;color:var(--text-mid);font-style:italic;}
+.divrow{display:flex;align-items:center;gap:10px;margin:14px auto;max-width:280px;}
+.dl{flex:1;height:1.5px;background:linear-gradient(90deg,transparent,var(--border),transparent);}
+.ds{color:var(--gold-mid);font-size:1.1rem;}
+
+/* ── PROGRESS ── */
+#prog-wrap{display:none;margin-bottom:16px;}
+.pmeta{display:flex;justify-content:space-between;margin-bottom:5px;font-size:.82rem;font-weight:800;}
+.pmeta .pn{color:var(--blue);}
+.pmeta .ps{color:var(--gold);}
+.ptrack{height:9px;background:var(--blue-lt);border-radius:99px;overflow:hidden;}
+#pfill{
+  height:100%;border-radius:99px;
+  background:linear-gradient(90deg,var(--blue),#7C3AED 50%,var(--gold-mid));
+  transition:width .55s cubic-bezier(.4,0,.2,1);width:0%;
+  box-shadow:0 0 12px rgba(59,130,246,.4);
+}
+
+/* ── CARD ── */
+.card{
+  background:var(--white);
+  border:1.5px solid var(--border);
+  border-radius:26px;
+  padding:32px 34px;
+  box-shadow:var(--shadow);
+  position:relative;overflow:hidden;
+}
+.card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:5px;
+  background:linear-gradient(90deg,var(--blue),#7C3AED,var(--gold-mid));
+  border-radius:26px 26px 0 0;
+}
+
+/* ── START ── */
+#start{text-align:center;}
+#start h2{
+  font-family:'Cinzel',serif;font-size:1.2rem;font-weight:700;
+  color:var(--blue);letter-spacing:.05em;margin-bottom:12px;
+}
+#start p{color:var(--text-mid);font-size:1rem;line-height:1.7;margin-bottom:10px;}
+.stats{display:flex;justify-content:center;gap:14px;margin:22px 0 26px;flex-wrap:wrap;}
+.stat{
+  background:var(--blue-xlt);border:1.5px solid var(--border);
+  border-radius:16px;padding:12px 20px;text-align:center;min-width:100px;
+}
+.stat .n{display:block;font-family:'Cinzel',serif;font-size:1.5rem;font-weight:700;color:var(--blue);}
+.stat .l{display:block;font-size:.73rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--text-dim);margin-top:2px;}
+
+/* ── BTN ── */
+.btn{
+  display:inline-flex;align-items:center;gap:8px;
+  font-family:'Cinzel',serif;font-size:.88rem;font-weight:700;
+  letter-spacing:.1em;text-transform:uppercase;
+  padding:14px 34px;border-radius:50px;border:none;cursor:pointer;
+  transition:all .25s ease;
+}
+.btn-blue{
+  background:linear-gradient(135deg,var(--blue),#4338CA);
+  color:white;box-shadow:0 4px 18px rgba(29,78,216,.35);
+}
+.btn-blue:hover{transform:translateY(-2px);box-shadow:0 7px 26px rgba(29,78,216,.45);}
+.btn-blue:active{transform:translateY(0);}
+.btn-wide{width:100%;justify-content:center;}
+
+/* ── QUIZ ── */
+#quiz{display:none;}
+#qtxt{
+  font-size:1.15rem;font-weight:700;line-height:1.65;
+  color:var(--text);margin-bottom:22px;
+  padding-bottom:16px;
+  border-bottom:2px dashed var(--blue-lt);
+}
+
+/* ── OPTION CARDS (THE KEY PART) ── */
+.opts{display:flex;flex-direction:column;gap:10px;}
+
+.opt{
+  display:flex;align-items:stretch;
+  background:var(--white);
+  border:1.5px solid var(--border);
+  border-radius:18px;
+  cursor:pointer;text-align:left;
+  transition:all .2s ease;
+  overflow:hidden;
+  box-shadow:0 2px 8px rgba(29,78,216,.06);
+  width:100%;
+  font-family:'Nunito',sans-serif;
+}
+.opt:hover:not(:disabled){
+  border-color:var(--blue-mid);
+  box-shadow:0 5px 20px rgba(29,78,216,.14);
+  transform:translateY(-2px);
+}
+.opt:disabled{cursor:default;transform:none!important;}
+
+/* image tile */
+.oi{
+  width:76px;min-width:76px;
+  display:flex;align-items:center;justify-content:center;
+  padding:12px;
+  border-right:1.5px solid;
+  flex-shrink:0;
+}
+.oi svg{width:46px;height:46px;display:block;}
+
+/* letter badge */
+.ol{
+  width:36px;min-width:36px;
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Cinzel',serif;font-size:.82rem;font-weight:700;
+  flex-shrink:0;margin:0 2px;
+}
+.ot{
+  flex:1;padding:14px 16px 14px 10px;
+  font-size:.99rem;font-weight:700;color:var(--text);line-height:1.4;
+  display:flex;align-items:center;
+}
+
+/* color sets per option index (A/B/C/D) */
+.oc0 .oi{background:var(--blue-xlt);border-color:var(--blue-lt);}
+.oc0 .ol{color:var(--blue);background:var(--blue-lt);border-radius:10px;}
+.oc1 .oi{background:var(--gold-xlt);border-color:var(--gold-lt);}
+.oc1 .ol{color:var(--gold);background:var(--gold-lt);border-radius:10px;}
+.oc2 .oi{background:var(--violet-lt);border-color:#DDD6FE;}
+.oc2 .ol{color:var(--violet);background:#DDD6FE;border-radius:10px;}
+.oc3 .oi{background:var(--teal-lt);border-color:#99F6E4;}
+.oc3 .ol{color:var(--teal);background:#99F6E4;border-radius:10px;}
+
+/* correct / wrong */
+.opt.correct{border-color:var(--ok);background:var(--ok-bg);animation:cpop .4s ease;}
+.opt.correct .oi{background:var(--ok-bg)!important;border-color:var(--ok-border)!important;}
+.opt.correct .ot{color:#065F46;}
+@keyframes cpop{0%{transform:scale(1)}35%{transform:scale(1.025)}100%{transform:scale(1)}}
+.opt.wrong{border-color:var(--no);background:var(--no-bg);animation:cshk .35s ease;}
+.opt.wrong .oi{background:var(--no-bg)!important;border-color:var(--no-border)!important;}
+.opt.wrong .ot{color:#991B1B;}
+@keyframes cshk{0%,100%{transform:translateX(0)}20%{transform:translateX(-6px)}60%{transform:translateX(6px)}80%{transform:translateX(-3px)}}
+
+/* ── FEEDBACK ── */
+#fb{display:none;margin-top:16px;padding:14px 18px;border-radius:14px;font-size:.95rem;line-height:1.55;animation:fdup .3s ease;}
+@keyframes fdup{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+#fb.ok{background:var(--ok-bg);border:1.5px solid var(--ok-border);color:#065F46;}
+#fb.no{background:var(--no-bg);border:1.5px solid var(--no-border);color:#991B1B;}
+#fb strong{display:block;font-size:1rem;margin-bottom:3px;}
+
+/* ── RESULTS ── */
+#result{display:none;text-align:center;}
+.ri{margin:0 auto 14px;max-width:180px;animation:rbi .7s cubic-bezier(.36,.07,.19,.97);}
+@keyframes rbi{0%{transform:scale(0) rotate(-10deg);opacity:0}60%{transform:scale(1.1) rotate(3deg)}100%{transform:scale(1) rotate(0);opacity:1}}
+.rt{font-family:'Cinzel',serif;font-size:clamp(1.2rem,3vw,1.75rem);font-weight:900;color:var(--blue);letter-spacing:.05em;margin-bottom:6px;}
+.rscore{
+  font-family:'Cinzel',serif;font-size:clamp(2.5rem,9vw,4.2rem);font-weight:900;
+  background:linear-gradient(135deg,var(--blue),var(--gold-mid));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  line-height:1;display:block;margin:14px 0 4px;
+}
+.rpct{font-size:.98rem;color:var(--text-mid);font-style:italic;margin-bottom:18px;}
+.rankbox{
+  display:inline-block;
+  background:linear-gradient(135deg,var(--blue-xlt),var(--gold-xlt));
+  border:1.5px solid var(--border);border-radius:18px;
+  padding:15px 28px;margin-bottom:18px;
+}
+.rankbox .rl{font-size:.7rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--text-dim);display:block;margin-bottom:3px;}
+.rankbox .rv{font-family:'Cinzel',serif;font-size:1.1rem;font-weight:700;color:var(--blue);}
+.rmsg{font-size:1rem;color:var(--text-mid);line-height:1.7;font-style:italic;max-width:480px;margin:0 auto 22px;}
+.rstats{display:flex;justify-content:center;gap:12px;flex-wrap:wrap;margin-bottom:26px;}
+.rstat{background:white;border:1.5px solid var(--border);border-radius:14px;padding:10px 18px;min-width:85px;}
+.rstat .rsn{display:block;font-family:'Cinzel',serif;font-size:1.4rem;font-weight:700;}
+.rstat .rsl{font-size:.72rem;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:var(--text-dim);}
+.rstat.g .rsn{color:var(--ok);}
+.rstat.r .rsn{color:var(--no);}
+.rstat.b .rsn{color:var(--blue);}
+
+/* ── PARTICLES ── */
+.pt{position:fixed;pointer-events:none;z-index:999;font-size:1.1rem;animation:ptf .9s ease-out forwards;}
+@keyframes ptf{0%{opacity:1;transform:translate(0,0) scale(1)}100%{opacity:0;transform:translate(var(--tx),var(--ty)) scale(.2)}}
+
+@media(max-width:480px){
+  .card{padding:22px 16px;}
+  .oi{width:56px;min-width:56px;padding:8px;}
+  .oi svg{width:36px;height:36px;}
+  .ot{font-size:.9rem;padding:12px 12px 12px 8px;}
+  #qtxt{font-size:1.05rem;}
+}
+</style>
+</head>
+<body>
+<div class="o1 orb"></div>
+<div class="o2 orb"></div>
+<div class="o3 orb"></div>
+
+<div id="app">
+
+<!-- HEADER -->
+<div class="hdr">
+  <div class="hdr-scene">
+    <!-- Hand-crafted header illustration: floating island with magic -->
+    <svg viewBox="0 0 340 160" xmlns="http://www.w3.org/2000/svg">
+      <!-- sky glow -->
+      <defs>
+        <radialGradient id="glow1" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="#DBEAFE" stop-opacity="0.8"/>
+          <stop offset="100%" stop-color="#EFF6FF" stop-opacity="0"/>
+        </radialGradient>
+        <radialGradient id="gemglow" cx="50%" cy="40%" r="50%">
+          <stop offset="0%" stop-color="#FEF3C7" stop-opacity="0.6"/>
+          <stop offset="100%" stop-color="transparent"/>
+        </radialGradient>
+      </defs>
+      <ellipse cx="170" cy="80" rx="160" ry="75" fill="url(#glow1)"/>
+
+      <!-- floating island -->
+      <ellipse cx="170" cy="112" rx="72" ry="16" fill="#93C5FD" opacity=".35"/>
+      <ellipse cx="170" cy="108" rx="68" ry="14" fill="#1D4ED8" opacity=".12"/>
+      <path d="M110 108 Q130 88 170 85 Q210 88 230 108 Q210 118 170 120 Q130 118 110 108Z" fill="#E0F2FE"/>
+      <path d="M120 108 Q140 96 170 93 Q200 96 220 108 Q200 114 170 116 Q140 114 120 108Z" fill="white"/>
+      <!-- grass on island -->
+      <path d="M130 105 Q150 100 170 99 Q190 100 210 105" stroke="#4ADE80" stroke-width="3" fill="none" stroke-linecap="round" opacity=".7"/>
+
+      <!-- castle tower center -->
+      <rect x="158" y="68" width="24" height="40" rx="3" fill="#1D4ED8" opacity=".85"/>
+      <rect x="155" y="64" width="6" height="8" rx="1" fill="#1D4ED8" opacity=".85"/>
+      <rect x="163" y="63" width="6" height="9" rx="1" fill="#1D4ED8" opacity=".85"/>
+      <rect x="171" y="64" width="6" height="8" rx="1" fill="#1D4ED8" opacity=".85"/>
+      <!-- window -->
+      <path d="M165 78 Q170 73 175 78 L175 90 L165 90Z" fill="#FEF3C7" opacity=".8"/>
+      <!-- tower glow -->
+      <ellipse cx="170" cy="68" rx="14" ry="4" fill="#F59E0B" opacity=".25"/>
+
+      <!-- small tower left -->
+      <rect x="133" y="82" width="14" height="26" rx="2" fill="#2563EB" opacity=".7"/>
+      <rect x="131" y="79" width="4" height="5" rx="1" fill="#2563EB" opacity=".7"/>
+      <rect x="136" y="78" width="4" height="6" rx="1" fill="#2563EB" opacity=".7"/>
+      <rect x="141" y="79" width="4" height="5" rx="1" fill="#2563EB" opacity=".7"/>
+
+      <!-- small tower right -->
+      <rect x="193" y="86" width="14" height="22" rx="2" fill="#2563EB" opacity=".6"/>
+      <rect x="191" y="83" width="4" height="5" rx="1" fill="#2563EB" opacity=".6"/>
+      <rect x="196" y="82" width="4" height="6" rx="1" fill="#2563EB" opacity=".6"/>
+      <rect x="201" y="83" width="4" height="5" rx="1" fill="#2563EB" opacity=".6"/>
+
+      <!-- big gem left floating -->
+      <g transform="translate(58,40) rotate(-15)">
+        <polygon points="16,0 30,10 27,28 16,32 5,28 2,10" fill="#6D28D9" opacity=".85" stroke="white" stroke-width="1"/>
+        <polygon points="16,0 30,10 20,7" fill="white" opacity=".35"/>
+        <circle cx="40" cy="-5" r="3" fill="#F59E0B"/>
+        <circle cx="-5" cy="10" r="2" fill="#F59E0B"/>
+      </g>
+
+      <!-- gem right floating -->
+      <g transform="translate(252,28) rotate(12)">
+        <polygon points="14,0 26,9 24,26 14,30 4,26 2,9" fill="#0F766E" opacity=".8" stroke="white" stroke-width="1"/>
+        <polygon points="14,0 26,9 18,6" fill="white" opacity=".3"/>
+      </g>
+
+      <!-- small gems scattered -->
+      <polygon points="35,95 41,100 38,108 30,110 24,106 26,98" fill="#F59E0B" opacity=".7" stroke="white" stroke-width=".8"/>
+      <polygon points="295,72 301,78 298,87 290,89 284,85 286,76" fill="#2563EB" opacity=".65" stroke="white" stroke-width=".8"/>
+      <polygon points="280,108 285,112 283,118 277,119 272,115 274,109" fill="#7C3AED" opacity=".6" stroke="white" stroke-width=".7"/>
+
+      <!-- dragon silhouette (left) -->
+      <g transform="translate(42,18)" opacity=".75">
+        <!-- wings -->
+        <path d="M0 22 Q-8 8 8 14 L20 26Z" fill="#1D4ED8"/>
+        <path d="M44 22 Q52 8 36 14 L24 26Z" fill="#1D4ED8"/>
+        <!-- body -->
+        <ellipse cx="22" cy="30" rx="12" ry="8" fill="#1D4ED8"/>
+        <!-- head -->
+        <circle cx="22" cy="18" r="9" fill="#1D4ED8"/>
+        <!-- eye -->
+        <circle cx="26" cy="17" r="2.5" fill="white"/>
+        <circle cx="26.5" cy="17" r="1.3" fill="#0F172A"/>
+        <!-- tail -->
+        <path d="M30 36 Q40 42 38 48" stroke="#1D4ED8" stroke-width="3" fill="none" stroke-linecap="round"/>
+      </g>
+
+      <!-- sparkle stars -->
+      <g fill="#F59E0B" opacity=".8">
+        <path d="M310 30 L312 36 L318 38 L312 40 L310 46 L308 40 L302 38 L308 36Z"/>
+        <path d="M22 50 L23.5 54 L28 55.5 L23.5 57 L22 61 L20.5 57 L16 55.5 L20.5 54Z" opacity=".6"/>
+        <path d="M327 90 L328.5 94 L333 95.5 L328.5 97 L327 101 L325.5 97 L321 95.5 L325.5 94Z" opacity=".5"/>
+      </g>
+      <g fill="#2563EB" opacity=".5">
+        <path d="M52 140 L53 143 L56 144 L53 145 L52 148 L51 145 L48 144 L51 143Z"/>
+        <path d="M288 15 L289 18 L292 19 L289 20 L288 23 L287 20 L284 19 L287 18Z"/>
+      </g>
+
+      <!-- birds / shnyorki -->
+      <g stroke="#1D4ED8" stroke-width="1.5" fill="none" opacity=".5">
+        <path d="M90 22 Q94 18 98 22"/>
+        <path d="M100 30 Q103 27 106 30"/>
+        <path d="M245 55 Q249 51 253 55"/>
+      </g>
+    </svg>
+  </div>
+  <h1>Тайны Чароводья</h1>
+  <div class="divrow"><div class="dl"></div><div class="ds">✦</div><div class="dl"></div></div>
+  <p>Викторина по миру Семи островов — для настоящих знатоков!</p>
+</div>
+
+<!-- PROGRESS -->
+<div id="prog-wrap">
+  <div class="pmeta">
+    <span class="pn" id="pn">Вопрос 1 из 30</span>
+    <span class="ps" id="ps">💎 0 очков</span>
+  </div>
+  <div class="ptrack"><div id="pfill"></div></div>
+</div>
+
+<!-- START SCREEN -->
+<div class="card" id="start">
+  <h2>✦ Проверь знание мира Чароводья ✦</h2>
+  <p>30 вопросов о Семи островах, чаронитах, героях и приключениях Эльды. Каждый вопрос — 4 варианта, выбери верный. Исправить ответ нельзя!</p>
+  <p>После каждого вопроса — объяснение. В финале — ранг знатока.</p>
+  <div class="stats">
+    <div class="stat"><span class="n">30</span><span class="l">Вопросов</span></div>
+    <div class="stat"><span class="n">4</span><span class="l">Варианта</span></div>
+    <div class="stat"><span class="n">🏰</span><span class="l">7 Островов</span></div>
+  </div>
+  <button class="btn btn-blue" onclick="startQuiz()">✦ Начать испытание ✦</button>
+</div>
+
+<!-- QUIZ SCREEN -->
+<div class="card" id="quiz">
+  <div id="qtxt"></div>
+  <div class="opts" id="opts"></div>
+  <div id="fb"></div>
+  <button class="btn btn-blue btn-wide" id="nxt" style="display:none;margin-top:20px;" onclick="next()">
+    Далее →
+  </button>
+</div>
+
+<!-- RESULTS SCREEN -->
+<div class="card" id="result">
+  <div class="ri" id="ri">
+    <!-- filled by JS -->
+  </div>
+  <div class="rt" id="rt"></div>
+  <span class="rscore" id="rs"></span>
+  <div class="rpct" id="rp"></div>
+  <div class="rankbox"><span class="rl">Твой ранг</span><span class="rv" id="rrank"></span></div>
+  <p class="rmsg" id="rmsg"></p>
+  <div class="rstats">
+    <div class="rstat g"><span class="rsn" id="rcok">0</span><span class="rsl">Верно</span></div>
+    <div class="rstat r"><span class="rsn" id="rcno">0</span><span class="rsl">Ошибок</span></div>
+    <div class="rstat b"><span class="rsn" id="rcpct">0%</span><span class="rsl">Точность</span></div>
+  </div>
+  <button class="btn btn-blue" onclick="restart()">↺ Пройти заново</button>
+</div>
+
+</div><!-- /app -->
+
+<script>
+/* ═══════════════════════════════
+   SVG ILLUSTRATIONS
+   COLOR is a template placeholder
+═══════════════════════════════ */
+const SVG = {
+  gem: c=>`<svg viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg">
+    <polygon points="30,6 52,20 48,52 30,56 12,52 8,20" fill="${c}" opacity=".85" stroke="white" stroke-width="1.5"/>
+    <polygon points="30,6 52,20 36,16" fill="white" opacity=".32"/>
+    <polygon points="12,52 30,56 48,52 30,40" fill="rgba(0,0,0,.14)"/>
+    <line x1="30" y1="6" x2="30" y2="40" stroke="white" stroke-width=".8" opacity=".25"/>
+    <circle cx="54" cy="12" r="2.5" fill="#F59E0B"/>
+    <circle cx="8" cy="18" r="2" fill="#F59E0B" opacity=".7"/>
+    <circle cx="52" cy="52" r="1.5" fill="white" opacity=".5"/>
+  </svg>`,
+
+  castle: c=>`<svg viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg">
+    <rect x="20" y="22" width="20" height="32" rx="2" fill="${c}"/>
+    <rect x="20" y="16" width="4" height="8" rx="1" fill="${c}"/>
+    <rect x="26" y="15" width="4" height="9" rx="1" fill="${c}"/>
+    <rect x="32" y="16" width="4" height="8" rx="1" fill="${c}"/>
+    <path d="M26 30 Q30 25 34 30 L34 42 L26 42Z" fill="white" opacity=".55"/>
+    <rect x="27" y="42" width="6" height="12" rx="2" fill="${c}" opacity=".7"/>
+    <rect x="8" y="30" width="10" height="24" rx="2" fill="${c}" opacity=".75"/>
+    <rect x="8" y="26" width="3" height="6" rx="1" fill="${c}" opacity=".75"/>
+    <rect x="12" y="25" width="3" height="7" rx="1" fill="${c}" opacity=".75"/>
+    <rect x="16" y="26" width="3" height="6" rx="1" fill="${c}" opacity=".75"/>
+    <rect x="42" y="34" width="10" height="20" rx="2" fill="${c}" opacity=".65"/>
+    <rect x="42" y="30" width="3" height="6" rx="1" fill="${c}" opacity=".65"/>
+    <rect x="46" y="29" width="3" height="7" rx="1" fill="${c}" opacity=".65"/>
+    <rect x="50" y="30" width="3" height="6" rx="1" fill="${c}" opacity=".65"/>
+    <rect x="5" y="54" width="50" height="5" rx="3" fill="${c}" opacity=".3"/>
+  </svg>`,
+
+  person: c=>`<svg viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="30" cy="18" r="12" fill="${c}" opacity=".9"/>
+    <ellipse cx="30" cy="11" rx="13" ry="7" fill="${c}"/>
+    <path d="M14 54 Q16 36 30 32 Q44 36 46 54Z" fill="${c}" opacity=".85"/>
+    <path d="M20 40 Q30 46 40 40" stroke="white" stroke-width="1.5" fill="none" opacity=".4"/>
+    <circle cx="26" cy="16" r="1.5" fill="white" opacity=".5"/>
+    <circle cx="34" cy="16" r="1.5" fill="white" opacity=".5"/>
+    <path d="M27 21 Q30 24 33 21" stroke="white" stroke-width="1.2" fill="none" opacity=".4"/>
+  </svg>`,
+
+  dragon: c=>`<svg viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg">
+    <path d="M6 24 Q2 10 18 18 L28 32Z" fill="${c}" opacity=".65"/>
+    <path d="M54 24 Q58 10 42 18 L32 32Z" fill="${c}" opacity=".65"/>
+    <path d="M6 24 Q2 10 18 18" stroke="${c}" stroke-width="1" fill="none" opacity=".4"/>
+    <ellipse cx="30" cy="38" rx="13" ry="10" fill="${c}"/>
+    <circle cx="30" cy="22" r="10" fill="${c}"/>
+    <circle cx="35" cy="20" r="3.5" fill="white"/>
+    <circle cx="35.5" cy="20.5" r="2" fill="${c}" opacity=".9"/>
+    <circle cx="34.5" cy="19.5" r=".8" fill="white"/>
+    <path d="M24 22 L22 16 L26 18Z" fill="${c}" opacity=".8"/>
+    <path d="M38 46 Q50 52 48 58" stroke="${c}" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+    <path d="M46 44 Q54 42 55 36" stroke="${c}" stroke-width="2" fill="none" stroke-linecap="round" opacity=".5"/>
+  </svg>`,
+
+  book: c=>`<svg viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg">
+    <rect x="10" y="10" width="40" height="48" rx="5" fill="${c}"/>
+    <rect x="10" y="10" width="8" height="48" rx="3" fill="rgba(0,0,0,.18)"/>
+    <rect x="20" y="15" width="26" height="38" rx="3" fill="white" opacity=".88"/>
+    <line x1="24" y1="23" x2="42" y2="23" stroke="${c}" stroke-width="1.8" opacity=".4"/>
+    <line x1="24" y1="29" x2="42" y2="29" stroke="${c}" stroke-width="1.8" opacity=".4"/>
+    <line x1="24" y1="35" x2="38" y2="35" stroke="${c}" stroke-width="1.8" opacity=".4"/>
+    <line x1="24" y1="41" x2="40" y2="41" stroke="${c}" stroke-width="1.8" opacity=".3"/>
+    <polygon points="33,46 35,50 33,48 31,50" fill="${c}" opacity=".6"/>
+    <circle cx="46" cy="14" r="4" fill="#F59E0B" opacity=".7"/>
+    <circle cx="46" cy="14" r="2" fill="white" opacity=".5"/>
+  </svg>`,
+
+  island: c=>`<svg viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg">
+    <path d="M4 46 Q16 40 28 44 Q40 48 56 44 L56 58 L4 58Z" fill="#93C5FD" opacity=".55"/>
+    <path d="M8 50 Q20 45 32 49 Q44 53 56 50" stroke="#2563EB" stroke-width="1.5" fill="none" opacity=".3"/>
+    <ellipse cx="30" cy="44" rx="22" ry="9" fill="${c}"/>
+    <ellipse cx="30" cy="41" rx="20" ry="8" fill="${c}" opacity=".9"/>
+    <path d="M26 40 L30 18 L34 40Z" fill="${c}" opacity=".7"/>
+    <circle cx="30" cy="16" r="9" fill="${c}" opacity=".85"/>
+    <ellipse cx="30" cy="14" rx="7" ry="4" fill="white" opacity=".2"/>
+    <circle cx="20" cy="42" r="3.5" fill="${c}" opacity=".6"/>
+    <circle cx="41" cy="43" r="4" fill="${c}" opacity=".55"/>
+  </svg>`,
+
+  crown: c=>`<svg viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg">
+    <path d="M8 48 L8 30 L18 40 L30 16 L42 40 L52 30 L52 48Z" fill="${c}" opacity=".9"/>
+    <path d="M8 48 L8 42 L52 42 L52 48Z" fill="rgba(0,0,0,.15)"/>
+    <circle cx="30" cy="18" r="5" fill="#FDE68A"/>
+    <circle cx="30" cy="18" r="3" fill="#F59E0B"/>
+    <circle cx="14" cy="34" r="4" fill="#FDE68A"/>
+    <circle cx="14" cy="34" r="2.5" fill="#F59E0B"/>
+    <circle cx="46" cy="34" r="4" fill="#FDE68A"/>
+    <circle cx="46" cy="34" r="2.5" fill="#F59E0B"/>
+    <rect x="8" y="44" width="44" height="8" rx="4" fill="${c}" opacity=".7"/>
+    <line x1="8" y1="42" x2="52" y2="42" stroke="white" stroke-width="1" opacity=".4"/>
+  </svg>`,
+
+  scroll: c=>`<svg viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg">
+    <rect x="14" y="10" width="32" height="44" rx="3" fill="#FEF3C7"/>
+    <ellipse cx="30" cy="10" rx="16" ry="5.5" fill="${c}"/>
+    <ellipse cx="30" cy="54" rx="16" ry="5.5" fill="${c}"/>
+    <ellipse cx="30" cy="10" rx="10" ry="3" fill="rgba(255,255,255,.35)"/>
+    <line x1="20" y1="20" x2="40" y2="20" stroke="${c}" stroke-width="1.8" opacity=".5"/>
+    <line x1="20" y1="27" x2="40" y2="27" stroke="${c}" stroke-width="1.8" opacity=".5"/>
+    <line x1="20" y1="34" x2="36" y2="34" stroke="${c}" stroke-width="1.8" opacity=".4"/>
+    <line x1="20" y1="41" x2="38" y2="41" stroke="${c}" stroke-width="1.5" opacity=".35"/>
+    <path d="M8 10 Q8 4 14 4 Q14 10 8 10Z" fill="${c}" opacity=".4"/>
+    <path d="M52 10 Q52 4 46 4 Q46 10 52 10Z" fill="${c}" opacity=".4"/>
+  </svg>`,
+
+  magic: c=>`<svg viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg">
+    <line x1="30" y1="4" x2="30" y2="56" stroke="${c}" stroke-width="1.5" opacity=".2"/>
+    <line x1="4" y1="30" x2="56" y2="30" stroke="${c}" stroke-width="1.5" opacity=".2"/>
+    <line x1="10" y1="10" x2="50" y2="50" stroke="${c}" stroke-width="1.5" opacity=".2"/>
+    <line x1="50" y1="10" x2="10" y2="50" stroke="${c}" stroke-width="1.5" opacity=".2"/>
+    <polygon points="30,8 33,22 48,22 36,31 40,46 30,37 20,46 24,31 12,22 27,22" fill="${c}" opacity=".9"/>
+    <polygon points="30,8 33,22 48,22 36,31 40,46 30,37 20,46 24,31 12,22 27,22" fill="white" opacity=".22"/>
+    <circle cx="30" cy="30" r="7" fill="white" opacity=".45"/>
+    <circle cx="30" cy="30" r="4" fill="${c}" opacity=".6"/>
+    <circle cx="52" cy="12" r="3" fill="#F59E0B"/>
+    <circle cx="10" cy="50" r="2" fill="#F59E0B" opacity=".7"/>
+    <circle cx="50" cy="52" r="2.5" fill="${c}" opacity=".5"/>
+  </svg>`,
+
+  rat: c=>`<svg viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg">
+    <ellipse cx="35" cy="40" rx="16" ry="12" fill="${c}" opacity=".85"/>
+    <circle cx="22" cy="30" r="13" fill="${c}" opacity=".9"/>
+    <ellipse cx="16" cy="18" rx="6" ry="9" fill="${c}" opacity=".75"/>
+    <ellipse cx="16" cy="18" rx="4" ry="6.5" fill="#FFB3C6" opacity=".55"/>
+    <circle cx="16" cy="29" r="5" fill="#7C3AED"/>
+    <circle cx="16" cy="29" r="3.2" fill="#4C1D95"/>
+    <circle cx="15" cy="28" r="1.2" fill="white"/>
+    <circle cx="12" cy="34" r="2" fill="#FFB3C6"/>
+    <path d="M46 48 Q54 50 56 44" stroke="${c}" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+    <line x1="10" y1="38" x2="4" y2="42" stroke="${c}" stroke-width="1.5" opacity=".5"/>
+    <line x1="10" y1="34" x2="3" y2="36" stroke="${c}" stroke-width="1.5" opacity=".5"/>
+    <circle cx="22" cy="27" r="5" fill="#6D28D9" opacity=".5"/>
+  </svg>`
+};
+
+/* ═══════════════════════════════
+   COLOR PALETTE per option index
+═══════════════════════════════ */
+const OC = [
+  '#1D4ED8', // A — blue
+  '#B45309', // B — amber
+  '#6D28D9', // C — violet
+  '#0F766E', // D — teal
+];
+const LETTERS = ['А','Б','В','Г'];
+
+/* ═══════════════════════════════
+   QUESTIONS
+   imgType: which SVG for this question
+═══════════════════════════════ */
+const QS = [
+  {q:"Как зовут главную героиню серии «Тайны Чароводья»?",
+   opts:["Арина","Эльда","Лекса","Вера"],ans:1,imgType:"person",
+   exp:"Главная героиня — Эльда, чарита, живущая в уединённом замке."},
+  {q:"В какой город отправляется Эльда поступать в Высшую школу?",
+   opts:["Чародворье","Семиград","Камнесад","Каменный Мыс"],ans:2,imgType:"castle",
+   exp:"Эльда едет в Камнесад — главный город, где находится Высшая школа чарит."},
+  {q:"Как называются живые магические камни, дарующие силу в мире Чароводья?",
+   opts:["Светониты","Магониты","Чарокамни","Чарониты"],ans:3,imgType:"gem",
+   exp:"Чарониты — живые камни, сила которых пронизывает весь мир Семи островов."},
+  {q:"Сколько островов насчитывает мир Чароводья?",
+   opts:["Пять","Шесть","Семь","Девять"],ans:2,imgType:"island",
+   exp:"Мир Чароводья — это Семь островов, каждый со своими тайнами."},
+  {q:"Кто является автором цикла «Тайны Чароводья»?",
+   opts:["Анна Сергеева","Мария Павлова","Юлия Иванова","Елена Смирнова"],ans:2,imgType:"person",
+   exp:"Серию написала Юлия Иванова — петербургская писательница."},
+  {q:"Какое издательство выпускает книги серии?",
+   opts:["Эксмо","Азбука","Абрикобукс","Росмэн"],ans:2,imgType:"book",
+   exp:"Книги выходят в независимом издательстве «Абрикобукс»."},
+  {q:"Как называется книжная серия, в которую входят «Тайны Чароводья»?",
+   opts:["Магический путь","Волшебный ключ","Тайная дверь","Хрустальный мир"],ans:2,imgType:"book",
+   exp:"Серия называется «Тайная дверь» — под этим лейблом выходят все книги о Чароводье."},
+  {q:"Сколько основных книг в цикле «Тайны Чароводья»?",
+   opts:["Три","Четыре","Пять","Семь"],ans:2,imgType:"scroll",
+   exp:"Основной цикл — пять книг. Плюс существует спин-офф «Сказки Чароводья»."},
+  {q:"Как называется спин-офф о мире Семи островов?",
+   opts:["Легенды Чароводья","Сказки Чароводья","Мифы Чароводья","Хроники Чароводья"],ans:1,imgType:"book",
+   exp:"Юлия Иванова написала «Сказки Чароводья» — дополнительную историю любимого мира."},
+  {q:"Какую российскую фантастическую премию получила Юлия Иванова в 2020 году?",
+   opts:["Букер","НОС","РосКон","Ясная Поляна"],ans:2,imgType:"crown",
+   exp:"В 2020 году Юлия Иванова стала лауреатом премии «РосКон» за первую книгу цикла."},
+  {q:"Кто создал иллюстрации к книгам серии?",
+   opts:["Анна Котова","Мария Петрова","Татьяна Петровска","Ольга Иванова"],ans:2,imgType:"person",
+   exp:"Иллюстрации создала Татьяна Петровска — художник-мультипликатор."},
+  {q:"Какова профессия иллюстратора Татьяны Петровска?",
+   opts:["Архитектор","Художник-мультипликатор","Скульптор","Графический дизайнер"],ans:1,imgType:"magic",
+   exp:"Татьяна Петровска — художник-мультипликатор, создавшая визуальный облик Чароводья."},
+  {q:"Где жила Эльда до начала путешествия?",
+   opts:["В маленьком городке","В лесном доме","В уединённом замке","В рыбацкой деревне"],ans:2,imgType:"castle",
+   exp:"Эльда жила в уединённом замке вдалеке от городов, не зная о тайнах мира."},
+  {q:"Что Эльда получила в наследство от матери?",
+   opts:["Волшебную книгу","Меч","Призрачный камень с тремя живыми искрами","Амулет защиты"],ans:2,imgType:"gem",
+   exp:"От матери Эльде достался призрачный камень с тремя живыми искрами — его тайна и стала центром всей истории."},
+  {q:"Что нужно Эльде, чтобы поступить в Высшую школу?",
+   opts:["Выиграть магический турнир","Пройти испытания","Получить рекомендательное письмо","Сдать письменные экзамены"],ans:1,imgType:"crown",
+   exp:"Чтобы учиться в Высшей школе, нужно успешно пройти испытания и доказать, что способна стать настоящей чарой."},
+  {q:"Как называются наездники на крылатых существах в Чароводье?",
+   opts:["Всадники","Верховые","Чарники","Драгонщики"],ans:3,imgType:"dragon",
+   exp:"Драгонщики — отважные защитники, патрулирующие небо верхом на крылатых драгончих."},
+  {q:"Как называются крылатые существа, на которых летают защитники?",
+   opts:["Вергончи","Крылачи","Драгончи","Летончи"],ans:2,imgType:"dragon",
+   exp:"Драгончи — крылатые существа с чаронитами в черепе, верные спутники драгонщиков."},
+  {q:"Как зовут загадочного говорящего крыса, которого Эльда везёт в Камнесад?",
+   opts:["Рик","Тик","Дик","Ник"],ans:2,imgType:"rat",
+   exp:"Дик — загадочный крыс с чаронитом в черепе. Именно особый камень позволяет ему говорить."},
+  {q:"Как называется 2-я книга цикла?",
+   opts:["Тайна острова","Начало пути","Друг или враг","Изгнанники"],ans:2,imgType:"book",
+   exp:"Вторая книга — «Друг или враг». Её сюжет строится вокруг тайны исчезновения родителей Эльды."},
+  {q:"Как называется 3-я книга цикла?",
+   opts:["Невидимый остров","Выбор сильнейшего","Последний орден","Логово изгнанных"],ans:3,imgType:"book",
+   exp:"Третья книга — «Логово изгнанных»."},
+  {q:"Как называется 4-я книга цикла?",
+   opts:["Логово изгнанных","Остров теней","Невидимый остров","Выбор сильнейшего"],ans:2,imgType:"island",
+   exp:"Четвёртая книга — «Невидимый остров»."},
+  {q:"Как называется 5-я, завершающая книга?",
+   opts:["Финальная битва","Последняя чара","Тайна раскрыта","Выбор сильнейшего"],ans:3,imgType:"crown",
+   exp:"Пятая книга — «Выбор сильнейшего», финал истории Эльды и Семи островов."},
+  {q:"На чём строится сюжет второй книги «Друг или враг»?",
+   opts:["Поиск пропавшего друга","Тайна исчезновения родителей Эльды","Война орденов","Открытие нового острова"],ans:1,imgType:"magic",
+   exp:"Сюжет строится на загадке исчезновения родителей Эльды — она шаг за шагом распутывает этот клубок."},
+  {q:"Как зовут драгонщика — ключевого персонажа второй книги?",
+   opts:["Антон","Сержен","Дар","Ромка"],ans:1,imgType:"person",
+   exp:"Сержен — драгонщик, между которым и Эльдой есть особое силовое притяжение: он помог ей закрыть разрыв в пространстве, хотя драгонщики этого не умеют."},
+  {q:"Что открывает Эльда в ходе приключений первой книги?",
+   opts:["Тайное оружие","Потайную карту","Окно в другую реальность","Секретный ход в замке"],ans:2,imgType:"magic",
+   exp:"Одно из главных событий первой книги — Эльда открывает окно в другую реальность."},
+  {q:"Кем должна стать Эльда после обучения в Высшей школе?",
+   opts:["Стражем острова","Настоящей чарой","Верховой драгонщицей","Хранительницей чаронитов"],ans:1,imgType:"crown",
+   exp:"Цель обучения — доказать, что ты сможешь стать настоящей чарой."},
+  {q:"Как называются крылатые почтальоны мира Чароводья?",
+   opts:["Шнырки","Вестники","Порхунцы","Крылатки"],ans:0,imgType:"dragon",
+   exp:"Шнырки — крылатые создания, доставляющие почту по всему Чароводью."},
+  {q:"К какому жанру относится серия «Тайны Чароводья»?",
+   opts:["Детектив","Исторический роман","Подростковое фэнтези","Научная фантастика"],ans:2,imgType:"book",
+   exp:"«Тайны Чароводья» — подростковое фэнтези с магической системой, орденами, дружбой и взрослением."},
+  {q:"С кем Эльда жила в замке до путешествия?",
+   opts:["Одна","С родителями","С тётей, дядей и двоюродной сестрой","С магическим наставником"],ans:2,imgType:"person",
+   exp:"Эльда жила с тётей, дядей и двоюродной сестрой, которые не очень-то её любили."},
+  {q:"Для какого возраста написана серия «Тайны Чароводья»?",
+   opts:["5–8 лет","12–16 лет и старше","Только для взрослых","18+"],ans:1,imgType:"scroll",
+   exp:"Серия рассчитана на 12–16 лет, но полюбилась всем возрастам: «от 10 лет и до бесконечности»."},
+];
+
+/* ═══════════════════════════════
+   HEADER SVG for results
+═══════════════════════════════ */
+function resultSVG(pct) {
+  if (pct >= 90) return `<svg viewBox="0 0 180 180" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="90" cy="90" r="80" fill="#FEF3C7" opacity=".5"/>
+    <path d="M60 110 L60 60 L72 75 L90 40 L108 75 L120 60 L120 110Z" fill="#D97706" opacity=".9"/>
+    <rect x="60" y="105" width="60" height="10" rx="5" fill="#B45309" opacity=".7"/>
+    <circle cx="90" cy="44" r="8" fill="#FDE68A"/>
+    <circle cx="90" cy="44" r="5" fill="#F59E0B"/>
+    <circle cx="68" cy="74" r="6" fill="#FDE68A"/><circle cx="68" cy="74" r="4" fill="#F59E0B"/>
+    <circle cx="112" cy="74" r="6" fill="#FDE68A"/><circle cx="112" cy="74" r="4" fill="#F59E0B"/>
+    <g fill="#F59E0B">
+      <path d="M130 30 L132 38 L140 40 L132 42 L130 50 L128 42 L120 40 L128 38Z"/>
+      <path d="M40 50 L41.5 56 L48 57.5 L41.5 59 L40 65 L38.5 59 L32 57.5 L38.5 56Z"/>
+      <path d="M148 90 L149.5 95 L155 96.5 L149.5 98 L148 103 L146.5 98 L141 96.5 L146.5 95Z"/>
+    </g>
+    <g fill="#1D4ED8" opacity=".4">
+      <path d="M34 100 L35.2 104 L39.5 105.2 L35.2 106.4 L34 110.5 L32.8 106.4 L28.5 105.2 L32.8 104Z"/>
+      <path d="M145 140 L146 143 L149.5 144 L146 145 L145 148 L144 145 L140.5 144 L144 143Z"/>
+    </g>
+  </svg>`;
+  if (pct >= 65) return `<svg viewBox="0 0 180 180" xmlns="http://www.w3.org/2000/svg">
+    <ellipse cx="90" cy="90" rx="70" ry="70" fill="#EFF6FF" opacity=".6"/>
+    <polygon points="90,20 106,64 154,64 116,92 130,136 90,108 50,136 64,92 26,64 74,64" fill="#2563EB" opacity=".85"/>
+    <polygon points="90,20 106,64 154,64 116,92 130,136 90,108 50,136 64,92 26,64 74,64" fill="white" opacity=".18"/>
+    <circle cx="90" cy="90" r="18" fill="white" opacity=".5"/>
+    <circle cx="90" cy="90" r="11" fill="#2563EB" opacity=".6"/>
+    <circle cx="155" cy="30" r="6" fill="#F59E0B"/>
+    <circle cx="25" cy="145" r="4" fill="#F59E0B" opacity=".7"/>
+    <path d="M158 70 L160 77 L167 79 L160 81 L158 88 L156 81 L149 79 L156 77Z" fill="#F59E0B" opacity=".8"/>
+  </svg>`;
+  return `<svg viewBox="0 0 180 180" xmlns="http://www.w3.org/2000/svg">
+    <ellipse cx="90" cy="90" rx="65" ry="65" fill="#EFF6FF" opacity=".5"/>
+    <polygon points="90,30 100,55 128,55 106,72 114,98 90,82 66,98 74,72 52,55 80,55" fill="#3B82F6" opacity=".7"/>
+    <polygon points="90,30 100,55 128,55 106,72 114,98 90,82 66,98 74,72 52,55 80,55" fill="white" opacity=".2"/>
+    <circle cx="90" cy="90" r="12" fill="white" opacity=".4"/>
+    <path d="M148 50 L150 56 L156 58 L150 60 L148 66 L146 60 L140 58 L146 56Z" fill="#F59E0B"/>
+  </svg>`;
+}
+
+/* ═══════════════════════════════
+   QUIZ STATE
+═══════════════════════════════ */
+let qs=[], cur=0, score=0, wrongs=0, done=false;
+
+function shuffle(a){const b=[...a];for(let i=b.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]];}return b;}
+
+function startQuiz(){
+  qs=shuffle(QS); cur=0; score=0; wrongs=0;
+  document.getElementById('start').style.display='none';
+  document.getElementById('result').style.display='none';
+  document.getElementById('quiz').style.display='block';
+  document.getElementById('prog-wrap').style.display='block';
+  render();
+}
+
+function render(){
+  done=false;
+  const q=qs[cur];
+  // progress
+  document.getElementById('pn').textContent=`Вопрос ${cur+1} из ${qs.length}`;
+  document.getElementById('ps').textContent=`💎 ${score} очков`;
+  document.getElementById('pfill').style.width=`${(cur/qs.length)*100}%`;
+  // question
+  document.getElementById('qtxt').textContent=q.q;
+  // options
+  const ct=document.getElementById('opts');
+  ct.innerHTML='';
+  q.opts.forEach((opt,i)=>{
+    const btn=document.createElement('button');
+    btn.className=`opt oc${i}`;
+    const svgStr=(SVG[q.imgType]||SVG.gem)(OC[i]);
+    btn.innerHTML=`
+      <div class="oi">${svgStr}</div>
+      <div class="ol">${LETTERS[i]}</div>
+      <div class="ot">${opt}</div>`;
+    btn.onclick=()=>pick(i,q.ans,q.exp);
+    ct.appendChild(btn);
+  });
+  const fb=document.getElementById('fb');
+  fb.style.display='none'; fb.className='';
+  document.getElementById('nxt').style.display='none';
+}
+
+function pick(chosen,correct,exp){
+  if(done)return; done=true;
+  const btns=document.querySelectorAll('.opt');
+  btns.forEach(b=>b.disabled=true);
+  const fb=document.getElementById('fb');
+  const nxt=document.getElementById('nxt');
+  if(chosen===correct){
+    score++;
+    btns[chosen].classList.add('correct');
+    fb.className='ok'; fb.innerHTML=`<strong>✓ Верно!</strong>${exp}`;
+    spawnBurst(btns[chosen]);
+  } else {
+    wrongs++;
+    btns[chosen].classList.add('wrong');
+    btns[correct].classList.add('correct');
+    fb.className='no'; fb.innerHTML=`<strong>✗ Неверно.</strong>${exp}`;
+  }
+  fb.style.display='block';
+  document.getElementById('ps').textContent=`💎 ${score} очков`;
+  const isLast=cur===qs.length-1;
+  nxt.textContent=isLast?'✦ Посмотреть результат ✦':'Следующий вопрос →';
+  nxt.style.display='flex';
+}
+
+function next(){
+  cur++;
+  if(cur>=qs.length) showResult(); else render();
+}
+
+function showResult(){
+  document.getElementById('quiz').style.display='none';
+  document.getElementById('prog-wrap').style.display='none';
+  const rs=document.getElementById('result');
+  rs.style.display='block';
+  const total=qs.length, pct=Math.round(score/total*100);
+  document.getElementById('ri').innerHTML=resultSVG(pct);
+  document.getElementById('rs').textContent=`${score} / ${total}`;
+  document.getElementById('rp').textContent=`${pct}% правильных ответов`;
+  document.getElementById('rcok').textContent=score;
+  document.getElementById('rcno').textContent=wrongs;
+  document.getElementById('rcpct').textContent=pct+'%';
+  let title,rank,msg;
+  if(pct>=93){title='Блестяще, Высшая Чара!';rank='Хранитель Чаронитов';msg='Твои знания о мире Чароводья безупречны. Эльда была бы рада видеть тебя в Ордене!';}
+  else if(pct>=80){title='Великолепно!';rank='Опытная чарита';msg='Ты отлично знаешь Семь островов. Самое время перечитать любимые главы!';}
+  else if(pct>=65){title='Хорошая работа!';rank='Ученица Высшей школы';msg='Ты уже много знаешь о Чароводье, но тайны Семи островов ещё не раскрыты до конца.';}
+  else if(pct>=45){title='Неплохое начало';rank='Новичок в Камнесаде';msg='Ты только начинаешь путешествие по миру Чароводья. Стоит заглянуть в книги ещё раз?';}
+  else{title='Испытание пройдено';rank='Случайный путник';msg='Мир Чароводья хранит много тайн — читай книги и становись настоящей чарой!';}
+  document.getElementById('rt').textContent=title;
+  document.getElementById('rrank').textContent=rank;
+  document.getElementById('rmsg').textContent=msg;
+  if(pct>=70) setTimeout(()=>{for(let i=0;i<18;i++)setTimeout(()=>randomBurst(),i*65);},500);
+}
+
+function restart(){
+  document.getElementById('result').style.display='none';
+  startQuiz();
+}
+
+/* ═══════════════════════════════
+   PARTICLES
+═══════════════════════════════ */
+const EMOJIS=['✨','💎','⭐','🌟','💫','🔮'];
+function spawnBurst(el){
+  const r=el.getBoundingClientRect();
+  const cx=r.left+r.width/2, cy=r.top+r.height/2;
+  for(let i=0;i<9;i++){
+    const pt=document.createElement('div');
+    pt.className='pt';
+    pt.textContent=EMOJIS[Math.floor(Math.random()*EMOJIS.length)];
+    const a=Math.random()*Math.PI*2;
+    const d=50+Math.random()*80;
+    pt.style.setProperty('--tx',`${Math.cos(a)*d}px`);
+    pt.style.setProperty('--ty',`${Math.sin(a)*d-30}px`);
+    pt.style.left=`${cx+Math.cos(a)*15}px`;
+    pt.style.top=`${cy+Math.sin(a)*15}px`;
+    document.body.appendChild(pt);
+    setTimeout(()=>pt.remove(),920);
+  }
+}
+function randomBurst(){
+  const pt=document.createElement('div');
+  pt.className='pt';
+  pt.textContent=EMOJIS[Math.floor(Math.random()*EMOJIS.length)];
+  pt.style.left=`${60+Math.random()*(window.innerWidth-120)}px`;
+  pt.style.top=`${80+Math.random()*(window.innerHeight-160)}px`;
+  pt.style.fontSize=`${1+Math.random()*0.8}rem`;
+  const dx=(Math.random()-.5)*140, dy=-50-Math.random()*90;
+  pt.style.setProperty('--tx',dx+'px');
+  pt.style.setProperty('--ty',dy+'px');
+  document.body.appendChild(pt);
+  setTimeout(()=>pt.remove(),920);
+}
+</script>
+</body>
+</html>
