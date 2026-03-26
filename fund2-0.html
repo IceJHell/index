@@ -166,7 +166,7 @@
                   <div className="hidden md:flex space-x-6 lg:space-x-8 text-xs font-bold tracking-widest uppercase text-slate-400 font-heading">
                     <button onClick={() => handleNavClick('hero')} className="hover:text-amber-400 transition-colors">Главная</button>
                     <button onClick={() => handleNavClick('benefits')} className="hover:text-amber-400 transition-colors">Преимущества</button>
-                    <button onClick={() => handleNavClick('program')} className="hover:text-amber-400 transition-colors">Программа</button>
+                    <button onClick={() => handleNavClick('program')} className="hover:text-amber-400 transition-colors">Что внутри</button>
                     <button onClick={() => handleNavClick('tariffs')} className="hover:text-amber-400 transition-colors">Тарифы</button>
                   </div>
 
@@ -186,7 +186,7 @@
                   <div className="md:hidden absolute top-full left-0 w-full bg-[#0a0a0a] border-b border-amber-900/30 p-6 flex flex-col space-y-4 shadow-2xl animate-in slide-in-from-top-5">
                     <button onClick={() => handleNavClick('hero')} className="text-left font-heading font-bold text-amber-500">Главная</button>
                     <button onClick={() => handleNavClick('benefits')} className="text-left font-heading font-bold text-white">Преимущества</button>
-                    <button onClick={() => handleNavClick('program')} className="text-left font-heading font-bold text-white">Программа</button>
+                    <button onClick={() => handleNavClick('program')} className="text-left font-heading font-bold text-white">Что внутри</button>
                     <button onClick={() => handleNavClick('tariffs')} className="text-left font-heading font-bold text-white">Тарифы</button>
                     <button onClick={() => handleNavClick('tariffs')} className="w-full py-3 bg-gradient-to-r from-amber-600 to-yellow-500 text-black font-bold uppercase text-center block font-heading rounded mt-2">
                         УЧАСТВОВАТЬ
@@ -369,7 +369,7 @@
                 <div className="container mx-auto px-4 max-w-5xl">
                     <div className="text-center mb-16">
                         <span className="text-amber-500 font-bold uppercase tracking-widest text-xs mb-2 block font-heading">Обновленная программа 2026</span>
-                        <h2 className="text-3xl md:text-5xl font-bold text-white mb-6 font-heading">Практикум «Время DeFi: Фундамент»</h2>
+                        <h2 className="text-3xl md:text-5xl font-bold text-white mb-6 font-heading">Практикум «Время DeFi: Фундамент 2.0»</h2>
                         <p className="text-slate-400 text-lg max-w-3xl mx-auto">
                             За 14 дней вы безопасно войдете в DeFi, соберете свою первую систему дохода и начнете уверенно работать с криптой. Даже если вы никогда не имели дела с цифровыми активами.
                         </p>
@@ -395,21 +395,26 @@
                         <div>
                             <h3 className="text-amber-500 font-bold mb-6 font-heading uppercase tracking-wide border-b border-amber-500/20 pb-2">Инструментарий и безопасность</h3>
                             <ul className="space-y-4 text-slate-300 text-sm">
-                                <li className="flex gap-3"><CheckCircle className="text-green-500 shrink-0" size={18}/> Подключение и настройка кошелька MetaMask (подключение сетей)</li>
-                                <li className="flex gap-3"><CheckCircle className="text-green-500 shrink-0" size={18}/> Понимание правил криптобезопасности (как не потерять доступ)</li>
-                                <li className="flex gap-3"><CheckCircle className="text-green-500 shrink-0" size={18}/> Навык покупки / продажи крипты через P2P с карты</li>
-                                <li className="flex gap-3"><CheckCircle className="text-green-500 shrink-0" size={18}/> Умение пользоваться обозревателями и аналитикой</li>
-                                <li className="flex gap-3"><CheckCircle className="text-green-500 shrink-0" size={18}/> Понимание, что такое газ (gas) и зачем нужны нативные токены</li>
+                                <li className="flex gap-3"><CheckCircle className="text-green-500 shrink-0" size={18}/> Подготовка безопасного рабочего места на ПК и смартфоне</li>
+                                <li className="flex gap-3"><CheckCircle className="text-green-500 shrink-0" size={18}/> Понимание базовых правил защиты активов и новых схем обмана</li>
+                                <li className="flex gap-3"><CheckCircle className="text-green-500 shrink-0" size={18}/> Навык проверки крипты на AML-риски и «чистоту» активов</li>
+                                <li className="flex gap-3"><CheckCircle className="text-green-500 shrink-0" size={18}/> Установка и настройка кошелька Phantom в сети Solana</li>
+                                <li className="flex gap-3"><CheckCircle className="text-green-500 shrink-0" size={18}/> Понимание принципов работы централизованных бирж</li>
+                                <li className="flex gap-3"><CheckCircle className="text-green-500 shrink-0" size={18}/> Регистрация, верификация, покупка SOL и безопасный вывод на кошелек</li>
+                                <li className="flex gap-3"><CheckCircle className="text-green-500 shrink-0" size={18}/> Ориентирование в доступных способах покупки USDT</li>
                             </ul>
                         </div>
                         <div>
                             <h3 className="text-amber-500 font-bold mb-6 font-heading uppercase tracking-wide border-b border-amber-500/20 pb-2">Работа с активами и доход</h3>
                             <ul className="space-y-4 text-slate-300 text-sm">
-                                <li className="flex gap-3"><CheckCircle className="text-green-500 shrink-0" size={18}/> Умение переводить токены между сетями (бриджи / мосты)</li>
-                                <li className="flex gap-3"><CheckCircle className="text-green-500 shrink-0" size={18}/> Навык выбора надежного пула ликвидности (критерии отбора)</li>
-                                <li className="flex gap-3"><CheckCircle className="text-green-500 shrink-0" size={18}/> Умение поставлять ликвидность (вход в пул) и забирать ее (выход)</li>
-                                <li className="flex gap-3"><CheckCircle className="text-green-500 shrink-0" size={18}/> Понимание механики «обернутых» активов (WBTC, WETH)</li>
-                                <li className="flex gap-3"><CheckCircle className="text-green-500 shrink-0" size={18}/> Первый капитал уже работает и приносит пассивный доход</li>
+                                <li className="flex gap-3"><CheckCircle className="text-green-500 shrink-0" size={18}/> Понимание, как устроены сети, блокчейны и комиссии в Web3</li>
+                                <li className="flex gap-3"><CheckCircle className="text-green-500 shrink-0" size={18}/> Решение вопроса с газом в разных сетях</li>
+                                <li className="flex gap-3"><CheckCircle className="text-green-500 shrink-0" size={18}/> Навык обменов внутри сети Solana</li>
+                                <li className="flex gap-3"><CheckCircle className="text-green-500 shrink-0" size={18}/> Использование мостов для перевода активов</li>
+                                <li className="flex gap-3"><CheckCircle className="text-green-500 shrink-0" size={18}/> Понимание механики ликвидности, диапазонов, V2 и V3</li>
+                                <li className="flex gap-3"><CheckCircle className="text-green-500 shrink-0" size={18}/> Навык создания первых пулов ликвидности на практике</li>
+                                <li className="flex gap-3"><CheckCircle className="text-green-500 shrink-0" size={18}/> Ведение таблицы учета и аналитики по позициям</li>
+                                <li className="flex gap-3"><CheckCircle className="text-green-500 shrink-0" size={18}/> Использование сервисов аналитики кошелька и позиций</li>
                             </ul>
                         </div>
                     </div>
@@ -422,12 +427,12 @@
               {/* --- БЛОК 10: ПРОГРАММА (ОБНОВЛЕННАЯ) --- */}
               <section id="program" className="py-24 bg-[#0a0a0a]">
                 <div className="container mx-auto px-4 max-w-5xl">
-                    <h2 className="text-3xl md:text-4xl font-bold text-white mb-12 text-center font-heading">Что ты разберешь шаг за шагом</h2>
+                    <h2 className="text-3xl md:text-4xl font-bold text-white mb-12 text-center font-heading">Что вы разберете шаг за шагом</h2>
                     
                     <div className="grid md:grid-cols-2 gap-8">
                         {/* Модуль 1 */}
                         <div className="bg-[#050505] border border-white/10 rounded-2xl overflow-hidden p-8 hover:border-amber-500/30 transition-all">
-                            <h3 className="text-xl font-bold text-amber-500 mb-6 font-heading">I. «Время DeFi: Фундамент 2.0»</h3>
+                            <h3 className="text-xl font-bold text-amber-500 mb-6 font-heading">I. «Время DeFi: Фундамент 2.0. Старт»</h3>
                             <ul className="space-y-4 text-slate-300 text-sm">
                                 <li className="flex gap-3"><CheckCircle className="text-amber-500 shrink-0" size={18}/> Безопасность и подготовка</li>
                                 <li className="flex gap-3"><CheckCircle className="text-amber-500 shrink-0" size={18}/> Кошелек и первые шаги</li>
@@ -531,7 +536,7 @@
                 </div>
               </section>
 
-              {/* --- БЛОК 13: ТАРИФЫ (ОБНОВЛЕННАЯ СТРУКТУРА) --- */}
+              {/* --- БЛОК 13: ТАРИФЫ --- */}
               <section id="tariffs" className="py-24 bg-[#050505] border-t border-white/10">
                 <div className="container mx-auto px-4 max-w-5xl">
                     <h2 className="text-3xl font-bold text-white mb-12 text-center font-heading">Выберите формат работы</h2>
@@ -542,7 +547,7 @@
                         <div className="grid md:grid-cols-2 gap-8 items-stretch">
                             {/* Тариф 1 */}
                             <div className="bg-[#0f0f0f] border border-white/10 rounded-2xl p-8 hover:border-white/30 transition-all flex flex-col h-full">
-                                <h3 className="text-xl font-bold text-white font-heading">Практикум «Время DeFi: Фундамент 2.0»</h3>
+                                <h3 className="text-xl font-bold text-white font-heading">Практикум «Время DeFi: Фундамент 2.0. Старт»</h3>
                                 <div className="text-3xl font-bold text-white mt-4 mb-6 font-heading">2 222 ₽</div>
                                 <ul className="space-y-4 text-slate-400 text-sm mb-8 flex-grow">
                                     <li>• Видеоуроки (7 блоков)</li>
@@ -568,7 +573,7 @@
                                 <div className="text-3xl font-bold text-amber-500 mt-4 mb-6 font-heading">10 900 ₽</div>
                                 
                                 <ul className="space-y-4 text-slate-300 text-sm mb-8 flex-grow">
-                                    <li className="font-bold text-white">✓ Все из тарифа «Фундамент 2.0»</li>
+                                    <li className="font-bold text-white">✓ Все из тарифа «Фундамент 2.0. Старт»</li>
                                     <li><strong className="text-amber-500">+7 продвинутых практических модулей:</strong> Kamino, PancakeSwap, Meteora, Orca, Jupiter, Drift, GMTrade, SOL в OneKey</li>
                                     <li>✓ Больше практики и глубины (в каждый из 7 протоколов я буду отправлять свои деньги, демонстрировать пошаговые инструкции и показывать результат)</li>
                                     <li>✓ Чат с кураторами и обратная связь, доступ к записям 24/7</li>
@@ -651,7 +656,7 @@
                                 <p className="text-amber-500 font-bold uppercase tracking-widest text-lg mb-4">Скидка 50% друзьям (∞)</p>
                                 <p className="text-slate-300 text-sm leading-relaxed mb-2"><strong>Хакни систему. Найди команду.</strong> Платите по 50% и залетайте на поток.</p>
                                 <p className="text-slate-300 text-sm leading-relaxed mb-4"><strong>Бадди-поддержка.</strong> Вместе веселее. Вы мотивируете друг друга и не сливаетесь.</p>
-                                <p className="text-slate-500 text-xs mt-4">* Действует только при оплате продукта «Практикум “Время DeFi: Фундамент 2.0”».</p>
+                                <p className="text-slate-500 text-xs mt-4">* Действует только при оплате продукта «Практикум “Время DeFi: Фундамент 2.0. Старт”».</p>
                             </div>
                             
                             <div className="w-full lg:w-2/3 grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -716,14 +721,14 @@
                 <div className="container mx-auto px-4 max-w-5xl">
                     {/* Экосистема */}
                     <div className="mb-20">
-                        <h2 className="text-3xl font-bold text-white mb-6 font-heading">Фундамент — это только начало</h2>
+                        <h2 className="text-3xl font-bold text-white mb-6 font-heading">«Фундамент» — это только начало</h2>
                         <p className="text-slate-400 mb-8 max-w-3xl">DeFi — это способ заставить крипту работать. Используйте DeFi и зарабатывайте от 20% годовых на BTC, ETH и USDT. Крипта не должна просто лежать — пусть работает на вас и приносит доход каждый день.</p>
-                        <p className="text-slate-400 mb-8 max-w-3xl">Практикум «Фундамент» — первый шаг в этой системе: безопасность, логика DeFi и правильный вход без лишних рисков. В «Фундаменте» вы закладываете базу. Доходность и масштаб раскрываются по мере прохождения всей линейки практикумов.</p>
+                        <p className="text-slate-400 mb-8 max-w-3xl">Практикум «Время DeFi: Фундамент 2.0» — первый шаг в этой системе: безопасность, логика DeFi и правильный вход без лишних рисков. В «Фундаменте» вы закладываете базу. Доходность и масштаб раскрываются по мере прохождения всей линейки практикумов.</p>
                         <p className="text-slate-400 mb-6 font-bold text-white">Вы можете идти дальше, когда будете готовы:</p>
                         <div className="space-y-3 mb-8 text-slate-300">
-                            <p><strong className="text-amber-500">Фундамент</strong> — Безопасный вход в DeFi</p>
-                            <p><strong className="text-amber-500">Небоскреб</strong> — Система регулярного дохода</p>
-                            <p><strong className="text-amber-500">Панорама</strong> — Инвестиционная архитектура в валюте</p>
+                            <p><strong className="text-amber-500">«Время DeFi: Фундамент 2.0»</strong> — Безопасный вход в DeFi</p>
+                            <p><strong className="text-amber-500">«Время DeFi: Небоскреб»</strong> — Система регулярного дохода</p>
+                            <p><strong className="text-amber-500">«Время DeFi: Панорама»</strong> — Инвестиционная архитектура в валюте</p>
                         </div>
                         <div className="inline-block px-5 py-3 bg-[#111] text-amber-400 border border-amber-500/30 rounded font-bold font-heading">
                             «Внутренний круг DeFi» — сообщество, куда попадают только избранные, прошедшие все 3 практикума.
@@ -790,7 +795,7 @@
               <footer className="py-16 bg-[#020202] border-t border-white/10 text-center">
                 <div className="container mx-auto px-4">
                     <h2 className="text-3xl font-bold text-white mb-4 font-heading">Готовы создать свой капитал?</h2>
-                    <p className="text-slate-400 mb-8">Занимайте место в потоке 2 февраля. Цены повысятся через 48 часов.</p>
+                    <p className="text-slate-400 mb-8">Занимайте место в потоке 1 апреля. Цены повысятся через 48 часов.</p>
                     <button onClick={() => scrollToSection('tariffs')} className="inline-block px-10 py-4 bg-amber-500 text-black font-bold rounded hover:bg-amber-400 transition-colors shadow-lg shadow-amber-500/20 font-heading mb-10 uppercase tracking-widest cursor-pointer">
                         ИДУ НА ПРАКТИКУМ
                     </button>
