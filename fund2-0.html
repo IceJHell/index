@@ -132,8 +132,6 @@
         const LandingPage = () => {
           const [isScrolled, setIsScrolled] = useState(false);
           const [isMenuOpen, setIsMenuOpen] = useState(false);
-          
-          // Состояние для управления модалкой оплаты
           const [modalUrl, setModalUrl] = useState(null);
 
           useEffect(() => {
@@ -147,7 +145,6 @@
             setIsMenuOpen(false);
           };
 
-          // Функция для открытия виджета оплаты
           const openPaymentWidget = (url) => {
             setModalUrl(url);
           };
@@ -321,7 +318,7 @@
                 </div>
               </section>
 
-              {/* --- БЛОК 6: ФИЛЬТР (КРАСНЫЙ БЛОК) --- */}
+              {/* --- БЛОК 6: ФИЛЬТР --- */}
               <section className="py-16 bg-[#1a0505] border-y border-red-900/30">
                 <div className="container mx-auto px-4 max-w-4xl text-center">
                     <h2 className="text-2xl md:text-3xl font-bold text-red-500 mb-8 font-heading uppercase flex items-center justify-center gap-3">
@@ -352,11 +349,21 @@
                         <p className="text-slate-400">Дело не в криптовалюте. А в отсутствии ясного плана и страхе ошибки.</p>
                     </div>
                     <div className="space-y-3 mb-10">
-                        {['Страшно потерять деньги из-за одного неверного нажатия кнопки.', 'Вокруг слишком много противоречивой информации и инфошума.', 'Истории про взломы и мошенников отбивают желание рисковать.', 'Кажется, что для старта нужны глубокие технические знания (блокчейн, код).', 'Непонятно, какие инструменты надежные, а какие — скам.'].map((item, i) => (
-                            <div key={i} className="flex gap-3 items-center text-slate-300 bg-[#111] p-4 rounded-lg">
-                                <XCircle className="text-red-500 shrink-0" size={20} /> {item}
-                            </div>
-                        ))}
+                        <div className="flex gap-3 items-center text-slate-300 bg-[#111] p-4 rounded-lg">
+                            <XCircle className="text-red-500 shrink-0" size={20} /> Страшно потерять деньги из-за одного неверного нажатия кнопки.
+                        </div>
+                        <div className="flex gap-3 items-center text-slate-300 bg-[#111] p-4 rounded-lg">
+                            <XCircle className="text-red-500 shrink-0" size={20} /> Вокруг слишком много противоречивой информации и инфошума.
+                        </div>
+                        <div className="flex gap-3 items-center text-slate-300 bg-[#111] p-4 rounded-lg">
+                            <XCircle className="text-red-500 shrink-0" size={20} /> Истории про взломы и мошенников отбивают желание рисковать.
+                        </div>
+                        <div className="flex gap-3 items-center text-slate-300 bg-[#111] p-4 rounded-lg">
+                            <XCircle className="text-red-500 shrink-0" size={20} /> Кажется, что для старта нужны глубокие технические знания (блокчейн, код).
+                        </div>
+                        <div className="flex gap-3 items-center text-slate-300 bg-[#111] p-4 rounded-lg">
+                            <XCircle className="text-red-500 shrink-0" size={20} /> Непонятно, какие инструменты надежные, а какие — скам.
+                        </div>
                     </div>
                     <div className="p-6 bg-gradient-to-r from-amber-900/30 to-transparent border border-amber-500/20 rounded-xl text-center">
                         <p className="text-amber-100 font-medium">Чтобы снять эти страхи, мы собрали пошаговый план с упором на безопасность: что делать, в каком порядке и как не ошибиться.</p>
@@ -377,13 +384,21 @@
                         </p>
                     </div>
                     <div className="grid md:grid-cols-3 gap-6">
-                        {['Понимание. Разобрались, как устроен DeFi и откуда реально берется доход.', 'Настройка. Создали некастодиальный кошелек, научились базовым операциям (транзакции, сети).', 'Результат. Запустили капитал в работу и держим все под 100%-м контролем.'].map((step, i) => (
-                            <div key={i} className="p-6 border border-white/10 rounded-xl text-center bg-[#050505]">
-                                <div className="text-4xl font-bold text-amber-500/20 mb-4 font-heading">{i+1}</div>
-                                <h3 className="text-xl font-bold text-white mb-2 font-heading">{step.split('.')[0]}.</h3>
-                                <p className="text-slate-400 text-sm">{step.split('.').slice(1).join('.').trim()}</p>
-                            </div>
-                        ))}
+                        <div className="p-6 border border-white/10 rounded-xl text-center bg-[#050505]">
+                            <div className="text-4xl font-bold text-amber-500/20 mb-4 font-heading">1</div>
+                            <h3 className="text-xl font-bold text-white mb-2 font-heading">Понимание.</h3>
+                            <p className="text-slate-400 text-sm">Разобрались, как устроен DeFi и откуда реально берется доход.</p>
+                        </div>
+                        <div className="p-6 border border-white/10 rounded-xl text-center bg-[#050505]">
+                            <div className="text-4xl font-bold text-amber-500/20 mb-4 font-heading">2</div>
+                            <h3 className="text-xl font-bold text-white mb-2 font-heading">Настройка.</h3>
+                            <p className="text-slate-400 text-sm">Создали некастодиальный кошелек, научились базовым операциям (транзакции, сети).</p>
+                        </div>
+                        <div className="p-6 border border-white/10 rounded-xl text-center bg-[#050505]">
+                            <div className="text-4xl font-bold text-amber-500/20 mb-4 font-heading">3</div>
+                            <h3 className="text-xl font-bold text-white mb-2 font-heading">Результат.</h3>
+                            <p className="text-slate-400 text-sm">Запустили капитал в работу и держим все под 100%-м контролем.</p>
+                        </div>
                     </div>
                 </div>
               </section>
@@ -426,7 +441,7 @@
                 </div>
               </section>
 
-              {/* --- БЛОК 10: ПРОГРАММА (ОБНОВЛЕННАЯ) --- */}
+              {/* --- БЛОК 10: ПРОГРАММА --- */}
               <section id="program" className="py-24 bg-[#0a0a0a]">
                 <div className="container mx-auto px-4 max-w-5xl">
                     <h2 className="text-3xl md:text-4xl font-bold text-white mb-12 text-center font-heading">Что вы разберете шаг за шагом</h2>
@@ -545,7 +560,7 @@
                     
                     <div className="flex flex-col gap-8">
                         
-                        {/* СТРОКА 1: Тариф 1 и Тариф 2 */}
+                        {/* СТРОКА 1 */}
                         <div className="grid md:grid-cols-2 gap-8 items-stretch">
                             {/* Тариф 1 */}
                             <div className="bg-[#0f0f0f] border border-white/10 rounded-2xl p-8 hover:border-white/30 transition-all flex flex-col h-full">
@@ -558,7 +573,7 @@
                                     <li>• Чат с кураторами и обратная связь</li>
                                     <li>• Доступ к записям в любое время 24/7</li>
                                 </ul>
-                                <div className="mt-auto">
+                                <div id="axl-widget-tariff-1" className="mt-auto">
                                     <button 
                                         onClick={() => openPaymentWidget('https://300k.lpxl.ru/praktikum-vremya-defi-fundament-2-0-oplata?widget=1')}
                                         className="w-full py-4 border-2 border-amber-500 rounded-lg text-center text-amber-500 hover:bg-amber-500 hover:text-black transition-colors font-bold font-heading uppercase tracking-wide cursor-pointer"
@@ -581,7 +596,7 @@
                                     <li>✓ Чат с кураторами и обратная связь, доступ к записям 24/7</li>
                                 </ul>
 
-                                <div className="mt-auto">
+                                <div id="axl-widget-tariff-2" className="mt-auto">
                                     <button 
                                         onClick={() => openPaymentWidget('https://300k.lpxl.ru/praktikum-vremya-defi-fundament-2-0-oplata?widget=2')}
                                         className="w-full py-4 bg-gradient-to-r from-amber-600 to-yellow-500 rounded-lg text-center text-black font-extrabold hover:shadow-[0_0_20px_rgba(245,158,11,0.4)] transition-all font-heading uppercase tracking-wide cursor-pointer"
@@ -592,7 +607,7 @@
                             </div>
                         </div>
 
-                        {/* СТРОКА 2: Опция «Групповая поддержка» (Тариф 4) */}
+                        {/* СТРОКА 2 */}
                         <div className="bg-[#0f0f0f] border border-white/10 rounded-2xl p-8 hover:border-white/30 transition-all flex flex-col md:flex-row gap-8 items-center md:items-start">
                             <div className="w-full md:w-1/2 flex flex-col h-full justify-between">
                                 <div>
@@ -600,9 +615,9 @@
                                     <p className="text-amber-500 text-sm mt-2 font-medium">Подключается отдельно после выбора тарифа</p>
                                     <div className="text-3xl font-bold text-white mt-4 mb-6 font-heading">8 900 ₽</div>
                                 </div>
-                                <div>
+                                <div id="axl-widget-tariff-4">
                                     <button 
-                                        onClick={() => openPaymentWidget('https://300k.lpxl.ru/praktikum-vremya-defi-fundament-2-0-oplata?widget=3')}
+                                        onClick={() => openPaymentWidget('https://300k.lpxl.ru/praktikum-vremya-defi-fundament-2-0-oplata?widget=4')}
                                         className="w-full md:w-[80%] py-4 border-2 border-amber-500 rounded-lg text-center text-amber-500 hover:bg-amber-500 hover:text-black transition-colors font-bold font-heading uppercase tracking-wide cursor-pointer"
                                     >
                                         Подключить
@@ -619,16 +634,16 @@
                             </div>
                         </div>
 
-                        {/* СТРОКА 3: DeFi-старт под ключ (Тариф 3) */}
+                        {/* СТРОКА 3 */}
                         <div className="bg-[#0f0f0f] border border-white/10 rounded-2xl p-8 hover:border-white/30 transition-all flex flex-col md:flex-row gap-8 items-center md:items-start">
                             <div className="w-full md:w-1/2 flex flex-col h-full justify-between">
                                 <div>
                                     <h3 className="text-2xl font-bold text-white font-heading">DeFi-старт под ключ</h3>
                                     <div className="text-3xl font-bold text-white mt-4 mb-6 font-heading">от 15 000 ₽</div>
                                 </div>
-                                <div>
+                                <div id="axl-widget-tariff-3">
                                     <button 
-                                        onClick={() => openPaymentWidget('https://300k.lpxl.ru/praktikum-vremya-defi-fundament-2-0-oplata?widget=4')}
+                                        onClick={() => openPaymentWidget('https://300k.lpxl.ru/praktikum-vremya-defi-fundament-2-0-oplata?widget=3')}
                                         className="w-full md:w-[80%] py-4 border-2 border-amber-500 rounded-lg text-center text-amber-500 hover:bg-amber-500 hover:text-black transition-colors font-bold font-heading uppercase tracking-wide cursor-pointer"
                                     >
                                         Выбрать
